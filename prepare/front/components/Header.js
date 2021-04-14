@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Button, Popover } from 'antd';
 import {
   UserOutlined,
@@ -13,6 +13,7 @@ import { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
 
 import { roundBtn } from './styles';
+import CreateLoginForm from './LoginForm';
 
 const header = css`
   display: flex;
@@ -44,6 +45,12 @@ const header = css`
     @media (min-width: 1024px) {
       margin-left: 20px;
     }
+  }
+
+  .ant-btn-primary:focus {
+    color: #fff;
+    border-color: #3a18ff;
+    background-color: #3a18ff;
   }
 `;
 
@@ -128,6 +135,11 @@ const popoverContent = css`
 const Header = () => {
   const [logInDone, setLogInDone] = useState(false);
 
+  const [visible, setVisible] = useState(false);
+  const onCreate = useCallback(() => {
+    setVisible(false);
+  }, [visible]);
+
   const title = (
     <div css={popoverTitle}>
       <span>
@@ -191,9 +203,23 @@ const Header = () => {
     </div>
   ) : (
     <div css={header}>
-      <Button type="primary" shape="round" css={roundBtn}>
+      <Button
+        type="primary"
+        shape="round"
+        css={roundBtn}
+        onClick={() => {
+          setVisible(true);
+        }}
+      >
         시작하기
       </Button>
+      <CreateLoginForm
+        visible={visible}
+        onCreate={onCreate}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      />
     </div>
   );
 };
