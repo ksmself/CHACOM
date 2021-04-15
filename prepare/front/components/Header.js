@@ -143,7 +143,7 @@ const Header = () => {
   const title = (
     <div css={popoverTitle}>
       <span>
-        <strong>ksmselfks</strong>님
+        <strong>lawoonhee32</strong>님
       </span>
       <Button>로그아웃</Button>
     </div>
