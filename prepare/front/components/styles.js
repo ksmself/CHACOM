@@ -12,6 +12,16 @@ export const roundBtn = css`
     background-color: #18ddff;
   }
 
+  &:focus {
+    color: #fff;
+    border-color: #3a18ff;
+    background-color: #3a18ff;
+  }
+
+  &:disabled {
+    // background-color: #7c75c6;
+  }
+
   @media (min-width: 768px) {
     width: 130px;
     height: 40px;

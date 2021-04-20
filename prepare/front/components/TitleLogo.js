@@ -28,7 +28,7 @@ const TitleLogo = () => {
     <Row justify="center">
       <Col css={titleLogo}>
         <Link href="/">
-          <a>APRIL</a>
+          <a>CHACOM</a>
         </Link>
       </Col>
     </Row>

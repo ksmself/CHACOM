@@ -10,7 +10,7 @@ const April = ({ Component }) => {
     <>
       <Head>
         <meta charSet="utf-8" />
-        <title>2021-April</title>
+        <title>CHACOM</title>
       </Head>
       <Component />
     </>
