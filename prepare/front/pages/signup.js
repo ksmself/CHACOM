@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Form, Input, Button, Modal } from 'antd';
+import { Form, Input, Button, Modal, message } from 'antd';
 import { createGlobalStyle } from 'styled-components';
+import { useRouter } from 'next/router';
 
 import TitleLogo from '../components/TitleLogo';
 import { roundBtn } from '../components/styles';
+import useInput from '../hooks/useInput';
 
 const headerStyle = css`
   margin-top: 30px;
@@ -85,7 +87,7 @@ const formStyle = css`
   }
 `;
 
-const emailForm = css`
+const idForm = css`
   display: flex;
   justify-content: space-between;
 
@@ -149,25 +151,50 @@ const Global = createGlobalStyle`
 // localhost:3000/signup
 const SignUp = () => {
   const [form] = Form.useForm();
-  const emailRef = useRef();
+  const idRef = useRef();
+  const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
+  const [id, onChangeId] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const [passwordCheck, onChangePasswordCheck] = useInput('');
+  // const [password, setPassword] = useState('');
+  // const onChangePassword = useCallback(
+  //   (e) => {
+  //     setPassword(e.target.value.trim());
+  //     form.setFieldsValue({
+  //       password: e.target.value.trim(),
+  //     });
+
+  //     console.log(password);
+  //   },
+  //   [password]
+  // );
+  // const [passwordCheck, setPasswordCheck] = useState('');
+  // const onChangePasswordCheck = useCallback(
+  //   (e) => {
+  //     setPasswordCheck(e.target.value.trim());
+  //     form.setFieldsValue({
+  //       confirm: e.target.value.trim(),
+  //     });
+
+  //     console.log(passwordCheck);
+  //   },
+  //   [passwordCheck]
+  // );
 
   // 중복된 사용자가 있는지(dispatch)
   const [duplicateUser, setDuplicateUser] = useState(false);
 
   const duplicatedId = () => {
-    setEmail((state) => '');
+    // setId((state) => '');
     form.setFieldsValue({
-      email: '',
+      id: '',
     });
+    console.log(id);
     Modal.error({
-      title: '이미 사용중인 이메일입니다.',
+      title: '이미 사용중인 아이디입니다.',
       onOk: () => {
-        emailRef.current.focus();
+        idRef.current.focus();
       },
     });
   };
@@ -176,13 +203,23 @@ const SignUp = () => {
     const target = document.getElementById('submit-btn');
     target.disabled = false;
     Modal.success({
-      title: '사용 가능한 이메일입니다.',
+      title: '사용 가능한 아이디입니다.',
     });
   };
 
   const onFinish = (values) => {
-    // values는 {email: "ksmself@wizlive.com", password: "sfsfsfs", confirm: "sfsfsfs"}
-    console.log('Received values of form: ', values);
+    // values는 {id: "abcdeffk", password: "sfsfsfs", confirm: "sfsfsfs"}
+    // console.log('Received values of form: ', values);
+    const user = values.id;
+    message.success({
+      content: `${user}님 회원가입이 완료되었습니다.`,
+      className: 'custom-class',
+      style: {
+        marginTop: '40vh',
+        fontWeight: 700,
+      },
+    });
+    router.replace('/');
   };
 
   return (
@@ -192,27 +229,31 @@ const SignUp = () => {
       <Form form={form} css={formStyle} onFinish={onFinish} scrollToFirstError>
         <div>
           <Form.Item
-            name="email"
-            label="아이디(이메일)"
+            name="id"
+            label="아이디"
             rules={[
               {
-                type: 'email',
-                message: '올바른 이메일 주소를 입력해주세요!',
+                min: 6,
+                message: '아이디는 6자 이상이어야 합니다.',
+              },
+              {
+                max: 11,
+                message: '11자 이내로 입력해주세요!',
               },
               {
                 required: true,
-                message: '아이디(이메일)을 입력해주세요!',
+                message: '아이디를 입력해주세요!',
               },
             ]}
           >
-            <div css={emailForm}>
+            <div css={idForm}>
               <Input
-                className="email-input"
-                type="email"
-                value={email}
-                onChange={onChangeEmail}
-                placeholder="이메일을 입력해주세요"
-                ref={emailRef}
+                className="id-input"
+                type="id"
+                value={id}
+                onChange={onChangeId}
+                placeholder="6자 이상 11자 이내"
+                ref={idRef}
               />
               <Button onClick={duplicateUser ? duplicatedId : nonDuplicatedId}>
                 중복확인
@@ -229,10 +270,18 @@ const SignUp = () => {
               required: true,
               message: '비밀번호를 입력해주세요!',
             },
+            {
+              min: 8,
+              message: '8자 이상의 문자, 숫자, 기호로 입력해주세요',
+            },
           ]}
           hasFeedback
         >
-          <Input.Password placeholder="비밀번호를 입력해주세요" />
+          <Input.Password
+            value={password}
+            onChange={onChangePassword}
+            placeholder="8자 이상의 문자, 숫자, 기호"
+          />
         </Form.Item>
 
         <Form.Item
@@ -258,7 +307,11 @@ const SignUp = () => {
             }),
           ]}
         >
-          <Input.Password placeholder="비밀번호를 한 번 더 입력해주세요" />
+          <Input.Password
+            value={passwordCheck}
+            onChange={onChangePasswordCheck}
+            placeholder="비밀번호를 한 번 더 입력해주세요"
+          />
         </Form.Item>
         <Form.Item css={submitDiv}>
           <Button
