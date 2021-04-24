@@ -4,10 +4,16 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { Form, Input, Button, Modal, message } from 'antd';
 import { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 
 import TitleLogo from '../components/TitleLogo';
 import { roundBtn } from '../components/styles';
 import useInput from '../hooks/useInput';
+import {
+  CHECK_DUPLICATE_REQUEST,
+  SIGN_UP_END,
+  SIGN_UP_REQUEST,
+} from '../reducers/user';
 
 const headerStyle = css`
   margin-top: 30px;
@@ -150,47 +156,28 @@ const Global = createGlobalStyle`
 
 // localhost:3000/signup
 const SignUp = () => {
+  const dispatch = useDispatch();
+  const { signUpDone, checkDuplicateDone, isDuplicated } = useSelector(
+    (state) => state.user
+  );
+
   const [form] = Form.useForm();
   const idRef = useRef();
   const router = useRouter();
 
-  const [id, onChangeId] = useInput('');
-  const [password, onChangePassword] = useInput('');
-  const [passwordCheck, onChangePasswordCheck] = useInput('');
-  // const [password, setPassword] = useState('');
-  // const onChangePassword = useCallback(
-  //   (e) => {
-  //     setPassword(e.target.value.trim());
-  //     form.setFieldsValue({
-  //       password: e.target.value.trim(),
-  //     });
-
-  //     console.log(password);
-  //   },
-  //   [password]
-  // );
-  // const [passwordCheck, setPasswordCheck] = useState('');
-  // const onChangePasswordCheck = useCallback(
-  //   (e) => {
-  //     setPasswordCheck(e.target.value.trim());
-  //     form.setFieldsValue({
-  //       confirm: e.target.value.trim(),
-  //     });
-
-  //     console.log(passwordCheck);
-  //   },
-  //   [passwordCheck]
-  // );
-
-  // 중복된 사용자가 있는지(dispatch)
-  const [duplicateUser, setDuplicateUser] = useState(false);
+  const [checkClicked, setCheckClicked] = useState(false);
+  const checkDuplicate = useCallback(() => {
+    dispatch({
+      type: CHECK_DUPLICATE_REQUEST,
+      data: form.getFieldValue('id'),
+    });
+    setCheckClicked(true);
+  }, [form.getFieldValue('id')]);
 
   const duplicatedId = () => {
-    // setId((state) => '');
     form.setFieldsValue({
       id: '',
     });
-    console.log(id);
     Modal.error({
       title: '이미 사용중인 아이디입니다.',
       onOk: () => {
@@ -208,19 +195,51 @@ const SignUp = () => {
   };
 
   const onFinish = (values) => {
-    // values는 {id: "abcdeffk", password: "sfsfsfs", confirm: "sfsfsfs"}
-    // console.log('Received values of form: ', values);
-    const user = values.id;
-    message.success({
-      content: `${user}님 회원가입이 완료되었습니다.`,
-      className: 'custom-class',
-      style: {
-        marginTop: '40vh',
-        fontWeight: 700,
+    dispatch({
+      type: SIGN_UP_REQUEST,
+      data: {
+        id: values.id,
+        password: values.password,
+        passwordCheck: values.confirm,
       },
     });
-    router.replace('/');
   };
+
+  const [id, onChangeId] = useInput('');
+  useEffect(() => {
+    const duplicateBtn = document.getElementById('duplicate-btn');
+    if (id.length >= 6 && id.length <= 11) {
+      duplicateBtn.disabled = false;
+    } else {
+      duplicateBtn.disabled = true;
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (checkDuplicateDone && checkClicked) {
+      isDuplicated ? duplicatedId() : nonDuplicatedId();
+    }
+    setCheckClicked(false);
+  }, [checkDuplicateDone, checkClicked, isDuplicated]);
+
+  useEffect(() => {
+    if (signUpDone) {
+      router.replace('/');
+      const user = form.getFieldValue('id');
+      message.success({
+        content: `${user}님 회원가입이 완료되었습니다.`,
+        className: 'custom-class',
+        style: {
+          marginTop: '40vh',
+          fontWeight: 700,
+        },
+        duration: 2,
+      });
+      dispatch({
+        type: SIGN_UP_END,
+      });
+    }
+  }, [signUpDone]);
 
   return (
     <div css={headerStyle}>
@@ -252,10 +271,10 @@ const SignUp = () => {
                 type="id"
                 value={id}
                 onChange={onChangeId}
-                placeholder="6자 이상 11자 이내"
+                placeholder="6 ~ 11자 문자, 숫자, 기호"
                 ref={idRef}
               />
-              <Button onClick={duplicateUser ? duplicatedId : nonDuplicatedId}>
+              <Button id="duplicate-btn" onClick={checkDuplicate}>
                 중복확인
               </Button>
             </div>
@@ -277,11 +296,7 @@ const SignUp = () => {
           ]}
           hasFeedback
         >
-          <Input.Password
-            value={password}
-            onChange={onChangePassword}
-            placeholder="8자 이상의 문자, 숫자, 기호"
-          />
+          <Input.Password placeholder="8자 이상의 문자, 숫자, 기호" />
         </Form.Item>
 
         <Form.Item
@@ -307,11 +322,7 @@ const SignUp = () => {
             }),
           ]}
         >
-          <Input.Password
-            value={passwordCheck}
-            onChange={onChangePasswordCheck}
-            placeholder="비밀번호를 한 번 더 입력해주세요"
-          />
+          <Input.Password placeholder="비밀번호를 한 번 더 입력해주세요" />
         </Form.Item>
         <Form.Item css={submitDiv}>
           <Button
