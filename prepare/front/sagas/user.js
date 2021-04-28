@@ -84,6 +84,7 @@ function* checkDuplicate(action) {
     yield put({
       type: CHECK_DUPLICATE_SUCCESS,
       data: false,
+      // data: result.data,
     });
   } catch (err) {
     yield put({

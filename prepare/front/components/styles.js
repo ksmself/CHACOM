@@ -18,10 +18,6 @@ export const roundBtn = css`
     background-color: #3a18ff;
   }
 
-  &:disabled {
-    // background-color: #7c75c6;
-  }
-
   @media (min-width: 768px) {
     width: 130px;
     height: 40px;

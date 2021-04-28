@@ -1,9 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Form, Modal, Input } from 'antd';
-import { useCallback } from 'react';
+import { Form, Modal, Input, message } from 'antd';
+import { useCallback, useEffect } from 'react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { LOG_IN_REQUEST } from '../reducers/user';
 
 const modalStyle = css`
   .ant-modal-title {
@@ -58,6 +61,21 @@ const signup = css`
 const LoginForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
 
+  const dispatch = useDispatch();
+  const { logInError, logInDone } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (logInError) {
+      message.error({
+        content: logInError,
+        className: 'custom-class',
+        style: {
+          marginTop: '20vh',
+        },
+      });
+    }
+  }, [logInError]);
+
   return (
     <Modal
       visible={visible}
@@ -73,9 +91,14 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
         form
           .validateFields()
           .then((values) => {
-            // values는 {id: "vsvsavav", password: "gw32bs"}의 형태로 저장됨
+            dispatch({
+              type: LOG_IN_REQUEST,
+              data: values,
+            });
             form.resetFields();
-            onCreate(values);
+            if (logInDone) {
+              onCreate(values);
+            }
           })
           .catch((info) => {
             console.log('Validate Failed:', info);

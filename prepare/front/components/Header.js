@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Button, Popover } from 'antd';
 import {
   UserOutlined,
@@ -11,9 +11,12 @@ import {
 } from '@ant-design/icons';
 import { createGlobalStyle } from 'styled-components';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { roundBtn } from './styles';
 import CreateLoginForm from './LoginForm';
+import WriteForm from './WriteForm';
+import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const header = css`
   display: flex;
@@ -34,7 +37,7 @@ const header = css`
     padding-right: 10vw;
   }
 
-  button + span {
+  a + span {
     margin-left: 10px;
     cursor: pointer;
 
@@ -133,19 +136,32 @@ const popoverContent = css`
 `;
 
 const Header = () => {
-  const [logInDone, setLogInDone] = useState(false);
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
 
-  const [visible, setVisible] = useState(false);
-  const onCreate = useCallback(() => {
-    setVisible(false);
-  }, [visible]);
+  const [logInFormVisible, setLogInFormVisible] = useState(false);
+  const onCreateLogInForm = useCallback(() => {
+    setLogInFormVisible(false);
+  }, []);
+
+  const onClickLogOut = useCallback(() => {
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    });
+    setLogInFormVisible(false);
+  }, []);
+
+  const [writeFormVisible, setWriteFormVisible] = useState(false);
+  const onCreateWriteForm = useCallback(() => {
+    setWriteFormVisible(false);
+  }, []);
 
   const title = (
     <div css={popoverTitle}>
       <span>
-        <strong>lawoonhee32</strong>님
+        <strong>{me?.id}</strong>님
       </span>
-      <Button>로그아웃</Button>
+      <Button onClick={onClickLogOut}>로그아웃</Button>
     </div>
   );
 
@@ -186,12 +202,30 @@ const Header = () => {
     </ul>
   );
 
-  return logInDone ? (
+  return me ? (
     <div css={header}>
       <Global />
-      <Button type="primary" shape="round" css={roundBtn}>
-        글쓰기
-      </Button>
+      <Link href="/write">
+        <a>
+          <Button
+            type="primary"
+            shape="round"
+            css={roundBtn}
+            onClick={() => {
+              setWriteFormVisible(true);
+            }}
+          >
+            글쓰기
+          </Button>
+        </a>
+      </Link>
+      {/* <WriteForm
+        visible={writeFormVisible}
+        onCreate={onCreateWriteForm}
+        onCancel={() => {
+          setWriteFormVisible(false);
+        }}
+      /> */}
       <Popover
         placement="bottomRight"
         title={title}
@@ -208,16 +242,16 @@ const Header = () => {
         shape="round"
         css={roundBtn}
         onClick={() => {
-          setVisible(true);
+          setLogInFormVisible(true);
         }}
       >
         시작하기
       </Button>
       <CreateLoginForm
-        visible={visible}
-        onCreate={onCreate}
+        visible={logInFormVisible}
+        onCreate={onCreateLogInForm}
         onCancel={() => {
-          setVisible(false);
+          setLogInFormVisible(false);
         }}
       />
     </div>
