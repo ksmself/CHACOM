@@ -16,6 +16,7 @@ const rootReducer = combineReducers({
     }
   },
   user,
+  post,
 });
 
 export default rootReducer;

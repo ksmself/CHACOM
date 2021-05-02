@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { roundBtn } from './styles';
 import CreateLoginForm from './LoginForm';
-import WriteForm from './WriteForm';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const header = css`

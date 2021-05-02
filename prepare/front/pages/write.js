@@ -1,12 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { css, jsx } from '@emotion/react';
-import { Button, Input } from 'antd';
+import { css } from '@emotion/react';
+import { Button, Input, Modal } from 'antd';
 import { ArrowLeftOutlined, PictureOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { createGlobalStyle } from 'styled-components';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { roundBtn } from '../components/styles';
+import { ADD_POST_REQUEST, CONVERT_PINYIN_REQUEST } from '../reducers/post';
+import useInput from '../hooks/useInput';
 
 const { TextArea } = Input;
 
@@ -224,13 +227,40 @@ const Global = createGlobalStyle`
 `;
 
 const Write = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const inputRef = useRef();
+  const imageRef = useRef();
 
-  useEffect(() => {
-    inputRef.current.focus();
-  });
+  const onClickImagesUpload = useCallback(() => {
+    imageRef.current.click();
+  }, [imageRef.current]);
+
+  const [pinyinModalVisible, setPinyinModalVisible] = useState(false);
+  const [pinyinTitle, onChangePinyinTitle, setPinyinTitle] = useInput('');
+  const [pinyinContent, onChangePinyinContent, setPinyinContent] = useInput('');
+  const onOkPinyin = useCallback(() => {
+    dispatch({
+      type: CONVERT_PINYIN_REQUEST,
+      data: { content: pinyinContent },
+    });
+    setPinyinModalVisible(false);
+    setPinyinTitle('');
+    setPinyinContent('');
+  }, [pinyinContent]);
+
+  const [content, onChangeContent] = useInput('');
+  const onClickWriteBtn = useCallback(() => {
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: content,
+    });
+  }, [content]);
+
+  // useEffect(() => {
+  //   inputRef.current.focus();
+  // }, [inputRef.current]);
 
   return (
     <>
@@ -243,24 +273,48 @@ const Write = () => {
             }}
             css={arrowIcon}
           />
-          <Button shape="round" css={roundBtn}>
+          <Button shape="round" css={roundBtn} onClick={onClickWriteBtn}>
             글쓰기
           </Button>
         </div>
       </header>
       <main css={mainBox}>
         <TextArea
+          value={content}
+          onChange={onChangeContent}
           placeholder="I'm learning..."
           css={textBox}
           autoSize={{ minRows: 4 }}
-          ref={inputRef}
         />
         <div css={line}></div>
         <div css={buttonBox}>
-          <PictureOutlined css={pictureIcon} />
-          <Button css={pinyinBtn}>
+          <div>
+            <input type="file" name="image" multiple hidden />
+            <PictureOutlined css={pictureIcon} />
+          </div>
+          <Button css={pinyinBtn} onClick={() => setPinyinModalVisible(true)}>
             <span></span>
           </Button>
+          <Modal
+            title="한어병음(Pīnyīn)으로 변환하기"
+            visible={pinyinModalVisible}
+            okText="변환"
+            onOk={onOkPinyin}
+            cancelText="취소"
+            onCancel={() => setPinyinModalVisible(false)}
+          >
+            <Input
+              value={pinyinTitle}
+              onChange={onChangePinyinTitle}
+              placeholder="라운희는 정말 잘생겼다"
+            />
+            <TextArea
+              value={pinyinContent}
+              onChange={onChangePinyinContent}
+              placeholder="Luo2 Yun2 Xi1 hen3 shuai4"
+              autoSize={{ minRows: 2 }}
+            />
+          </Modal>
           <Button css={hanziBtn}>
             <span></span>
           </Button>
