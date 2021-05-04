@@ -5,9 +5,9 @@ export const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
-  convertPinyinLoading: false,
-  convertPinyinDone: false,
-  convertPinyinError: null,
+  convertLoading: false,
+  convertDone: false,
+  convertError: null,
   convertedPinyin: null,
 };
 
@@ -18,6 +18,8 @@ export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 export const CONVERT_PINYIN_REQUEST = 'CONVERT_PINYIN_REQUEST';
 export const CONVERT_PINYIN_SUCCESS = 'CONVERT_PINYIN_SUCCESS';
 export const CONVERT_PINYIN_FAILURE = 'CONVERT_PINYIN_FAILURE';
+
+export const CONVERT_RESET_REQUEST = 'CONVERT_RESET_REQUEST';
 
 const reducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -37,18 +39,23 @@ const reducer = (state = initialState, action) =>
         draft.addPostError = action.error;
         break;
       case CONVERT_PINYIN_REQUEST:
-        draft.convertPinyinLoading = true;
-        draft.convertPinyinDone = false;
-        draft.convertPinyinError = null;
+        draft.convertLoading = true;
+        draft.convertDone = false;
+        draft.convertError = null;
         break;
       case CONVERT_PINYIN_SUCCESS:
-        draft.convertPinyinLoading = false;
-        draft.convertPinyinDone = true;
+        draft.convertLoading = false;
+        draft.convertDone = true;
         draft.convertedPinyin = action.data;
         break;
       case CONVERT_PINYIN_FAILURE:
-        draft.convertPinyinLoading = false;
-        draft.convertPinyinError = action.error;
+        draft.convertLoading = false;
+        draft.convertError = action.error;
+        break;
+      case CONVERT_RESET_REQUEST:
+        draft.convertDone = false;
+        draft.convertError = null;
+        draft.convertedPinyin = null;
         break;
       default:
         break;

@@ -3,6 +3,8 @@ import { css } from '@emotion/react';
 import { Row, Col } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
+import ConvertPopUp from './ConvertPopUp';
+
 const searchBar = css`
   display: block;
   position: relative;
@@ -93,6 +95,7 @@ const SearchBar = () => {
           <input placeholder="검색어를 입력해주세요." />
           <SearchOutlined />
         </div>
+        <ConvertPopUp />
       </Col>
     </Row>
   );

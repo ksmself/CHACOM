@@ -23,17 +23,17 @@ const header = css`
   align-items: center;
   margin-top: 40px;
   margin-bottom: 50px;
-  padding-right: 20px;
+  padding: 0 20px;
 
   @media (min-width: 768px) {
     margin-top: 50px;
     margin-bottom: 80px;
-    padding-right: 45px;
+    padding: 0 45px;
   }
 
   @media (min-width: 1024px) {
     margin-bottom: 100px;
-    padding-right: 10vw;
+    padding: 0 10vw;
   }
 
   a + span {
@@ -214,7 +214,7 @@ const Header = () => {
               setWriteFormVisible(true);
             }}
           >
-            글쓰기
+            만들기
           </Button>
         </a>
       </Link>

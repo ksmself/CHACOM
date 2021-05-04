@@ -311,7 +311,7 @@ const Write = () => {
             <TextArea
               value={pinyinContent}
               onChange={onChangePinyinContent}
-              placeholder="Luo2 Yun2 Xi1 hen3 shuai4"
+              placeholder="Luo2 Yun2 Xi1 hen3 shuai!4"
               autoSize={{ minRows: 2 }}
             />
           </Modal>
