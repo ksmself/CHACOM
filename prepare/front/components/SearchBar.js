@@ -5,6 +5,24 @@ import { SearchOutlined } from '@ant-design/icons';
 
 import ConvertPopUp from './ConvertPopUp';
 
+const searchBox = css`
+  position: relative;
+
+  button {
+    position: absolute;
+    bottom: -28px;
+    right: 0;
+
+    @media (min-width: 768px) {
+      bottom: -34px;
+    }
+
+    @media (min-width: 1024px) {
+      bottom: -40px;
+    }
+  }
+`;
+
 const searchBar = css`
   display: block;
   position: relative;
@@ -31,7 +49,6 @@ const searchBar = css`
     margin-left: 12px;
     font-size: 17px;
     border: none;
-    // background-color: #e0ff31;
 
     @media (min-width: 768px) {
       width: 340px;
@@ -51,8 +68,6 @@ const searchBar = css`
     height: 36px;
     position: absolute;
     right: -1px;
-    // border-radius: 50%;
-    // background-color: #ff99fe;
 
     @media (min-width: 768px) {
       width: 40px;
@@ -90,7 +105,7 @@ const searchBar = css`
 const SearchBar = () => {
   return (
     <Row justify="center">
-      <Col>
+      <Col css={searchBox}>
         <div css={searchBar}>
           <input placeholder="검색어를 입력해주세요." />
           <SearchOutlined />

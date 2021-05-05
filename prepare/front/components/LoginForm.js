@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Form, Modal, Input, message } from 'antd';
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
