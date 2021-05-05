@@ -53,7 +53,6 @@ const toConvert = css`
   border: none;
   border-top-left-radius: 33px;
   border-top-right-radius: 33px;
-  // background-color: #000;
 `;
 
 const converted = css`
@@ -64,7 +63,6 @@ const converted = css`
   font-size: 21px;
   border-bottom-left-radius: 33px;
   border-bottom-right-radius: 33px;
-  // background-color: #60ffff;
 `;
 
 const copyBtn = css`
@@ -107,12 +105,7 @@ const ConvertPopUp = () => {
 
   const onClickCopy = useCallback(() => {
     const pinyin = pinyinRef.current.innerText;
-    const textField = document.createElement('textarea');
-    textField.innerText = pinyin;
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand('copy');
-    textField.remove();
+    navigator.clipboard.writeText(pinyin);
     message.success({
       content: '클립보드에 복사되었습니다!',
       duration: 1,
@@ -145,7 +138,7 @@ const ConvertPopUp = () => {
               onChange={onChangeInput}
             ></textarea>
             <Button icon={<SwapOutlined />} onClick={onClickConvert} />
-            <div css={converted} ref={pinyinRef}>
+            <div className="convert-text" css={converted} ref={pinyinRef}>
               {!convertLoading && !convertDone && null}
               {convertLoading && !convertDone && <LoadingOutlined />}
               {!convertLoading && convertDone && convertedPinyin}
