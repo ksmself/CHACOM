@@ -7,19 +7,21 @@ import ConvertPopUp from './ConvertPopUp';
 
 const searchBox = css`
   position: relative;
+  height: 70px;
+  margin-bottom: 20px;
+
+  @media (min-width: 768px) {
+    height: 80px;
+  }
+
+  @media (min-width: 1024px) {
+    height: 106px;
+  }
 
   button {
     position: absolute;
-    bottom: -28px;
+    bottom: 0;
     right: 0;
-
-    @media (min-width: 768px) {
-      bottom: -34px;
-    }
-
-    @media (min-width: 1024px) {
-      bottom: -40px;
-    }
   }
 `;
 

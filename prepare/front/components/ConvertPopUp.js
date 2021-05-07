@@ -51,23 +51,16 @@ const underlineBtn = css`
 
 const infoBox = css`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 95%;
-  margin: 0 auto 12px;
+  flex-direction: column;
+  margin: 6px auto 16px;
+  text-align: center;
 
   @media (min-width: 768px) {
-    width: 70%;
-    margin-bottom: 16px;
+    margin: 10px auto 24px;
   }
 
-  svg {
-    font-size: 16px;
-    color: #3a18ff;
-
-    @media (min-width: 768px) {
-      font-size: 20px;
-    }
+  @media (min-width: 1024px) {
+    margin-bottom: 28px;
   }
 
   span {
@@ -328,8 +321,8 @@ const ConvertPopUp = () => {
           onOk={() => setModalVisible(false)}
         >
           <div css={infoBox}>
-            <PushpinOutlined />
-            <span>성조는 특수문자, 단어 끝에 입력해주세요</span>
+            <span>성조는 특수문자, 단어 끝에 입력해주세요.</span>
+            <span>단어와 단어 사이는 한 칸을 띄워주세요.</span>
           </div>
           <div css={convertBox}>
             {input && (
