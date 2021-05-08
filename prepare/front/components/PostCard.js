@@ -2,10 +2,10 @@
 import { css } from '@emotion/react';
 
 const card = css`
-  width: 280px;
+  padding: 15px;
   margin-bottom: 40px;
   border: 3px solid #3a18ff;
-  // border-radius: 30px;
+  border-radius: 30px;
   background-color: #fff;
 `;
 
@@ -13,9 +13,8 @@ const cardTitle = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px;
   height: 180px;
-  // text-align: center;
+  margin-bottom: 15px;
   font-size: 20px;
   font-weight: 700;
 `;

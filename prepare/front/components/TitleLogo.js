@@ -7,7 +7,7 @@ const titleLogo = css`
   margin-bottom: 6px;
   font-size: 36px;
   font-weight: 700;
-  color: #482ce5;
+  color: #3a18ff;
 
   @media (min-width: 768px) {
     margin-bottom: 15px;

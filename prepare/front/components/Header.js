@@ -27,12 +27,12 @@ const header = css`
 
   @media (min-width: 768px) {
     margin-top: 50px;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
     padding: 0 45px;
   }
 
   @media (min-width: 1024px) {
-    margin-bottom: 100px;
+    margin-bottom: 70px;
     padding: 0 10vw;
   }
 

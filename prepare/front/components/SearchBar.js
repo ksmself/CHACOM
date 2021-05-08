@@ -8,14 +8,16 @@ import ConvertPopUp from './ConvertPopUp';
 const searchBox = css`
   position: relative;
   height: 70px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 
   @media (min-width: 768px) {
     height: 80px;
+    margin-bottom: 50px;
   }
 
   @media (min-width: 1024px) {
     height: 106px;
+    margin-bottom: 60px;
   }
 
   button {
@@ -31,7 +33,7 @@ const searchBar = css`
   width: 260px;
   height: 40px;
   border-radius: 18px;
-  border: 2px solid #482ce5;
+  border: 2px solid #3a18ff;
 
   @media (min-width: 768px) {
     width: 400px;
