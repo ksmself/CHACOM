@@ -136,7 +136,8 @@ const popoverContent = css`
 
 const Header = () => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
+  // const { me } = useSelector((state) => state.user);
+  const me = true;
 
   const [logInFormVisible, setLogInFormVisible] = useState(false);
   const onCreateLogInForm = useCallback(() => {
@@ -158,7 +159,7 @@ const Header = () => {
   const title = (
     <div css={popoverTitle}>
       <span>
-        <strong>{me?.id}</strong>님
+        <strong>{me?.nickname}</strong>님
       </span>
       <Button onClick={onClickLogOut}>로그아웃</Button>
     </div>

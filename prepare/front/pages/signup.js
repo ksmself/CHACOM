@@ -169,14 +169,14 @@ const SignUp = () => {
   const checkDuplicate = useCallback(() => {
     dispatch({
       type: CHECK_DUPLICATE_REQUEST,
-      data: form.getFieldValue('id'),
+      data: form.getFieldValue('nickname'),
     });
     setCheckClicked(true);
-  }, [form.getFieldValue('id')]);
+  }, [form.getFieldValue('nickname')]);
 
   const duplicatedId = () => {
     form.setFieldsValue({
-      id: '',
+      nickname: '',
     });
     Modal.error({
       title: '이미 사용중인 아이디입니다.',
@@ -198,7 +198,7 @@ const SignUp = () => {
     dispatch({
       type: SIGN_UP_REQUEST,
       data: {
-        id: values.id,
+        nickname: values.nickname,
         password: values.password,
         passwordCheck: values.confirm,
       },
@@ -225,7 +225,7 @@ const SignUp = () => {
   useEffect(() => {
     if (signUpDone) {
       router.replace('/');
-      const user = form.getFieldValue('id');
+      const user = form.getFieldValue('nickname');
       message.success({
         content: `${user}님 회원가입이 완료되었습니다.`,
         className: 'custom-class',
@@ -248,7 +248,7 @@ const SignUp = () => {
       <Form form={form} css={formStyle} onFinish={onFinish} scrollToFirstError>
         <div>
           <Form.Item
-            name="id"
+            name="nickname"
             label="아이디"
             rules={[
               {

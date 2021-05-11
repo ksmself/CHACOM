@@ -18,7 +18,6 @@ const cardTitle = css`
   align-items: center;
   height: 180px;
   padding: 0 24px;
-  // margin-bottom: 15px;
   font-size: 20px;
   font-weight: 700;
 `;
@@ -100,11 +99,11 @@ const PostCard = ({ post }) => {
       </div>
       <div css={cardDate}>{post.date}</div>
       <div css={cardInfo}>
-        <Link href={`/user/${post.writer}`}>
+        <Link href={`/user/${post.User.id}`}>
           <a>
             <div>
               <span>by</span>
-              <span css={cardInfoWriter}>{post.writer}</span>
+              <span css={cardInfoWriter}>{post.User.nickname}</span>
             </div>
           </a>
         </Link>

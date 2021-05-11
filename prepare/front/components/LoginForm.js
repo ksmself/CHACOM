@@ -93,7 +93,10 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
           .then((values) => {
             dispatch({
               type: LOG_IN_REQUEST,
-              data: values,
+              data: {
+                nickname: values.id,
+                password: values.password,
+              },
             });
             form.resetFields();
             if (logInDone) {

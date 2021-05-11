@@ -2,6 +2,7 @@ import produce from 'immer';
 
 export const initialState = {
   mainPosts: [],
+  currentHashtags: [],
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -14,6 +15,9 @@ export const initialState = {
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
+
+export const ADD_HASHTAG_REQUEST = 'ADD_HASHTAG_REQUEST';
+export const REMOVE_HASHTAG_REQUEST = 'REMOVE_HASHTAG_REQUEST';
 
 export const CONVERT_PINYIN_REQUEST = 'CONVERT_PINYIN_REQUEST';
 export const CONVERT_PINYIN_SUCCESS = 'CONVERT_PINYIN_SUCCESS';
@@ -37,6 +41,14 @@ const reducer = (state = initialState, action) =>
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;
         draft.addPostError = action.error;
+        break;
+      case ADD_HASHTAG_REQUEST:
+        draft.currentHashtags.push(action.data);
+        break;
+      case REMOVE_HASHTAG_REQUEST:
+        draft.currentHashtags = draft.currentHashtags.filter(
+          (v) => v !== action.data
+        );
         break;
       case CONVERT_PINYIN_REQUEST:
         draft.convertLoading = true;
