@@ -8,8 +8,6 @@ import {
   LoadingOutlined,
   CloseOutlined,
   CopyOutlined,
-  InfoCircleOutlined,
-  PushpinOutlined,
 } from '@ant-design/icons';
 import { createGlobalStyle } from 'styled-components';
 

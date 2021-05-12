@@ -3,6 +3,7 @@ import produce from 'immer';
 export const initialState = {
   mainPosts: [],
   currentHashtags: [],
+  currentExpressions: [],
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,

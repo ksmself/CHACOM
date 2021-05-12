@@ -151,11 +151,6 @@ const Header = () => {
     setLogInFormVisible(false);
   }, []);
 
-  const [writeFormVisible, setWriteFormVisible] = useState(false);
-  const onCreateWriteForm = useCallback(() => {
-    setWriteFormVisible(false);
-  }, []);
-
   const title = (
     <div css={popoverTitle}>
       <span>
@@ -207,25 +202,11 @@ const Header = () => {
       <Global />
       <Link href="/write">
         <a>
-          <Button
-            type="primary"
-            shape="round"
-            css={roundBtn}
-            onClick={() => {
-              setWriteFormVisible(true);
-            }}
-          >
+          <Button type="primary" shape="round" css={roundBtn}>
             만들기
           </Button>
         </a>
       </Link>
-      {/* <WriteForm
-        visible={writeFormVisible}
-        onCreate={onCreateWriteForm}
-        onCancel={() => {
-          setWriteFormVisible(false);
-        }}
-      /> */}
       <Popover
         placement="bottomRight"
         title={title}

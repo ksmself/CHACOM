@@ -6,18 +6,20 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useInput from '../hooks/useInput';
 import { ADD_HASHTAG_REQUEST, REMOVE_HASHTAG_REQUEST } from '../reducers/post';
+import ExpressionBox from '../components/ExpressionBox';
 
 const { TextArea } = Input;
 
 const writePage = css`
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
+  margin: 30px 20px 0;
 `;
 
 const titleBox = css`
-  width: calc(100% - 20px);
-  margin: 0 10px 20px;
+  width: 100%;
+  padding: 4px 0;
+  margin-bottom: 10px;
   font-size: 30px;
   font-weight: 700;
   border: none;
@@ -29,7 +31,7 @@ const titleBox = css`
 `;
 
 const tagBox = css`
-  margin: 0 10px 0 21px;
+  margin-bottom: 10px;
 `;
 
 const tags = css`
@@ -65,9 +67,18 @@ const tagInfoBox = css`
   background-color: #3a18ff;
 `;
 
+const line = css`
+  width: 40px;
+  height: 10px;
+  margin-bottom: 25px;
+  background-color: #48494b;
+`;
+
 const Write = () => {
   const dispatch = useDispatch();
-  const { currentHashtags } = useSelector((state) => state.post);
+  const { currentHashtags, currentExpressions } = useSelector(
+    (state) => state.post
+  );
 
   const [title, onChangeTitle] = useInput('');
   const [tag, onChangeTag, setTag] = useInput('');
@@ -83,14 +94,22 @@ const Write = () => {
     (e) => {
       if (e.key === 'Enter' || e.key === ',') {
         e.preventDefault();
-        // 빈칸으로 입력하지 않았을때만 해시태그에 추가
+        // 빈칸으로 입력하지 않았을때만 리스트에 추가
         if (tag.trim() !== '') {
-          // 이미 있는 해시태그가 아니라면
+          // 이미 있는 해시태그가 아닐때만 리스트에 추가
           if (!currentHashtags.includes(tag)) {
-            dispatch({
-              type: ADD_HASHTAG_REQUEST,
-              data: tag,
-            });
+            // #을 붙여서 해시태그를 입력했을 때는 #을 떼고
+            if (tag[0] === '#') {
+              dispatch({
+                type: ADD_HASHTAG_REQUEST,
+                data: tag.slice(1),
+              });
+            } else {
+              dispatch({
+                type: ADD_HASHTAG_REQUEST,
+                data: tag,
+              });
+            }
           }
         }
         setTag('');
@@ -100,7 +119,6 @@ const Write = () => {
   );
 
   const onClickTag = useCallback((v) => {
-    console.log(v);
     dispatch({
       type: REMOVE_HASHTAG_REQUEST,
       data: v,
@@ -139,6 +157,8 @@ const Write = () => {
           클릭하면 삭제됩니다.
         </div>
       </div>
+      <div css={line}></div>
+      <ExpressionBox />
     </div>
   );
 };
