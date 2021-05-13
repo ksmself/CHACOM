@@ -9,7 +9,6 @@ const expressionBox = css`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
 `;
 
 const box = css`
@@ -49,6 +48,8 @@ const pinyinBox = css`
 `;
 
 const plusBtn = css`
+  margin-bottom: 80px;
+
   svg {
     font-size: 50px;
     color: #3a18ff;

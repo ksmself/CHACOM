@@ -1,16 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Input } from 'antd';
+import { Input, Button } from 'antd';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 import useInput from '../hooks/useInput';
 import { ADD_HASHTAG_REQUEST, REMOVE_HASHTAG_REQUEST } from '../reducers/post';
 import ExpressionBox from '../components/ExpressionBox';
+import { roundBtn } from '../components/styles';
 
 const { TextArea } = Input;
 
 const writePage = css`
+  position: relative;
+`;
+
+const writeBox = css`
   display: flex;
   flex-direction: column;
   margin: 30px 20px 0;
@@ -74,6 +80,28 @@ const line = css`
   background-color: #48494b;
 `;
 
+const footerBox = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  padding: 15px;
+  box-shadow: 0px 0px 8px rgba(58, 24, 255, 20%);
+  background-color: #fff;
+
+  span {
+    cursor: pointer;
+  }
+
+  svg {
+    font-size: 20px;
+  }
+`;
+
 const Write = () => {
   const dispatch = useDispatch();
   const { currentHashtags, currentExpressions } = useSelector(
@@ -127,38 +155,46 @@ const Write = () => {
 
   return (
     <div css={writePage}>
-      <TextArea
-        css={titleBox}
-        placeholder="제목을 입력해주세요"
-        value={title}
-        onChange={onChangeTitle}
-        autoSize={{ minRows: 1 }}
-      />
-      <div css={tagBox}>
-        <div css={tags}>
-          {currentHashtags.map((v, index) => {
-            return (
-              <button key={v} onClick={() => onClickTag(v)}>
-                {v}
-              </button>
-            );
-          })}
-          <input
-            placeholder="태그를 입력해주세요"
-            value={tag}
-            onChange={onChangeTag}
-            onKeyPress={onKeyPressTag}
-            onFocus={onFocusInput}
-            onBlur={onBlurInput}
-          />
+      <div css={writeBox}>
+        <TextArea
+          css={titleBox}
+          placeholder="제목을 입력해주세요"
+          value={title}
+          onChange={onChangeTitle}
+          autoSize={{ minRows: 1 }}
+        />
+        <div css={tagBox}>
+          <div css={tags}>
+            {currentHashtags.map((v, index) => {
+              return (
+                <button key={v} onClick={() => onClickTag(v)}>
+                  {v}
+                </button>
+              );
+            })}
+            <input
+              placeholder="태그를 입력해주세요"
+              value={tag}
+              onChange={onChangeTag}
+              onKeyPress={onKeyPressTag}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
+            />
+          </div>
+          <div id="tag-info" css={tagInfoBox}>
+            쉼표 혹은 엔터를 입력하여 태그를 등록할 수 있습니다. 등록된 태그를
+            클릭하면 삭제됩니다.
+          </div>
         </div>
-        <div id="tag-info" css={tagInfoBox}>
-          쉼표 혹은 엔터를 입력하여 태그를 등록할 수 있습니다. 등록된 태그를
-          클릭하면 삭제됩니다.
-        </div>
+        <div css={line}></div>
+        <ExpressionBox />
       </div>
-      <div css={line}></div>
-      <ExpressionBox />
+      <footer css={footerBox}>
+        <ArrowLeftOutlined />
+        <Button type="primary" shape="round" css={roundBtn}>
+          만들기
+        </Button>
+      </footer>
     </div>
   );
 };
