@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useCallback, useEffect, useState } from 'react';
-import { PlusCircleFilled } from '@ant-design/icons';
+import { PlusCircleFilled, CloseOutlined } from '@ant-design/icons';
 
 import ConvertPopUp from './ConvertPopUp';
 
@@ -13,8 +13,9 @@ const expressionBox = css`
 `;
 
 const box = css`
+  position: relative;
   width: 100%;
-  padding: 15px 10px;
+  padding: 30px 15px;
   margin-bottom: 20px;
   border: 3px solid #18ddff;
   border-radius: 4px;
@@ -25,12 +26,19 @@ const box = css`
     border: none;
     border-bottom: 1px solid #48494b;
   }
+
+  span {
+    position: absolute;
+    top: -12px;
+    right: -2px;
+    cursor: pointer;
+  }
 `;
 
 const pinyinBox = css`
   position: relative;
   height: 52px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 
   button {
     position: absolute;
@@ -52,15 +60,6 @@ const ExpressionBox = () => {
     { expressionNumber: 1, pinyin: '', meaning: '' },
   ]);
 
-  const addExpression = useCallback(() => {
-    const data = {
-      expressionNumber: expressions.length + 1,
-      pinyin: '',
-      meaning: '',
-    };
-    setExpressions([...expressions, data]);
-  }, [expressions]);
-
   const onChangeText = useCallback(
     (expressionNum) => (e) => {
       const tempExpressions = expressions.map((expression) => {
@@ -73,6 +72,35 @@ const ExpressionBox = () => {
     },
     [expressions]
   );
+
+  const addExpression = useCallback(() => {
+    const data = {
+      expressionNumber: expressions.length + 1,
+      pinyin: '',
+      meaning: '',
+    };
+    setExpressions([...expressions, data]);
+  }, [expressions]);
+
+  const deleteExpression = useCallback(
+    (expressionNum) => () => {
+      const tempExpressions = expressions.filter(
+        (v) => v.expressionNumber !== expressionNum
+      );
+      let order = 1;
+      const arrangedExpressions = tempExpressions.map((v) => {
+        v.expressionNumber = order;
+        order++;
+        return v;
+      });
+      setExpressions([...arrangedExpressions]);
+    },
+    [expressions]
+  );
+
+  useEffect(() => {
+    console.log(expressions);
+  }, [expressions]);
 
   return (
     <>
@@ -87,6 +115,9 @@ const ExpressionBox = () => {
                   value={v.pinyin}
                   onChange={onChangeText(index + 1)}
                 />
+                {index !== 0 && (
+                  <CloseOutlined onClick={deleteExpression(index + 1)} />
+                )}
                 <ConvertPopUp />
               </div>
               <input
