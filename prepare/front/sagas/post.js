@@ -7,7 +7,29 @@ import {
   CONVERT_PINYIN_FAILURE,
   CONVERT_PINYIN_REQUEST,
   CONVERT_PINYIN_SUCCESS,
+  LOAD_POSTS_FAILURE,
+  LOAD_POSTS_REQUEST,
+  LOAD_POSTS_SUCCESS,
 } from '../reducers/post';
+
+function loadPostsAPI(data) {
+  return axios.get('/posts', data);
+}
+
+function* loadPosts(action) {
+  try {
+    // const result = yield call(loadPostsAPI, action.data);
+    yield put({
+      type: LOAD_POSTS_SUCCESS,
+      data: action.data,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_POSTS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function addPostAPI(data) {
   return axios.post('/post', data);
@@ -47,6 +69,10 @@ function* convertPinyin(action) {
   }
 }
 
+function* watchLoadPosts() {
+  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
+}
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -56,5 +82,9 @@ function* watchConvertPinyin() {
 }
 
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchConvertPinyin)]);
+  yield all([
+    fork(watchLoadPosts),
+    fork(watchAddPost),
+    fork(watchConvertPinyin),
+  ]);
 }
