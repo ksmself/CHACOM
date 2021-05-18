@@ -18,9 +18,8 @@ import {
 // localhost:3000/signup
 const SignUp = () => {
   const dispatch = useDispatch();
-  const { signUpDone, checkDuplicateDone, isDuplicated } = useSelector(
-    (state) => state.user
-  );
+  const { signUpDone, checkDuplicateDone, isDuplicated, signUpLoading } =
+    useSelector((state) => state.user);
 
   const idRef = useRef();
 
@@ -197,6 +196,7 @@ const SignUp = () => {
             shape="round"
             htmlType="submit"
             css={roundBtn}
+            loading={signUpLoading}
             disabled
           >
             회원가입
