@@ -17,6 +17,110 @@ import { roundBtn } from './styles';
 import CreateLoginForm from './LoginForm';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 
+const Header = () => {
+  const dispatch = useDispatch();
+  const { me } = useSelector((state) => state.user);
+
+  const [logInFormVisible, setLogInFormVisible] = useState(false);
+  const onCreateLogInForm = useCallback(() => {
+    setLogInFormVisible(false);
+  }, []);
+
+  const onClickLogOut = useCallback(() => {
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    });
+    setLogInFormVisible(false);
+  }, []);
+
+  const title = (
+    <div css={popoverTitle}>
+      <span>
+        <strong>{me?.nickname}</strong>님
+      </span>
+      <Button onClick={onClickLogOut}>로그아웃</Button>
+    </div>
+  );
+
+  const content = (
+    <ul css={popoverContent}>
+      <li>
+        <Link href="/">
+          <a>
+            <FormOutlined style={{ color: '#1D78FF' }} />
+            <span>내가 쓴 글</span>
+          </a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/">
+          <a>
+            <CommentOutlined style={{ color: '#3acd95' }} />
+            <span>댓글 단 글</span>
+          </a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/">
+          <a>
+            <HeartOutlined style={{ color: '#fe7171' }} />
+            <span>좋아요 누른 글</span>
+          </a>
+        </Link>
+      </li>
+      <li>
+        <Link href="/">
+          <a>
+            <InfoCircleOutlined style={{ color: '#6a6a6a' }} />
+            <span>회원 정보 수정</span>
+          </a>
+        </Link>
+      </li>
+    </ul>
+  );
+
+  return me ? (
+    <div css={header}>
+      <Global />
+      <Link href="/write">
+        <a>
+          <Button type="primary" shape="round" css={roundBtn}>
+            만들기
+          </Button>
+        </a>
+      </Link>
+      <Popover
+        placement="bottomRight"
+        title={title}
+        content={content}
+        trigger="click"
+      >
+        <UserOutlined css={userIcon} />
+      </Popover>
+    </div>
+  ) : (
+    <div css={header}>
+      <Button
+        type="primary"
+        shape="round"
+        css={roundBtn}
+        onClick={() => {
+          setLogInFormVisible(true);
+        }}
+      >
+        시작하기
+      </Button>
+      <CreateLoginForm
+        visible={logInFormVisible}
+        onCreate={onCreateLogInForm}
+        onCancel={() => {
+          setLogInFormVisible(false);
+        }}
+      />
+    </div>
+  );
+};
+
 const header = css`
   display: flex;
   justify-content: flex-end;
@@ -133,110 +237,5 @@ const popoverContent = css`
     }
   }
 `;
-
-const Header = () => {
-  const dispatch = useDispatch();
-  // const { me } = useSelector((state) => state.user);
-  const me = true;
-
-  const [logInFormVisible, setLogInFormVisible] = useState(false);
-  const onCreateLogInForm = useCallback(() => {
-    setLogInFormVisible(false);
-  }, []);
-
-  const onClickLogOut = useCallback(() => {
-    dispatch({
-      type: LOG_OUT_REQUEST,
-    });
-    setLogInFormVisible(false);
-  }, []);
-
-  const title = (
-    <div css={popoverTitle}>
-      <span>
-        <strong>{me?.nickname}</strong>님
-      </span>
-      <Button onClick={onClickLogOut}>로그아웃</Button>
-    </div>
-  );
-
-  const content = (
-    <ul css={popoverContent}>
-      <li>
-        <Link href="/">
-          <a>
-            <FormOutlined style={{ color: '#1D78FF' }} />
-            <span>내가 쓴 글</span>
-          </a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/">
-          <a>
-            <CommentOutlined style={{ color: '#3acd95' }} />
-            <span>댓글 단 글</span>
-          </a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/">
-          <a>
-            <HeartOutlined style={{ color: '#fe7171' }} />
-            <span>좋아요 누른 글</span>
-          </a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/">
-          <a>
-            <InfoCircleOutlined style={{ color: '#6a6a6a' }} />
-            <span>회원 정보 수정</span>
-          </a>
-        </Link>
-      </li>
-    </ul>
-  );
-
-  return me ? (
-    <div css={header}>
-      <Global />
-      <Link href="/write">
-        <a>
-          <Button type="primary" shape="round" css={roundBtn}>
-            만들기
-          </Button>
-        </a>
-      </Link>
-      <Popover
-        placement="bottomRight"
-        title={title}
-        content={content}
-        trigger="click"
-      >
-        <UserOutlined css={userIcon} />
-      </Popover>
-    </div>
-  ) : (
-    <div css={header}>
-      <Button
-        type="primary"
-        shape="round"
-        css={roundBtn}
-        onClick={() => {
-          setLogInFormVisible(true);
-        }}
-      >
-        시작하기
-      </Button>
-      <CreateLoginForm
-        visible={logInFormVisible}
-        onCreate={onCreateLogInForm}
-        onCancel={() => {
-          setLogInFormVisible(false);
-        }}
-      />
-    </div>
-  );
-};
 
 export default Header;

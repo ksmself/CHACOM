@@ -4,16 +4,21 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "bcrypt": "5.0.1",
     "cors": "2.8.5",
+    "dotenv": "9.0.2",
     "express": "4.17.1",
     "hanzi-to-pinyin": "1.80.0",
     "mdbg": "1.73.0",
+    "mysql2": "2.2.5",
     "pinyin-convert": "1.11.0",
     "pinyin-or-hanzi": "1.1.0",
     "pinyin-rest": "1.0.2",
     "pinyin-split": "1.164.0",
     "pinyin-utils": "2.26.0",
     "prettify-pinyin": "0.1.5",
+    "sequelize": "6.6.2",
+    "sequelize-cli": "6.2.0",
     "typescript": "4.2.4"
   },
   "devDependencies": {

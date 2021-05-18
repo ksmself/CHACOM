@@ -68,7 +68,6 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
     if (logInError) {
       message.error({
         content: logInError,
-        className: 'custom-class',
         style: {
           marginTop: '20vh',
         },

@@ -4,6 +4,52 @@ import { Tag } from 'antd';
 import Link from 'next/link';
 import { HeartFilled, MessageFilled } from '@ant-design/icons';
 
+const PostCard = ({ post }) => {
+  const tags = post.tag;
+
+  return (
+    <div css={card}>
+      <Link href={`/post/${post.id}`}>
+        <a>
+          <div css={cardTitle}>{post.title}</div>
+        </a>
+      </Link>
+      <div css={cardTag}>
+        {tags.map((tag) => {
+          return (
+            <Tag key={tag.id} color="purple">
+              <Link href={`/hashtag/${tag}`}>
+                <a>{tag}</a>
+              </Link>
+            </Tag>
+          );
+        })}
+      </div>
+      <div css={cardDate}>{post.date}</div>
+      <div css={cardInfo}>
+        <Link href={`/user/${post.User.id}`}>
+          <a>
+            <div>
+              <span>by</span>
+              <span css={cardInfoWriter}>{post.User.nickname}</span>
+            </div>
+          </a>
+        </Link>
+        <div>
+          <span css={cardInfoLike}>
+            <HeartFilled />
+            {post.like}
+          </span>
+          <span css={cardInfoComment}>
+            <MessageFilled />
+            {post.comment}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const card = css`
   padding: 15px 0;
   margin-bottom: 40px;
@@ -75,51 +121,5 @@ const cardInfoComment = css`
     margin-right: 2px;
   }
 `;
-
-const PostCard = ({ post }) => {
-  const tags = post.tag;
-
-  return (
-    <div css={card}>
-      <Link href={`/post/${post.id}`}>
-        <a>
-          <div css={cardTitle}>{post.title}</div>
-        </a>
-      </Link>
-      <div css={cardTag}>
-        {tags.map((tag) => {
-          return (
-            <Tag key={tag.id} color="purple">
-              <Link href={`/hashtag/${tag}`}>
-                <a>{tag}</a>
-              </Link>
-            </Tag>
-          );
-        })}
-      </div>
-      <div css={cardDate}>{post.date}</div>
-      <div css={cardInfo}>
-        <Link href={`/user/${post.User.id}`}>
-          <a>
-            <div>
-              <span>by</span>
-              <span css={cardInfoWriter}>{post.User.nickname}</span>
-            </div>
-          </a>
-        </Link>
-        <div>
-          <span css={cardInfoLike}>
-            <HeartFilled />
-            {post.like}
-          </span>
-          <span css={cardInfoComment}>
-            <MessageFilled />
-            {post.comment}
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default PostCard;

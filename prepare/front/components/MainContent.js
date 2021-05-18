@@ -22,7 +22,7 @@ const mainContent = css`
   }
 `;
 
-const MainContent = () => {
+const MainContent = ({ posts }) => {
   const mainPosts = [
     {
       id: 0,
@@ -101,8 +101,8 @@ const MainContent = () => {
 
   return (
     <div css={mainContent}>
-      {mainPosts.map((post) => {
-        return <PostCard post={post} key={post.id} />;
+      {mainPosts.map((post, index) => {
+        return <PostCard post={post} key={index} />;
       })}
     </div>
   );

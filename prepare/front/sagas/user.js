@@ -22,8 +22,8 @@ function signUpAPI(data) {
 
 function* signUp(action) {
   try {
-    // const result = yield call(signUpAPI, action.data);
-    console.log(action.data);
+    const result = yield call(signUpAPI, action.data);
+    console.log(result);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -58,12 +58,11 @@ function logOutAPI(data) {
   return axios.post('/user/logout', data);
 }
 
-function* logOut(action) {
+function* logOut() {
   try {
-    // const result = yield call(logOutAPI, action.data);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
-      data: action.data,
     });
   } catch (err) {
     yield put({
@@ -74,17 +73,16 @@ function* logOut(action) {
 }
 
 function checkDuplicateAPI(data) {
-  // return axios.post('/user', data);
+  return axios.post('/user/duplicate', data);
 }
 
 function* checkDuplicate(action) {
   try {
-    // const result = yield call(checkDuplicateAPI, action.data);
+    const result = yield call(checkDuplicateAPI, action.data);
     // result가 true(중복있다) or false(중복없다)
     yield put({
       type: CHECK_DUPLICATE_SUCCESS,
-      data: false,
-      // data: result.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
