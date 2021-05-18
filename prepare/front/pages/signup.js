@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Form, Input, Button, Modal, message } from 'antd';
 import { createGlobalStyle } from 'styled-components';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import TitleLogo from '../components/TitleLogo';
@@ -23,7 +23,6 @@ const SignUp = () => {
   );
 
   const idRef = useRef();
-  const router = useRouter();
 
   const [form] = Form.useForm();
   const [id, onChangeId] = useInput('');
@@ -92,7 +91,7 @@ const SignUp = () => {
 
   useEffect(() => {
     if (signUpDone) {
-      router.replace('/');
+      Router.replace('/');
       const user = form.getFieldValue('nickname');
       message.success({
         content: `${user}님 회원가입이 완료되었습니다.`,

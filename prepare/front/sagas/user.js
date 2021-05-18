@@ -16,14 +16,32 @@ import {
   SIGN_UP_SUCCESS,
 } from '../reducers/user';
 
+function checkDuplicateAPI(data) {
+  return axios.post('/user/duplicate', data);
+}
+
+function* checkDuplicate(action) {
+  try {
+    const result = yield call(checkDuplicateAPI, action.data);
+    yield put({
+      type: CHECK_DUPLICATE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: CHECK_DUPLICATE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function signUpAPI(data) {
   return axios.post('/user', data);
 }
 
 function* signUp(action) {
   try {
-    const result = yield call(signUpAPI, action.data);
-    console.log(result);
+    yield call(signUpAPI, action.data);
     yield put({
       type: SIGN_UP_SUCCESS,
     });
@@ -41,10 +59,10 @@ function logInAPI(data) {
 
 function* logIn(action) {
   try {
-    // const result = yield call(logInAPI, action.data);
+    const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({
@@ -67,26 +85,6 @@ function* logOut() {
   } catch (err) {
     yield put({
       type: LOG_OUT_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
-function checkDuplicateAPI(data) {
-  return axios.post('/user/duplicate', data);
-}
-
-function* checkDuplicate(action) {
-  try {
-    const result = yield call(checkDuplicateAPI, action.data);
-    // result가 true(중복있다) or false(중복없다)
-    yield put({
-      type: CHECK_DUPLICATE_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    yield put({
-      type: CHECK_DUPLICATE_FAILURE,
       error: err.response.data,
     });
   }

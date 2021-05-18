@@ -8,7 +8,7 @@ import {
   PlusCircleFilled,
   CloseOutlined,
 } from '@ant-design/icons';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { createGlobalStyle } from 'styled-components';
 
 import useInput from '../hooks/useInput';
@@ -23,7 +23,6 @@ import ConvertPopUp from '../components/ConvertPopUp';
 const { TextArea } = Input;
 
 const Write = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
   const { currentHashtags, addPostDone } = useSelector((state) => state.post);
 
@@ -153,7 +152,7 @@ const Write = () => {
 
   useEffect(() => {
     if (addPostDone) {
-      router.replace('/');
+      Router.replace('/');
     }
   }, [addPostDone]);
 
@@ -225,7 +224,7 @@ const Write = () => {
           </div>
         </div>
         <footer css={footerBox}>
-          <ArrowLeftOutlined onClick={() => router.replace('/')} />
+          <ArrowLeftOutlined onClick={() => Router.replace('/')} />
           <Button type="primary" shape="round" css={roundBtn} onClick={addPost}>
             만들기
           </Button>

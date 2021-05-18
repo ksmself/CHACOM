@@ -62,7 +62,9 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
 
   const dispatch = useDispatch();
-  const { logInError, logInDone } = useSelector((state) => state.user);
+  const { logInError, logInDone, logInLoading } = useSelector(
+    (state) => state.user
+  );
 
   useEffect(() => {
     if (logInError) {
@@ -71,6 +73,7 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
         style: {
           marginTop: '20vh',
         },
+        duration: 1,
       });
     }
   }, [logInError]);
@@ -82,6 +85,7 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
       okText="로그인"
       cancelText="취소"
       css={modalStyle}
+      confirmLoading={logInLoading}
       onCancel={() => {
         onCancel();
         form.resetFields();
@@ -97,9 +101,9 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
                 password: values.password,
               },
             });
-            form.resetFields();
             if (logInDone) {
               onCreate(values);
+              form.resetFields();
             }
           })
           .catch((info) => {
