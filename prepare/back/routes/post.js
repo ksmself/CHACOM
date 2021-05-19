@@ -35,12 +35,15 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     );
     const fullPost = await Post.findOne({
       where: { id: post.id },
+      attributes: ['title'],
       include: [
         {
           model: Hashtag,
+          attributes: ['name'],
         },
         {
           model: Expression,
+          attributes: ['pinyin', 'meaning'],
         },
       ],
     });

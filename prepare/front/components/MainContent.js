@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { Row, Col } from 'antd';
 
 import PostCard from './PostCard';
 
@@ -101,8 +100,8 @@ const MainContent = ({ posts }) => {
 
   return (
     <div css={mainContent}>
-      {mainPosts.map((post, index) => {
-        return <PostCard post={post} key={index} />;
+      {posts.map((post) => {
+        return <PostCard post={post} key={post.id} />;
       })}
     </div>
   );

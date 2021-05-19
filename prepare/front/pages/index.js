@@ -28,7 +28,6 @@ const Home = () => {
       <TitleLogo />
       <SearchBar />
       {mainPosts && <MainContent posts={mainPosts} />}
-      <MainContent />
     </>
   );
 };

@@ -19,10 +19,10 @@ function loadPostsAPI(data) {
 
 function* loadPosts(action) {
   try {
-    // const result = yield call(loadPostsAPI, action.data);
+    const result = yield call(loadPostsAPI, action.data);
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: [],
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
