@@ -5,6 +5,9 @@ import {
   CHECK_DUPLICATE_FAILURE,
   CHECK_DUPLICATE_REQUEST,
   CHECK_DUPLICATE_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
@@ -28,6 +31,7 @@ function* checkDuplicate(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: CHECK_DUPLICATE_FAILURE,
       error: err.response.data,
@@ -46,6 +50,7 @@ function* signUp(action) {
       type: SIGN_UP_SUCCESS,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: SIGN_UP_FAILURE,
       error: err.response.data,
@@ -65,6 +70,7 @@ function* logIn(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_IN_FAILURE,
       error: err.response.data,
@@ -83,8 +89,29 @@ function* logOut() {
       type: LOG_OUT_SUCCESS,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadMyInfoAPI(data) {
+  return axios.get('/user', data);
+}
+
+function* loadMyInfo() {
+  try {
+    const result = yield call(loadMyInfoAPI);
+    yield put({
+      type: LOAD_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_MY_INFO_FAILURE,
       error: err.response.data,
     });
   }
@@ -106,11 +133,16 @@ function* watchCheckDuplicate() {
   yield takeLatest(CHECK_DUPLICATE_REQUEST, checkDuplicate);
 }
 
+function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchCheckDuplicate),
+    fork(watchLoadMyInfo),
   ]);
 }

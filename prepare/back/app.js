@@ -25,7 +25,8 @@ passportConfig();
 app.use(
   cors({
     // origin: https://cha.com, 으로 설정해두면 이 사이트에서 온 요청만 허용하겠다
-    origin: '*',
+    origin: 'http://localhost:3060',
+    credentials: true, // 쿠키 전달을 위해
   })
 );
 

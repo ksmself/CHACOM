@@ -14,6 +14,9 @@ export const initialState = {
   checkDuplicateLoading: false, // 중복확인 시도중
   checkDuplicateDone: false,
   checkDuplicateError: null,
+  loadMyInfoLoading: false,
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
   isDuplicated: null,
   me: null,
 };
@@ -35,6 +38,12 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 export const CHECK_DUPLICATE_REQUEST = 'CHECK_DUPLICATE_REQUEST';
 export const CHECK_DUPLICATE_SUCCESS = 'CHECK_DUPLICATE_SUCCESS';
 export const CHECK_DUPLICATE_FAILURE = 'CHECK_DUPLICATE_FAILURE';
+
+export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
+export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
+export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
+
+export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 
 const reducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -97,6 +106,23 @@ const reducer = (state = initialState, action) =>
       case CHECK_DUPLICATE_FAILURE:
         draft.checkDuplicateLoading = false;
         draft.checkDuplicateError = action.error;
+        break;
+      case LOAD_MY_INFO_REQUEST:
+        draft.loadMyInfoLoading = true;
+        draft.loadMyInfoDone = false;
+        draft.loadMyInfoError = null;
+        break;
+      case LOAD_MY_INFO_SUCCESS:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoDone = true;
+        draft.me = action.data;
+        break;
+      case LOAD_MY_INFO_FAILURE:
+        draft.loadMyInfoLoading = false;
+        draft.loadMyInfoError = action.error;
+        break;
+      case ADD_POST_TO_ME:
+        draft.me.Posts.unshift(action.data);
         break;
       default:
         break;

@@ -11,6 +11,7 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
 } from '../reducers/post';
+import { ADD_POST_TO_ME } from '../reducers/user';
 
 function loadPostsAPI(data) {
   return axios.get('/posts', data);
@@ -21,9 +22,10 @@ function* loadPosts(action) {
     // const result = yield call(loadPostsAPI, action.data);
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: action.data,
+      data: [],
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOAD_POSTS_FAILURE,
       error: err.response.data,
@@ -37,12 +39,17 @@ function addPostAPI(data) {
 
 function* addPost(action) {
   try {
-    // const result = yield call(addPostAPI, action.data);
+    const result = yield call(addPostAPI, action.data);
     yield put({
       type: ADD_POST_SUCCESS,
-      data: action.data,
+      data: result.data,
+    });
+    yield put({
+      type: ADD_POST_TO_ME,
+      data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: ADD_POST_FAILURE,
       error: err.response.data,
@@ -62,6 +69,7 @@ function* convertPinyin(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: CONVERT_PINYIN_FAILURE,
       error: err.response.data,

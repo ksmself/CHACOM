@@ -2,11 +2,37 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
-const { User } = require('../models');
+const { User, Post, Comment } = require('../models');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
-router.post('/duplicate', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
+  try {
+    if (req.user) {
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          exclude: ['password'],
+        },
+        include: [
+          {
+            model: Post,
+            attributes: ['title'],
+          },
+        ],
+      });
+      res.status(200).json(fullUserWithoutPassword);
+    } else {
+      res.status(200).json(null);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.post('/duplicate', isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({
       where: {
@@ -24,7 +50,7 @@ router.post('/duplicate', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', isNotLoggedIn, async (req, res, next) => {
   // POST /user
   try {
     const exUser = await User.findOne({
@@ -47,7 +73,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.post('/login', (req, res, next) => {
+router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err) {
       console.error(err);
@@ -56,17 +82,33 @@ router.post('/login', (req, res, next) => {
     if (info) {
       return res.status(401).send(info.reason);
     }
-    return req.login(user, (passportErr) => {
+    return req.login(user, async (passportErr) => {
       if (passportErr) {
         console.error(passportErr);
         return next(passportErr);
       }
-      return res.status(200).json(user);
+      try {
+        const fullUserWithoutPassword = await User.findOne({
+          where: { id: user.id },
+          attributes: {
+            exclude: ['password'],
+          },
+          include: [
+            {
+              model: Post,
+              attributes: ['title'],
+            },
+          ],
+        });
+        return res.status(200).json(fullUserWithoutPassword);
+      } catch (err) {
+        console.error(err);
+      }
     });
   })(req, res, next);
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('logout success!');
