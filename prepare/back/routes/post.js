@@ -1,12 +1,13 @@
 const express = require('express');
 const pinyin = require('prettify-pinyin');
 
-const { Post, Expression, Hashtag } = require('../models');
+const { Post, Expression, Hashtag, User } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
 router.post('/', isLoggedIn, async (req, res, next) => {
+  // POST /post
   try {
     const post = await Post.create({
       title: req.body.title,
@@ -38,8 +39,14 @@ router.post('/', isLoggedIn, async (req, res, next) => {
       attributes: ['title'],
       include: [
         {
+          model: User,
+          attributes: {
+            exclude: ['password'],
+          },
+        },
+        {
           model: Hashtag,
-          attributes: ['name'],
+          attributes: ['id', 'name'],
         },
         {
           model: Expression,

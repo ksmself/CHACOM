@@ -5,7 +5,9 @@ import Link from 'next/link';
 import { HeartFilled, MessageFilled } from '@ant-design/icons';
 
 const PostCard = ({ post }) => {
-  const tags = post.tag;
+  const tags = post.Hashtags;
+
+  // console.log(post.User.id, post.id);
 
   return (
     <div css={card}>
@@ -18,8 +20,8 @@ const PostCard = ({ post }) => {
         {tags.map((tag) => {
           return (
             <Tag key={tag.id} color="purple">
-              <Link href={`/hashtag/${tag}`}>
-                <a>{tag}</a>
+              <Link href={`/hashtag/${tag.name}`}>
+                <a>{tag.name}</a>
               </Link>
             </Tag>
           );
@@ -38,11 +40,11 @@ const PostCard = ({ post }) => {
         <div>
           <span css={cardInfoLike}>
             <HeartFilled />
-            {post.like}
+            {post.Likers.length}
           </span>
           <span css={cardInfoComment}>
             <MessageFilled />
-            {post.comment}
+            {post.Comments.length}
           </span>
         </div>
       </div>
