@@ -1,7 +1,7 @@
 const express = require('express');
 const pinyin = require('prettify-pinyin');
 
-const { Post, Expression, Hashtag, User } = require('../models');
+const { Post, Expression, Hashtag, User, Comment } = require('../models');
 const { isLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -51,6 +51,13 @@ router.post('/', isLoggedIn, async (req, res, next) => {
         {
           model: Expression,
           attributes: ['pinyin', 'meaning'],
+        },
+        {
+          model: Comment,
+        },
+        {
+          model: User,
+          as: 'Likers',
         },
       ],
     });

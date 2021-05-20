@@ -3,11 +3,12 @@ import { css } from '@emotion/react';
 import { Tag } from 'antd';
 import Link from 'next/link';
 import { HeartFilled, MessageFilled } from '@ant-design/icons';
+import dayjs from 'dayjs';
+
+dayjs.locale('ko');
 
 const PostCard = ({ post }) => {
   const tags = post.Hashtags;
-
-  // console.log(post.User.id, post.id);
 
   return (
     <div css={card}>
@@ -27,7 +28,9 @@ const PostCard = ({ post }) => {
           );
         })}
       </div>
-      <div css={cardDate}>{post.date}</div>
+      <div css={cardDate}>
+        {dayjs(post.createdAt).format('YYYY년 MM월 DD일')}
+      </div>
       <div css={cardInfo}>
         <Link href={`/user/${post.User.id}`}>
           <a>
