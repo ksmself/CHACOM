@@ -17,6 +17,105 @@ import {
 } from '../reducers/post';
 import useInput from '../hooks/useInput';
 
+const ConvertPopUp = () => {
+  const pinyinRef = useRef(null);
+  const dispatch = useDispatch();
+  const { convertLoading, convertDone, convertedPinyin } = useSelector(
+    (state) => state.post
+  );
+
+  const [input, onChangeInput, setInput] = useInput('');
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const onCancelModal = useCallback(() => {
+    setModalVisible(false);
+    setInput('');
+    dispatch({
+      type: CONVERT_RESET_REQUEST,
+    });
+  }, []);
+
+  const onClickCancel = useCallback(() => {
+    setInput('');
+    dispatch({
+      type: CONVERT_RESET_REQUEST,
+    });
+  }, []);
+
+  const onClickConvert = useCallback(() => {
+    if (input) {
+      dispatch({
+        type: CONVERT_PINYIN_REQUEST,
+        data: { content: input },
+      });
+    }
+  }, [input]);
+
+  const onClickCopy = useCallback(() => {
+    const pinyin = pinyinRef.current.innerText;
+    navigator.clipboard.writeText(pinyin);
+    message.success({
+      content: '클립보드에 복사되었습니다!',
+      duration: 1,
+    });
+  }, []);
+
+  return (
+    <>
+      <Global />
+      <>
+        <button css={underlineBtn} onClick={() => setModalVisible(true)}>
+          Pīnyīn으로 변환하기
+        </button>
+        <Modal
+          className="convert-modal"
+          visible={modalVisible}
+          onCancel={onCancelModal}
+          onOk={() => setModalVisible(false)}
+        >
+          <div css={infoBox}>
+            <span>성조는 특수문자, 단어 끝에 입력해주세요.</span>
+            <span>단어와 단어 사이는 한 칸을 띄워주세요.</span>
+          </div>
+          <div css={convertBox}>
+            {input && (
+              <Button
+                css={cancelBtn}
+                icon={<CloseOutlined />}
+                onClick={onClickCancel}
+              />
+            )}
+            <textarea
+              css={toConvert}
+              placeholder="Ni3 hao!3"
+              value={input}
+              onChange={onChangeInput}
+              spellCheck="false"
+            ></textarea>
+            <Button
+              css={convertBtn}
+              icon={<SwapOutlined />}
+              onClick={onClickConvert}
+            />
+            <div className="convert-text" css={converted} ref={pinyinRef}>
+              {!convertLoading && !convertDone && null}
+              {convertLoading && !convertDone && <LoadingOutlined />}
+              {!convertLoading && convertDone && convertedPinyin}
+            </div>
+            {convertDone && (
+              <Button
+                css={copyBtn}
+                icon={<CopyOutlined />}
+                onClick={onClickCopy}
+              />
+            )}
+          </div>
+        </Modal>
+      </>
+    </>
+  );
+};
+
 const Global = createGlobalStyle`
     .convert-modal > .ant-modal-content > .ant-modal-body{
         padding-top: 48px;
@@ -261,104 +360,5 @@ const copyBtn = css`
     }
   }
 `;
-
-const ConvertPopUp = () => {
-  const pinyinRef = useRef(null);
-  const dispatch = useDispatch();
-  const { convertLoading, convertDone, convertedPinyin } = useSelector(
-    (state) => state.post
-  );
-
-  const [input, onChangeInput, setInput] = useInput('');
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const onCancelModal = useCallback(() => {
-    setModalVisible(false);
-    setInput('');
-    dispatch({
-      type: CONVERT_RESET_REQUEST,
-    });
-  }, []);
-
-  const onClickCancel = useCallback(() => {
-    setInput('');
-    dispatch({
-      type: CONVERT_RESET_REQUEST,
-    });
-  }, []);
-
-  const onClickConvert = useCallback(() => {
-    if (input) {
-      dispatch({
-        type: CONVERT_PINYIN_REQUEST,
-        data: { content: input },
-      });
-    }
-  }, [input]);
-
-  const onClickCopy = useCallback(() => {
-    const pinyin = pinyinRef.current.innerText;
-    navigator.clipboard.writeText(pinyin);
-    message.success({
-      content: '클립보드에 복사되었습니다!',
-      duration: 1,
-    });
-  }, []);
-
-  return (
-    <>
-      <Global />
-      <>
-        <button css={underlineBtn} onClick={() => setModalVisible(true)}>
-          Pīnyīn으로 변환하기
-        </button>
-        <Modal
-          className="convert-modal"
-          visible={modalVisible}
-          onCancel={onCancelModal}
-          onOk={() => setModalVisible(false)}
-        >
-          <div css={infoBox}>
-            <span>성조는 특수문자, 단어 끝에 입력해주세요.</span>
-            <span>단어와 단어 사이는 한 칸을 띄워주세요.</span>
-          </div>
-          <div css={convertBox}>
-            {input && (
-              <Button
-                css={cancelBtn}
-                icon={<CloseOutlined />}
-                onClick={onClickCancel}
-              />
-            )}
-            <textarea
-              css={toConvert}
-              placeholder="Ni3 hao!3"
-              value={input}
-              onChange={onChangeInput}
-              spellCheck="false"
-            ></textarea>
-            <Button
-              css={convertBtn}
-              icon={<SwapOutlined />}
-              onClick={onClickConvert}
-            />
-            <div className="convert-text" css={converted} ref={pinyinRef}>
-              {!convertLoading && !convertDone && null}
-              {convertLoading && !convertDone && <LoadingOutlined />}
-              {!convertLoading && convertDone && convertedPinyin}
-            </div>
-            {convertDone && (
-              <Button
-                css={copyBtn}
-                icon={<CopyOutlined />}
-                onClick={onClickCopy}
-              />
-            )}
-          </div>
-        </Modal>
-      </>
-    </>
-  );
-};
 
 export default ConvertPopUp;
