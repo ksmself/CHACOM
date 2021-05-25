@@ -71,7 +71,6 @@ const cardTitle = css`
   padding: 0 24px;
   font-size: 20px;
   font-weight: 700;
-  overflow: hidden;
 `;
 
 const cardTag = css`

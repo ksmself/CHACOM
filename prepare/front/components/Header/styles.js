@@ -7,18 +7,17 @@ export const headerLogo = css`
   justify-content: space-between;
   align-items: center;
   margin-top: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   padding: 0 20px;
 
   @media (min-width: 768px) {
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     padding: 0 60px;
   }
 
   @media (min-width: 1024px) {
     margin-bottom: 70px;
-    padding: 0 180px;
   }
 `;
 
@@ -38,7 +37,6 @@ export const headerNonLogo = css`
 
   @media (min-width: 1024px) {
     margin-bottom: 70px;
-    padding: 0 180px;
   }
 `;
 
@@ -107,10 +105,6 @@ export const titleLogo = css`
 
   @media (min-width: 768px) {
     font-size: 34px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 50px;
   }
 `;
 

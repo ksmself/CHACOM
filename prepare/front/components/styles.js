@@ -41,21 +41,3 @@ export const roundBtn = css`
     }
   }
 `;
-
-export const greyBtn = css`
-  border: none;
-  color: #868e96;
-  background: none;
-
-  @media (min-width: 768px) {
-    font-size: 18px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 23px;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-`;

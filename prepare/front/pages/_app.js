@@ -24,10 +24,6 @@ const April = ({ Component }) => {
       <Head>
         <meta charSet="utf-8" />
         <title>CHACOM</title>
-        <link
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
-          rel="stylesheet"
-        />
       </Head>
       <Component />
     </>
