@@ -131,19 +131,19 @@ export const contentBox = css`
 export const leftArrow = css`
   position: absolute;
   top: 50%;
-  left: -20px;
-  font-size: 44px;
+  left: -25px;
+  font-size: 60px;
   color: #00adcb;
   transform: translateY(-50%);
 
   @media (min-width: 768px) {
-    left: -22px;
-    font-size: 50px;
+    left: -30px;
+    font-size: 80px;
   }
 
   @media (min-width: 1024px) {
-    left: -24px;
-    font-size: 56px;
+    left: -40px;
+    font-size: 100px;
   }
 
   &:hover {
@@ -154,19 +154,19 @@ export const leftArrow = css`
 export const rightArrow = css`
   position: absolute;
   top: 50%;
-  right: -20px;
-  font-size: 44px;
+  right: -25px;
+  font-size: 60px;
   color: #00adcb;
   transform: translateY(-50%);
 
   @media (min-width: 768px) {
-    right: -22px;
-    font-size: 50px;
+    right: -30px;
+    font-size: 80px;
   }
 
   @media (min-width: 1024px) {
-    right: -24px;
-    font-size: 56px;
+    right: -40px;
+    font-size: 100px;
   }
 
   &:hover {

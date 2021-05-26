@@ -31,7 +31,7 @@ import {
 } from '../reducers/user';
 
 function loadPostAPI(data) {
-  return axios.get('/post', data);
+  return axios.get(`/post/${data}`);
 }
 
 function* loadPost(action) {

@@ -68,6 +68,54 @@ router.post('/', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.get('/:postId', async (req, res, next) => {
+  // GET /post/1
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(404).send('존재하지 않는 게시물입니다.');
+    }
+    const fullPost = await Post.findOne({
+      where: { id: post.id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname'],
+        },
+        {
+          model: User,
+          as: 'Likers',
+          attributes: ['id'],
+        },
+        {
+          model: Hashtag,
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Expression,
+          attributes: ['id', 'pinyin', 'meaning'],
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname'],
+            },
+          ],
+        },
+      ],
+    });
+
+    res.status(200).json(fullPost);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.post('/convert/pinyin', async (req, res, next) => {
   try {
     const word = req.body.content;
