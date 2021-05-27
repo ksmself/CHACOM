@@ -148,15 +148,15 @@ function unlikePostAPI(data) {
 
 function* unlikePost(action) {
   try {
-    // const result = yield call(unlikePostAPI, action.data);
+    const result = yield call(unlikePostAPI, action.data);
     yield put({
       type: UNLIKE_POST_SUCCESS,
       data: result.data,
     });
-    yield put({
-      type: UNLIKE_POST_TO_ME, // UNLIKE_POST_OF_ME
-      data: result.data,
-    });
+    // yield put({
+    //   type: UNLIKE_POST_TO_ME, // UNLIKE_POST_OF_ME
+    //   data: result.data,
+    // });
   } catch (err) {
     console.error(err);
     yield put({

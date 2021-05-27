@@ -133,6 +133,23 @@ router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.delete('/:postId/like', isLoggedIn, async (req, res, next) => {
+  // DELETE /post/1/like
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('게시물이 존재하지 않습니다.');
+    }
+    await post.removeLikers(req.user.id);
+    res.status(200).json({ PostId: post.id, UserId: req.user.id });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.post('/convert/pinyin', async (req, res, next) => {
   try {
     const word = req.body.content;
