@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Tag } from 'antd';
 import Link from 'next/link';
 import dayjs from 'dayjs';
@@ -9,7 +8,7 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 
 import Header from '../../components/Header/index';
-import { LOAD_POST_REQUEST } from '../../reducers/post';
+import { LOAD_POSTS_REQUEST, LOAD_POST_REQUEST } from '../../reducers/post';
 import {
   post,
   postTitle,
@@ -35,11 +34,12 @@ import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 dayjs.locale('ko');
 
 const Post = () => {
-  const dispatch = useDispatch();
   const { singlePost } = useSelector((state) => state.post);
   const { me } = useSelector((state) => state.user);
 
-  const writtenByMe = me?.nickname === singlePost?.User.nickname;
+  const [writtenByMe, setWrittenByMe] = useState(
+    Boolean(me?.nickname === singlePost?.User.nickname)
+  );
 
   const [curIndex, setCurIndex] = useState(0);
 
@@ -131,6 +131,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
     context.store.dispatch({
       type: LOAD_POST_REQUEST,
       data: context.params.id,
+    });
+    context.store.dispatch({
+      type: LOAD_POSTS_REQUEST,
     });
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,

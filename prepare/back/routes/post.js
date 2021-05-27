@@ -75,7 +75,7 @@ router.get('/:postId', async (req, res, next) => {
       where: { id: req.params.postId },
     });
     if (!post) {
-      return res.status(404).send('존재하지 않는 게시물입니다.');
+      return res.status(403).send('존재하지 않는 게시물입니다.');
     }
     const fullPost = await Post.findOne({
       where: { id: post.id },
@@ -110,6 +110,23 @@ router.get('/:postId', async (req, res, next) => {
     });
 
     res.status(200).json(fullPost);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
+  // PATCH /post/1/like
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('게시물이 존재하지 않습니다.');
+    }
+    await post.addLikers(req.user.id);
+    res.status(200).json({ PostId: post.id, UserId: req.user.id });
   } catch (err) {
     console.error(err);
     next(err);

@@ -124,15 +124,15 @@ function likePostAPI(data) {
 
 function* likePost(action) {
   try {
-    // const result = yield call(likePostAPI, action.data);
+    const result = yield call(likePostAPI, action.data);
     yield put({
       type: LIKE_POST_SUCCESS,
       data: result.data,
     });
-    yield put({
-      type: LIKE_POST_TO_ME, // LIKE_POST_TO_ME
-      data: result.data,
-    });
+    // yield put({
+    //   type: LIKE_POST_TO_ME, // LIKE_POST_TO_ME
+    //   data: result.data,
+    // });
   } catch (err) {
     console.error(err);
     yield put({

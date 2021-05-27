@@ -1,9 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from 'antd';
 import { HeartTwoTone, HeartOutlined } from '@ant-design/icons';
+import { createGlobalStyle } from 'styled-components';
+
 import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
+
+const Global = createGlobalStyle`
+  .ant-modal-confirm-body .ant-modal-confirm-title{
+    font-weight: 700;
+  }
+`;
 
 const likeBox = css`
   display: flex;
@@ -44,15 +53,19 @@ const likeBox = css`
 const LikeBtn = ({ post }) => {
   const dispatch = useDispatch();
   const id = useSelector((state) => state.user.me?.id);
-  // const liked = post.Likers.find((v) => v.id === id);
-  const [liked, setLiked] = useState(false);
+  const { mainPosts } = useSelector((state) => state.post);
+  post = mainPosts.find((v) => v.id === post.id);
+  const liked = post.Likers.find((v) => v.id === id);
 
   const onLike = useCallback(() => {
-    dispatch({
+    if (!id) {
+      return Modal.error({ title: '로그인이 필요합니다.' });
+    }
+    return dispatch({
       type: LIKE_POST_REQUEST,
       data: post.id,
     });
-  }, []);
+  }, [id]);
 
   const onUnLike = useCallback(() => {
     dispatch({
@@ -62,14 +75,17 @@ const LikeBtn = ({ post }) => {
   }, []);
 
   return (
-    <div css={likeBox}>
-      {liked ? (
-        <HeartTwoTone twoToneColor="#ff748c" onClick={onUnLike} />
-      ) : (
-        <HeartOutlined onClick={onLike} />
-      )}
-      <span>{post.Likers ? 0 : post.Likers.length}</span>
-    </div>
+    <>
+      <Global />
+      <div css={likeBox}>
+        {liked ? (
+          <HeartTwoTone twoToneColor="#ff748c" onClick={onUnLike} />
+        ) : (
+          <HeartOutlined onClick={onLike} />
+        )}
+        <span>{post.Likers ? post.Likers.length : 0}</span>
+      </div>
+    </>
   );
 };
 
