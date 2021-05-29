@@ -63,7 +63,7 @@ const Header = () => {
   const content = (
     <ul css={popoverContent}>
       <li>
-        <Link href="/">
+        <Link href={`/user/${me?.id}/post`}>
           <a>
             <FormOutlined style={{ color: '#1D78FF' }} />
             <span>내가 쓴 글</span>
@@ -98,11 +98,12 @@ const Header = () => {
   );
 
   const pathName = router.pathname.match(/[/]\w+/);
-  const postPage = pathName && pathName[0] === '/post';
+  const postPage =
+    pathName && (pathName[0] === '/post' || pathName[0] === '/user');
 
   const logInHeader = (
     <div css={postPage ? headerLogo : headerNonLogo}>
-      {pathName && pathName[0] === '/post' && logo}
+      {postPage && logo}
       <div css={header}>
         <Global />
         <Link href="/write">
@@ -126,7 +127,7 @@ const Header = () => {
 
   const logOutHeader = (
     <div css={postPage ? headerLogo : headerNonLogo}>
-      {pathName && pathName[0] === '/post' && logo}
+      {postPage && logo}
       <div>
         <Button
           type="primary"

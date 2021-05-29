@@ -18,9 +18,14 @@ router.get('/', async (req, res, next) => {
         include: [
           {
             model: Post,
-            attributes: ['title'],
+            attributes: ['id', 'title', 'createdAt'],
+          },
+          {
+            model: Post,
+            as: 'Liked',
           },
         ],
+        order: [[Post, 'createdAt', 'DESC']],
       });
       res.status(200).json(fullUserWithoutPassword);
     } else {
@@ -96,9 +101,14 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           include: [
             {
               model: Post,
-              attributes: ['title'],
+              attributes: ['id', 'title', 'createdAt'],
+            },
+            {
+              model: Post,
+              as: 'Liked',
             },
           ],
+          order: [[Post, 'createdAt', 'DESC']],
         });
         return res.status(200).json(fullUserWithoutPassword);
       } catch (err) {

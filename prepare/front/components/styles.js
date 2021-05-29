@@ -57,5 +57,6 @@ export const greyBtn = css`
 
   &:hover {
     cursor: pointer;
+    text-decoration: underline;
   }
 `;

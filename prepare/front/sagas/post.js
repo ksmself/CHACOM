@@ -23,12 +23,7 @@ import {
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
 } from '../reducers/post';
-import {
-  ADD_POST_TO_ME,
-  LIKE_POST_TO_ME,
-  REMOVE_POST_OF_ME,
-  UNLIKE_POST_TO_ME,
-} from '../reducers/user';
+import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
 function loadPostAPI(data) {
   return axios.get(`/post/${data}`);
@@ -81,10 +76,10 @@ function* addPost(action) {
       type: ADD_POST_SUCCESS,
       data: result.data,
     });
-    yield put({
-      type: ADD_POST_TO_ME,
-      data: result.data,
-    });
+    // yield put({
+    //   type: ADD_POST_TO_ME,
+    //   data: result.data,
+    // });
   } catch (err) {
     console.error(err);
     yield put({
@@ -105,10 +100,10 @@ function* removePost(action) {
       type: REMOVE_POST_SUCCESS,
       data: result.data,
     });
-    yield put({
-      type: REMOVE_POST_OF_ME, // REMOVE_POST_OF_ME
-      data: result.data,
-    });
+    // yield put({
+    //   type: REMOVE_POST_OF_ME, // REMOVE_POST_OF_ME
+    //   data: result.data,
+    // });
   } catch (err) {
     console.error(err);
     yield put({
@@ -129,10 +124,6 @@ function* likePost(action) {
       type: LIKE_POST_SUCCESS,
       data: result.data,
     });
-    // yield put({
-    //   type: LIKE_POST_TO_ME, // LIKE_POST_TO_ME
-    //   data: result.data,
-    // });
   } catch (err) {
     console.error(err);
     yield put({
@@ -153,10 +144,6 @@ function* unlikePost(action) {
       type: UNLIKE_POST_SUCCESS,
       data: result.data,
     });
-    // yield put({
-    //   type: UNLIKE_POST_TO_ME, // UNLIKE_POST_OF_ME
-    //   data: result.data,
-    // });
   } catch (err) {
     console.error(err);
     yield put({

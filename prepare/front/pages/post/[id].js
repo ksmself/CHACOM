@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tag } from 'antd';
 import Link from 'next/link';
@@ -36,10 +36,7 @@ dayjs.locale('ko');
 const Post = () => {
   const { singlePost } = useSelector((state) => state.post);
   const { me } = useSelector((state) => state.user);
-
-  const [writtenByMe, setWrittenByMe] = useState(
-    Boolean(me?.nickname === singlePost?.User.nickname)
-  );
+  const writtenByMe = me?.id === singlePost?.User.id;
 
   const [curIndex, setCurIndex] = useState(0);
 
