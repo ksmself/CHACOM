@@ -79,7 +79,7 @@ const Header = () => {
         </Link>
       </li>
       <li>
-        <Link href="/">
+        <Link href={`/user/${me?.id}/like`}>
           <a>
             <HeartOutlined style={{ color: '#fe7171' }} />
             <span>좋아요 누른 글</span>

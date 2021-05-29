@@ -2,7 +2,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 
-const { User, Post, Comment } = require('../models');
+const { User, Post, Comment, Hashtag } = require('../models');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
@@ -23,9 +23,32 @@ router.get('/', async (req, res, next) => {
           {
             model: Post,
             as: 'Liked',
+            include: [
+              {
+                model: Hashtag,
+              },
+              {
+                model: User,
+                attributes: {
+                  exclude: ['password'],
+                },
+              },
+              {
+                model: User,
+                as: 'Likers', // 좋아요 누른 사람
+                attributes: ['id'],
+              },
+              {
+                model: Comment,
+                attributes: ['id'],
+              },
+            ],
           },
         ],
-        order: [[Post, 'createdAt', 'DESC']],
+        order: [
+          [Post, 'createdAt', 'DESC'],
+          ['Liked', 'createdAt', 'DESC'],
+        ],
       });
       res.status(200).json(fullUserWithoutPassword);
     } else {
@@ -106,9 +129,32 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
             {
               model: Post,
               as: 'Liked',
+              include: [
+                {
+                  model: Hashtag,
+                },
+                {
+                  model: User,
+                  attributes: {
+                    exclude: ['password'],
+                  },
+                },
+                {
+                  model: User,
+                  as: 'Likers', // 좋아요 누른 사람
+                  attributes: ['id'],
+                },
+                {
+                  model: Comment,
+                  attributes: ['id'],
+                },
+              ],
             },
           ],
-          order: [[Post, 'createdAt', 'DESC']],
+          order: [
+            [Post, 'createdAt', 'DESC'],
+            ['Liked', 'createdAt', 'DESC'],
+          ],
         });
         return res.status(200).json(fullUserWithoutPassword);
       } catch (err) {

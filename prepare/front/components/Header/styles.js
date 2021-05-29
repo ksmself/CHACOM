@@ -152,6 +152,10 @@ export const popoverContent = css`
   li {
     padding: 5px 0;
 
+    &:hover {
+      background-color: #f8f8f8;
+    }
+
     svg {
       margin-right: 10px;
     }

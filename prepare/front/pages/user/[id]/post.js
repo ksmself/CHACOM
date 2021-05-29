@@ -26,7 +26,7 @@ const UserPost = () => {
         <div css={postGroup}>
           {posts &&
             posts.map((post) => {
-              return <PostList key={post.id} postType="post" post={post} />;
+              return <PostList key={post.id} post={post} />;
             })}
         </div>
       </div>

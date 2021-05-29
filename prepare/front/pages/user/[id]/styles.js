@@ -33,7 +33,7 @@ export const title = css`
   }
 
   span:first-of-type {
-    margin-right: 10px;
+    margin-right: 15px;
   }
 `;
 
@@ -106,5 +106,31 @@ export const buttonGroup = css`
 
   @media (min-width: 768px) {
     flex-direction: row;
+  }
+`;
+
+// like 페이지
+export const likeTitle = css`
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: 700;
+
+  @media (min-width: 768px) {
+    margin-top: 70px;
+    margin-bottom: 50px;
+    font-size: 28px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 85px;
+    margin-bottom: 80px;
+    font-size: 40px;
+  }
+
+  span:first-of-type {
+    margin-right: 10px;
   }
 `;

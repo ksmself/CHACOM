@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import Link from 'next/link';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/router';
 
 import UpdateBtn from './UpdateBtn';
 import DeleteBtn from './DeleteBtn';
@@ -12,9 +13,9 @@ import {
   postTitle,
 } from '../pages/user/[id]/styles';
 
-const PostList = ({ postType, post }) => {
+const PostList = ({ post }) => {
   return (
-    <Link href={`/${postType}/${post.id}`}>
+    <Link href={`/post/${post.id}`}>
       <a>
         <div css={postBox}>
           <div css={postInfoBox}>
