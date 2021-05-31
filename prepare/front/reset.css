@@ -4,6 +4,15 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
 a {
   display: block;
   color: inherit;

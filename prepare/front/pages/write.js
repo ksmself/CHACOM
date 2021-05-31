@@ -159,7 +159,7 @@ const Write = () => {
   return (
     <>
       <Global />
-      <div css={writePage}>
+      <>
         <div css={writeBox}>
           <TextArea
             css={titleBox}
@@ -192,7 +192,6 @@ const Write = () => {
             </div>
           </div>
           <div css={line}></div>
-          {/* <ExpressionBox /> */}
           <div css={expressionBox}>
             {expressions.map((v, index) => {
               return (
@@ -207,7 +206,9 @@ const Write = () => {
                     {index !== 0 && (
                       <CloseOutlined onClick={deleteExpression(index + 1)} />
                     )}
-                    <ConvertPopUp />
+                    <div css={convertBox}>
+                      <ConvertPopUp />
+                    </div>
                   </div>
                   <input
                     name="meaning"
@@ -229,19 +230,23 @@ const Write = () => {
             만들기
           </Button>
         </footer>
-      </div>
+      </>
     </>
   );
 };
-
-const writePage = css`
-  position: relative;
-`;
 
 const writeBox = css`
   display: flex;
   flex-direction: column;
   margin: 30px 20px 0;
+
+  @media (min-width: 768px) {
+    margin: 50px 70px 0;
+  }
+
+  @media (min-width: 1024px) {
+    margin: 70px 150px 0;
+  }
 `;
 
 const titleBox = css`
@@ -255,6 +260,15 @@ const titleBox = css`
   &:focus {
     border: none;
     box-shadow: none;
+  }
+
+  @media (min-width: 768px) {
+    margin-bottom: 20px;
+    font-size: 40px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 45px;
   }
 `;
 
@@ -278,11 +292,31 @@ const tags = css`
     &:hover {
       cursor: pointer;
     }
+
+    @media (min-width: 768px) {
+      margin-right: 8px;
+      margin-bottom: 7px;
+      font-size: 18px;
+    }
+
+    @media (min-width: 1024px) {
+      margin-right: 9px;
+      margin-bottom: 8px;
+      font-size: 22px;
+    }
   }
 
   input {
     font-size: 14px;
     border: none;
+
+    @media (min-width: 768px) {
+      font-size: 18px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 22px;
+    }
   }
 `;
 
@@ -293,6 +327,18 @@ const tagInfoBox = css`
   font-size: 13px;
   color: #fff;
   background-color: #3a18ff;
+
+  @media (min-width: 768px) {
+    width: 400px;
+    padding: 7px;
+    font-size: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 460px;
+    padding: 8px;
+    font-size: 18px;
+  }
 `;
 
 const line = css`
@@ -300,6 +346,10 @@ const line = css`
   height: 10px;
   margin-bottom: 25px;
   background-color: #48494b;
+
+  @media (min-width: 1024px) {
+    margin-bottom: 35px;
+  }
 `;
 
 const expressionBox = css`
@@ -316,31 +366,89 @@ const box = css`
   border: 3px solid #18ddff;
   border-radius: 4px;
 
+  @media (min-width: 768px) {
+    padding: 35px 25px;
+    margin-bottom: 40px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 45px 30px;
+    margin-bottom: 50px;
+  }
+
   input {
     width: 100%;
     font-size: 16px;
     border: none;
     border-bottom: 1px solid #48494b;
+
+    @media (min-width: 768px) {
+      font-size: 19px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 22px;
+    }
   }
 
   span {
     position: absolute;
-    top: -12px;
-    right: -2px;
+    top: 12px;
+    right: 12px;
     cursor: pointer;
+
+    @media (min-width: 768px) {
+      top: 15px;
+      right: 15px;
+    }
+
+    @media (min-width: 1024px) {
+      top: 19px;
+      right: 19px;
+    }
+
+    svg {
+      @media (min-width: 768px) {
+        font-size: 16px;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 20px;
+      }
+    }
   }
 `;
 
 const pinyinBox = css`
-  position: relative;
-  height: 52px;
   margin-bottom: 15px;
 
+  input {
+    margin-bottom: 2px;
+
+    @media (min-width: 768px) {
+      margin-bottom: 3px;
+    }
+
+    @media (min-width: 1024px) {
+      margin-bottom: 4px;
+    }
+  }
+`;
+
+const convertBox = css`
+  display: flex;
+  justify-content: flex-end;
+
   button {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    font-size: 13px;
+    font-size: 14px;
+
+    @media (min-width: 768px) {
+      font-size: 17px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 20px;
+    }
   }
 `;
 
@@ -349,9 +457,25 @@ const plusBtnBox = css`
   justify-content: center;
   margin-bottom: 80px;
 
+  @media (min-width: 768px) {
+    margin-bottom: 110px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-bottom: 140px;
+  }
+
   svg {
     font-size: 50px;
     color: #3a18ff;
+
+    @media (min-width: 768px) {
+      font-size: 60px;
+    }
+
+    @media (min-width: 768px) {
+      font-size: 80px;
+    }
   }
 `;
 
@@ -368,12 +492,30 @@ const footerBox = css`
   box-shadow: 0px 0px 8px rgba(58, 24, 255, 20%);
   background-color: #fff;
 
+  @media (min-width: 768px) {
+    height: 70px;
+    padding: 25px 25px;
+  }
+
+  @media (min-width: 1024px) {
+    height: 80px;
+    padding: 30px 45px;
+  }
+
   span {
     cursor: pointer;
   }
 
   svg {
     font-size: 20px;
+
+    @media (min-width: 768px) {
+      font-size: 25px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 30px;
+    }
   }
 `;
 
