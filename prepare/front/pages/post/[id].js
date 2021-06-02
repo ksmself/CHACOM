@@ -24,12 +24,16 @@ import {
   expressionNum,
   pinyin,
   meaning,
+  comment,
+  commentNumber,
 } from './styles';
 import UpdateBtn from '../../components/UpdateBtn';
 import DeleteBtn from '../../components/DeleteBtn';
 import LikeBtn from '../../components/LikeBtn';
 import wrapper from '../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
+import CommentForm from '../../components/CommentForm';
+import CommentList from '../../components/CommentList';
 
 dayjs.locale('ko');
 
@@ -37,6 +41,23 @@ const Post = () => {
   const { singlePost } = useSelector((state) => state.post);
   const { me } = useSelector((state) => state.user);
   const writtenByMe = me?.id === singlePost?.User.id;
+  const commentLength = singlePost?.Comments ? singlePost.Comments.length : 0;
+
+  let day;
+  const secondPassed =
+    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'seconds');
+  const minutedPassed =
+    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'minutes');
+  const hourPassed =
+    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'hours');
+  const dayPassed =
+    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'days');
+
+  if (secondPassed < 60) day = '방금 전';
+  else if (minutedPassed < 60) day = minutedPassed + '분 전';
+  else if (hourPassed < 24) day = hourPassed + '시간 전';
+  else if (dayPassed <= 7) day = dayPassed + '일 전';
+  else day = dayjs(singlePost.createdAt).format('YYYY년 MM월 DD일');
 
   const [curIndex, setCurIndex] = useState(0);
 
@@ -53,6 +74,30 @@ const Post = () => {
       else setCurIndex((prev) => prev + 1);
     }
   }, [singlePost, curIndex]);
+
+  const dummyComments = [
+    {
+      id: 1,
+      content: '잘 읽었습니다.',
+      UserId: 4,
+      createdAt: '2021-05-27T08:21:04.000Z',
+      User: { id: 1, nickname: 'tnlrhkdgks' },
+    },
+    {
+      id: 2,
+      content: '왕초보편 또 만들어주세요!',
+      UserId: 5,
+      createdAt: '2021-05-29T08:21:04.000Z',
+      User: { id: 2, nickname: 'dlwldms' },
+    },
+    {
+      id: 3,
+      content: '유용한 표현이 정말 많네요!',
+      UserId: 7,
+      createdAt: '2021-06-01T08:21:04.000Z',
+      User: { id: 3, nickname: 'sunflower' },
+    },
+  ];
 
   return (
     <>
@@ -76,9 +121,7 @@ const Post = () => {
                 </Link>
               </span>
               <span css={postInfoBullet}>·</span>
-              <span css={postInfoDate}>
-                {dayjs(singlePost.createdAt).format('YYYY년 MM월 DD일')}
-              </span>
+              <span css={postInfoDate}>{day}</span>
             </div>
             <LikeBtn post={singlePost} />
           </div>
@@ -114,6 +157,15 @@ const Post = () => {
           </div>
         </div>
       )}
+      <div css={comment}>
+        <div css={commentNumber}>{commentLength}개의 댓글</div>
+        {commentLength ? (
+          <CommentList comments={dummyComments} />
+        ) : (
+          <CommentList comments={dummyComments} />
+        )}
+        <CommentForm cancelBtn={false} />
+      </div>
     </>
   );
 };

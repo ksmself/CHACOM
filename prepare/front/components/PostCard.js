@@ -10,6 +10,18 @@ dayjs.locale('ko');
 const PostCard = ({ post }) => {
   const tags = post.Hashtags;
 
+  let day;
+  const secondPassed = dayjs().diff(dayjs(post.createdAt), 'seconds');
+  const minutedPassed = dayjs().diff(dayjs(post.createdAt), 'minutes');
+  const hourPassed = dayjs().diff(dayjs(post.createdAt), 'hours');
+  const dayPassed = dayjs().diff(dayjs(post.createdAt), 'days');
+
+  if (secondPassed < 60) day = '방금 전';
+  else if (minutedPassed < 60) day = minutedPassed + '분 전';
+  else if (hourPassed < 24) day = hourPassed + '시간 전';
+  else if (dayPassed <= 7) day = dayPassed + '일 전';
+  else day = dayjs(post.createdAt).format('YYYY년 MM월 DD일');
+
   return (
     <div css={card}>
       <Link href={`/post/${post.id}`}>
@@ -28,9 +40,7 @@ const PostCard = ({ post }) => {
           );
         })}
       </div>
-      <div css={cardDate}>
-        {dayjs(post.createdAt).format('YYYY년 MM월 DD일')}
-      </div>
+      <div css={cardDate}>{day}</div>
       <div css={cardInfo}>
         <Link href={`/user/${post.User.id}`}>
           <a>

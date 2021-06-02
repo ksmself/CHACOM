@@ -4,19 +4,19 @@ import { css } from '@emotion/react';
 export const post = css`
   display: flex;
   flex-direction: column;
-  padding: 0 30px 100px;
+  padding: 0 30px 80px;
 
   @media (min-width: 768px) {
-    padding: 0 70px 200px;
+    padding: 0 70px 130px;
   }
 
   @media (min-width: 1024px) {
-    padding: 0 200px 300px;
+    padding: 0 200px 180px;
   }
 `;
 
 export const postTitle = css`
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   font-size: 36px;
   font-weight: 700;
   word-break: keep-all;
@@ -51,7 +51,7 @@ export const postInfoBox = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 
   @media (min-width: 768px) {
     margin-bottom: 30px;
@@ -75,7 +75,12 @@ export const postInfoBox = css`
 `;
 
 export const postInfoWriter = css`
+  display: block;
   font-weight: 700;
+
+  @media (min-width: 768px) {
+    display: inline-block;
+  }
 
   a {
     display: inline-block;
@@ -84,11 +89,21 @@ export const postInfoWriter = css`
 `;
 
 export const postInfoBullet = css`
-  margin-right: 3px;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: inline-block;
+    margin-right: 3px;
+  }
 `;
 
 export const postInfoDate = css`
+  display: block;
   color: #646a70;
+
+  @media (min-width: 768px) {
+    display: inline-block;
+  }
 `;
 
 export const hashtagBox = css`
@@ -232,5 +247,36 @@ export const meaning = css`
   @media (min-width: 1024px) {
     margin-bottom: 30px;
     font-size: 36px;
+  }
+`;
+
+export const comment = css`
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px 100px;
+
+  @media (min-width: 768px) {
+    padding: 0 70px 200px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 0 200px 300px;
+  }
+`;
+
+export const commentNumber = css`
+  padding-left: 3px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 700;
+
+  @media (min-width: 768px) {
+    margin-bottom: 20px;
+    font-size: 21px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-bottom: 30px;
+    font-size: 26px;
   }
 `;

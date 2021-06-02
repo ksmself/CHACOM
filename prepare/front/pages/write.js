@@ -435,11 +435,12 @@ const pinyinBox = css`
   }
 `;
 
-const convertBox = css`
+export const convertBox = css`
   display: flex;
   justify-content: flex-end;
 
   button {
+    padding-right: 0;
     font-size: 14px;
 
     @media (min-width: 768px) {

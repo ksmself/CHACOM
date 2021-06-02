@@ -1,4 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { END } from 'redux-saga';
 
@@ -10,18 +12,29 @@ import { LOAD_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
+const homePage = css`
+  padding-bottom: 30px;
+
+  @media (min-width: 768px) {
+    padding-bottom: 70px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-bottom: 150px;
+  }
+`;
+
 // localhost:3000, 즉, 메인 페이지
 const Home = () => {
-  const dispatch = useDispatch();
   const { mainPosts } = useSelector((state) => state.post);
 
   return (
-    <>
+    <div css={homePage}>
       <Header />
       <TitleLogo />
       <SearchBar />
       {mainPosts && <MainContent posts={mainPosts} />}
-    </>
+    </div>
   );
 };
 

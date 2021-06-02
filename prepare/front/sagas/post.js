@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { all, fork, takeLatest, call, put } from '@redux-saga/core/effects';
 import {
+  ADD_COMMENT_FAILURE,
+  ADD_COMMENT_REQUEST,
+  ADD_COMMENT_SUCCESS,
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -16,6 +19,9 @@ import {
   LOAD_POST_FAILURE,
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
+  REMOVE_COMMENT_FAILURE,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT_SUCCESS,
   REMOVE_POST_FAILURE,
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
@@ -89,6 +95,27 @@ function* addPost(action) {
   }
 }
 
+function addCommentAPI(data) {
+  return axios.post('/comment', data);
+}
+
+function* addComment(action) {
+  try {
+    // const result = yield call(addCommentAPI, action.data);
+    yield put({
+      type: ADD_COMMENT_SUCCESS,
+      data: action.data,
+      // data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: ADD_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function removePostAPI(data) {
   return axios.delete(`/post/${data}`);
 }
@@ -108,6 +135,26 @@ function* removePost(action) {
     console.error(err);
     yield put({
       type: REMOVE_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function removeCommentAPI(data) {
+  return axios.delete(`/comment/${data}`);
+}
+
+function* removeComment(action) {
+  try {
+    // const result = yield call(removeCommentAPI, action.data);
+    yield put({
+      type: REMOVE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_COMMENT_FAILURE,
       error: err.response.data,
     });
   }
@@ -185,8 +232,16 @@ function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
+function* watchAddComment() {
+  yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+}
+
 function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);
+}
+
+function* watchRemoveComment() {
+  yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
 }
 
 function* watchLikePost() {
@@ -206,8 +261,10 @@ export default function* postSaga() {
     fork(watchLoadPost),
     fork(watchLoadPosts),
     fork(watchAddPost),
+    fork(watchAddComment),
     fork(watchRemovePost),
     fork(watchLikePost),
+    fork(watchRemoveComment),
     fork(watchUnLikePost),
     fork(watchConvertPinyin),
   ]);
