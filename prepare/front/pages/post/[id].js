@@ -32,8 +32,8 @@ import DeleteBtn from '../../components/DeleteBtn';
 import LikeBtn from '../../components/LikeBtn';
 import wrapper from '../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
-import CommentForm from '../../components/CommentForm';
-import CommentList from '../../components/CommentList';
+import CommentForm from '../../components/Comment/CommentForm';
+import CommentList from '../../components/Comment/CommentList';
 
 dayjs.locale('ko');
 
@@ -75,29 +75,29 @@ const Post = () => {
     }
   }, [singlePost, curIndex]);
 
-  const dummyComments = [
-    {
-      id: 1,
-      content: '잘 읽었습니다.',
-      UserId: 4,
-      createdAt: '2021-05-27T08:21:04.000Z',
-      User: { id: 1, nickname: 'tnlrhkdgks' },
-    },
-    {
-      id: 2,
-      content: '왕초보편 또 만들어주세요!',
-      UserId: 5,
-      createdAt: '2021-05-29T08:21:04.000Z',
-      User: { id: 2, nickname: 'dlwldms' },
-    },
-    {
-      id: 3,
-      content: '유용한 표현이 정말 많네요!',
-      UserId: 7,
-      createdAt: '2021-06-01T08:21:04.000Z',
-      User: { id: 3, nickname: 'sunflower' },
-    },
-  ];
+  // const dummyComments = [
+  //   {
+  //     id: 1,
+  //     content: '잘 읽었습니다.',
+  //     UserId: 4,
+  //     createdAt: '2021-05-27T08:21:04.000Z',
+  //     User: { id: 1, nickname: 'tnlrhkdgks' },
+  //   },
+  //   {
+  //     id: 2,
+  //     content: '왕초보편 또 만들어주세요!',
+  //     UserId: 5,
+  //     createdAt: '2021-05-29T08:21:04.000Z',
+  //     User: { id: 2, nickname: 'dlwldms' },
+  //   },
+  //   {
+  //     id: 3,
+  //     content: '유용한 표현이 정말 많네요!',
+  //     UserId: 7,
+  //     createdAt: '2021-06-01T08:21:04.000Z',
+  //     User: { id: 3, nickname: 'sunflower' },
+  //   },
+  // ];
 
   return (
     <>
@@ -159,11 +159,7 @@ const Post = () => {
       )}
       <div css={comment}>
         <div css={commentNumber}>{commentLength}개의 댓글</div>
-        {commentLength ? (
-          <CommentList comments={dummyComments} />
-        ) : (
-          <CommentList comments={dummyComments} />
-        )}
+        {commentLength ? <CommentList comments={singlePost.Comments} /> : null}
         <CommentForm cancelBtn={false} />
       </div>
     </>

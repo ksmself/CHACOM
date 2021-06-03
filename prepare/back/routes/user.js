@@ -40,7 +40,12 @@ router.get('/', async (req, res, next) => {
               },
               {
                 model: Comment,
-                attributes: ['id'],
+                include: [
+                  {
+                    model: User,
+                    attributes: ['id', 'nickname'],
+                  },
+                ],
               },
             ],
           },

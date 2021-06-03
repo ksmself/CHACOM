@@ -116,6 +116,36 @@ router.get('/:postId', async (req, res, next) => {
   }
 });
 
+router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('게시물이 존재하지 않습니다.');
+    }
+
+    const comment = await Comment.create({
+      content: req.body.content,
+      PostId: req.params.postId,
+      UserId: req.user.id,
+    });
+    const fullComment = await Comment.findOne({
+      where: { id: comment.id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname'],
+        },
+      ],
+    });
+    res.status(201).json(fullComment);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
   // PATCH /post/1/like
   try {

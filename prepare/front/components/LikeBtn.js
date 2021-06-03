@@ -53,8 +53,6 @@ const likeBox = css`
 const LikeBtn = ({ post }) => {
   const dispatch = useDispatch();
   const id = useSelector((state) => state.user.me?.id);
-  const { mainPosts } = useSelector((state) => state.post);
-  post = mainPosts.find((v) => v.id === post.id);
   const liked = post.Likers.find((v) => v.id === id);
 
   const onLike = useCallback(() => {

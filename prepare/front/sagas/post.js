@@ -96,16 +96,15 @@ function* addPost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post('/comment', data);
+  return axios.post(`/post/${data.postId}/comment`, data);
 }
 
 function* addComment(action) {
   try {
-    // const result = yield call(addCommentAPI, action.data);
+    const result = yield call(addCommentAPI, action.data);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      data: action.data,
-      // data: result.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

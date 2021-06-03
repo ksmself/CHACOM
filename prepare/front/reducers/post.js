@@ -130,6 +130,7 @@ const reducer = (state = initialState, action) =>
       case ADD_COMMENT_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments.push(action.data);
+        draft.singlePost.Comments.push(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
         break;
@@ -178,6 +179,7 @@ const reducer = (state = initialState, action) =>
       case LIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Likers.push({ id: action.data.UserId });
+        draft.singlePost.Likers.push({ id: action.data.UserId });
         draft.likePostLoading = false;
         draft.likePostDone = true;
         break;
@@ -194,6 +196,9 @@ const reducer = (state = initialState, action) =>
       case UNLIKE_POST_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Likers = post.Likers.filter((v) => v.id !== action.data.UserId);
+        draft.singlePost.Likers = draft.singlePost.Likers.filter(
+          (v) => v.id !== action.data.UserId
+        );
         draft.unlikePostLoading = false;
         draft.unlikePostDone = true;
         break;
