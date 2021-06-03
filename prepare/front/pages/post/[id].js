@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tag } from 'antd';
 import Link from 'next/link';
@@ -74,30 +74,6 @@ const Post = () => {
       else setCurIndex((prev) => prev + 1);
     }
   }, [singlePost, curIndex]);
-
-  // const dummyComments = [
-  //   {
-  //     id: 1,
-  //     content: '잘 읽었습니다.',
-  //     UserId: 4,
-  //     createdAt: '2021-05-27T08:21:04.000Z',
-  //     User: { id: 1, nickname: 'tnlrhkdgks' },
-  //   },
-  //   {
-  //     id: 2,
-  //     content: '왕초보편 또 만들어주세요!',
-  //     UserId: 5,
-  //     createdAt: '2021-05-29T08:21:04.000Z',
-  //     User: { id: 2, nickname: 'dlwldms' },
-  //   },
-  //   {
-  //     id: 3,
-  //     content: '유용한 표현이 정말 많네요!',
-  //     UserId: 7,
-  //     createdAt: '2021-06-01T08:21:04.000Z',
-  //     User: { id: 3, nickname: 'sunflower' },
-  //   },
-  // ];
 
   return (
     <>

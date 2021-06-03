@@ -17,7 +17,7 @@ const Global = createGlobalStyle`
   }
 `;
 
-const DeleteBtn = ({ post }) => {
+const DeleteBtn = ({ post, comment }) => {
   const dispatch = useDispatch();
 
   const showDeleteConfirm = useCallback(() => {

@@ -1,26 +1,28 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { Button, Input } from 'antd';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
-import {
-  commentInput,
-  buttonGroup,
-  cancelButton,
-  submitButton,
-} from './CommentForm';
+import { commentInput, cancelButton, submitButton } from './CommentForm';
+import { buttonGroup } from '../../pages/post/styles';
 import ConvertPopUp from '../ConvertPopUp';
 import { convertBox } from '../../pages/write';
 import useInput from '../../hooks/useInput';
+import UpdateBtn from '../UpdateBtn';
+import DeleteBtn from '../DeleteBtn';
 
 dayjs.locale('ko');
 
 const { TextArea } = Input;
 
 const CommentListItem = ({ comment, index, commentList }) => {
+  const { me } = useSelector((state) => state.user);
+  const writtenByMe = me?.id === comment.UserId;
+
   const [plusIcon, setPlusIcon] = useState(true);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
   const [commentValue, onChangeCommentValue, setCommentValue] = useInput('');
@@ -60,13 +62,25 @@ const CommentListItem = ({ comment, index, commentList }) => {
   return (
     <li css={commentItem} key={comment.id}>
       <div css={commentInfo}>
-        <span css={commentInfoWriter}>
-          <Link href={`/user/${comment.UserId}`}>
-            <a>{comment.User.nickname}</a>
-          </Link>
-        </span>
-        <span css={commentInfoBullet}>·</span>
-        <span css={commentInfoDate}>{day}</span>
+        <div
+          css={css`
+            display: flex;
+          `}
+        >
+          <span css={commentInfoWriter}>
+            <Link href={`/user/${comment.UserId}`}>
+              <a>{comment.User.nickname}</a>
+            </Link>
+          </span>
+          <span css={commentInfoBullet}>·</span>
+          <span css={commentInfoDate}>{day}</span>
+        </div>
+        {writtenByMe && (
+          <div css={buttonGroup}>
+            <UpdateBtn comment={comment} />
+            <DeleteBtn comment={comment} />
+          </div>
+        )}
       </div>
       <div css={commentContent}>{comment.content}</div>
       <div css={plusIcon ? replyPlusBtn : replyMinusBtn}>
@@ -120,6 +134,8 @@ const commentItem = css`
 
 const commentInfo = css`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-left: 5px;
   margin-bottom: 5px;
   font-size: 15px;
@@ -133,6 +149,18 @@ const commentInfo = css`
   @media (min-width: 1024px) {
     padding-left: 10px;
     font-size: 22px;
+  }
+
+  div {
+    margin-bottom: 0;
+
+    button {
+      padding: 1px 3px;
+
+      @media (min-width: 768px) {
+        padding: 1px 6px;
+      }
+    }
   }
 `;
 
