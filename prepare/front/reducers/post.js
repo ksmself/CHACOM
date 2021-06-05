@@ -16,12 +16,18 @@ export const initialState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+  addReplyLoading: false,
+  addReplyDone: false,
+  addReplyError: null,
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
   removeCommentLoading: false,
   removeCommentDone: false,
   removeCommentError: null,
+  removeReplyLoading: false,
+  removeReplyDone: false,
+  removeReplyError: null,
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -50,6 +56,10 @@ export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
+export const ADD_REPLY_REQUEST = 'ADD_REPLY_REQUEST';
+export const ADD_REPLY_SUCCESS = 'ADD_REPLY_SUCCESS';
+export const ADD_REPLY_FAILURE = 'ADD_REPLY_FAILURE';
+
 export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
 export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
 export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
@@ -57,6 +67,10 @@ export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
 export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
 export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
+
+export const REMOVE_REPLY_REQUEST = 'REMOVE_REPLY_REQUEST';
+export const REMOVE_REPLY_SUCCESS = 'REMOVE_REPLY_SUCCESS';
+export const REMOVE_REPLY_FAILURE = 'REMOVE_REPLY_FAILURE';
 
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
@@ -123,11 +137,13 @@ const reducer = (state = initialState, action) =>
         draft.addPostError = action.error;
         break;
       case ADD_COMMENT_REQUEST:
+      case ADD_REPLY_REQUEST:
         draft.addCommentLoading = true;
         draft.addCommentDone = false;
         draft.addCommentError = null;
         break;
-      case ADD_COMMENT_SUCCESS: {
+      case ADD_COMMENT_SUCCESS:
+      case ADD_REPLY_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments.push(action.data);
         draft.singlePost.Comments.push(action.data);
@@ -136,6 +152,7 @@ const reducer = (state = initialState, action) =>
         break;
       }
       case ADD_COMMENT_FAILURE:
+      case ADD_REPLY_FAILURE:
         draft.addCommentLoading = false;
         draft.addCommentError = action.error;
         break;
@@ -156,11 +173,13 @@ const reducer = (state = initialState, action) =>
         draft.removePostError = action.error;
         break;
       case REMOVE_COMMENT_REQUEST:
+      case REMOVE_REPLY_REQUEST:
         draft.removeCommentLoading = true;
         draft.removeCommentDone = false;
         draft.removeCommentError = null;
         break;
-      case REMOVE_COMMENT_SUCCESS: {
+      case REMOVE_COMMENT_SUCCESS:
+      case REMOVE_REPLY_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments = post.Comments.filter((v) => v.id !== action.data.id);
         draft.removeCommentLoading = false;
@@ -168,6 +187,7 @@ const reducer = (state = initialState, action) =>
         break;
       }
       case REMOVE_COMMENT_FAILURE:
+      case REMOVE_REPLY_FAILURE:
         draft.removeCommentLoading = false;
         draft.removeCommentError = action.error;
         break;

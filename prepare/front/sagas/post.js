@@ -7,6 +7,9 @@ import {
   ADD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
+  ADD_REPLY_FAILURE,
+  ADD_REPLY_REQUEST,
+  ADD_REPLY_SUCCESS,
   CONVERT_PINYIN_FAILURE,
   CONVERT_PINYIN_REQUEST,
   CONVERT_PINYIN_SUCCESS,
@@ -25,6 +28,9 @@ import {
   REMOVE_POST_FAILURE,
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
+  REMOVE_REPLY_FAILURE,
+  REMOVE_REPLY_REQUEST,
+  REMOVE_REPLY_SUCCESS,
   UNLIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
@@ -115,6 +121,26 @@ function* addComment(action) {
   }
 }
 
+function addReplyAPI(data) {
+  return axios.post(`/post/${data.postId}/comment/${data.commentId}`, data);
+}
+
+function* addReply(action) {
+  try {
+    // const result = yield call(addReplyAPI, action.data);
+    yield put({
+      type: ADD_REPLY_SUCCESS,
+      data: action.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: ADD_REPLY_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function removePostAPI(data) {
   return axios.delete(`/post/${data}`);
 }
@@ -154,6 +180,26 @@ function* removeComment(action) {
     console.error(err);
     yield put({
       type: REMOVE_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function removeReplyAPI(data) {
+  return axios.delete(`/comment/${data}`);
+}
+
+function* removeReply(action) {
+  try {
+    // const result = yield call(removeReplyAPI, action.data);
+    yield put({
+      type: REMOVE_REPLY_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_REPLY_FAILURE,
       error: err.response.data,
     });
   }
@@ -235,12 +281,20 @@ function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
 
+function* watchAddReply() {
+  yield takeLatest(ADD_REPLY_REQUEST, addReply);
+}
+
 function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
 function* watchRemoveComment() {
   yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
+}
+
+function* watchRemoveReply() {
+  yield takeLatest(REMOVE_REPLY_REQUEST, removeReply);
 }
 
 function* watchLikePost() {
@@ -261,9 +315,11 @@ export default function* postSaga() {
     fork(watchLoadPosts),
     fork(watchAddPost),
     fork(watchAddComment),
+    fork(watchAddReply),
     fork(watchRemovePost),
     fork(watchLikePost),
     fork(watchRemoveComment),
+    fork(watchRemoveReply),
     fork(watchUnLikePost),
     fork(watchConvertPinyin),
   ]);

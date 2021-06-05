@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-import { Button, Input } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 import { commentInput, cancelButton, submitButton } from './CommentForm';
@@ -14,14 +14,18 @@ import { convertBox } from '../../pages/write';
 import useInput from '../../hooks/useInput';
 import UpdateBtn from '../UpdateBtn';
 import DeleteBtn from '../DeleteBtn';
+import { ADD_REPLY_REQUEST } from '../../reducers/post';
 
 dayjs.locale('ko');
 
 const { TextArea } = Input;
 
 const CommentListItem = ({ comment, index, commentList }) => {
+  const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
+  const { singlePost } = useSelector((state) => state.post);
   const writtenByMe = me?.id === comment.UserId;
+  const id = useSelector((state) => state.user.me?.id);
 
   const [plusIcon, setPlusIcon] = useState(true);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -46,7 +50,24 @@ const CommentListItem = ({ comment, index, commentList }) => {
     setCommentFormOpened(false);
   }, []);
 
-  const onClickSubmit = useCallback(() => {}, []);
+  const onClickSubmit = useCallback(
+    (commentId) => {
+      setCommentValue('');
+      if (!id) {
+        return Modal.error({ title: '로그인이 필요합니다.' });
+      }
+      return dispatch({
+        type: ADD_REPLY_REQUEST,
+        data: {
+          content: commentValue,
+          postId: singlePost.id,
+          commentId: commentId,
+          userId: me?.id,
+        },
+      });
+    },
+    [commentValue, singlePost, me]
+  );
 
   let day;
   const secondPassed = dayjs().diff(dayjs(comment.createdAt), 'seconds');
@@ -59,6 +80,7 @@ const CommentListItem = ({ comment, index, commentList }) => {
   else if (hourPassed < 24) day = hourPassed + '시간 전';
   else if (dayPassed <= 7) day = dayPassed + '일 전';
   else day = dayjs(singlePost.createdAt).format('YYYY년 MM월 DD일');
+
   return (
     <li css={commentItem} key={comment.id}>
       <div css={commentInfo}>
@@ -107,7 +129,10 @@ const CommentListItem = ({ comment, index, commentList }) => {
             <button css={cancelButton} onClick={onClickCancel}>
               취소
             </button>
-            <button css={submitButton} onClick={onClickSubmit}>
+            <button
+              css={submitButton}
+              onClick={() => onClickSubmit(comment.id)}
+            >
               댓글 작성
             </button>
           </div>
