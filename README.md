@@ -7,7 +7,8 @@
 
 ### Description
 
-**CHACOM** is a Chinese Learning Community Responsive Web. 
+**CHACOM** is a Chinese Learning Community. 
+  + Responsinve Website
   + You can learn pinyin(CHN) - meaning(KOR).
   + You can post pinyin using Pinyin-Converter. 
   + You can comment to post. 
