@@ -15,7 +15,9 @@ dotenv.config();
 const app = express();
 
 db.sequelize
-  .sync()
+  .sync({
+    alter: true,
+  })
   .then(() => {
     console.log('db 연결 성공');
   })

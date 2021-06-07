@@ -127,10 +127,10 @@ function addReplyAPI(data) {
 
 function* addReply(action) {
   try {
-    // const result = yield call(addReplyAPI, action.data);
+    const result = yield call(addReplyAPI, action.data);
     yield put({
       type: ADD_REPLY_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

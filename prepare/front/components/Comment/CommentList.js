@@ -30,14 +30,19 @@ const CommentList = ({ comments }) => {
   return (
     <ul css={commentBox}>
       {comments.map((comment, index, commentList) => {
-        return (
-          <CommentListItem
-            key={comment.id}
-            comment={comment}
-            index={index}
-            commentList={commentList}
-          />
-        );
+        const onlyCommentList = commentList.filter((v) => v.ReplyId === null);
+
+        if (comment.ReplyId === null) {
+          return (
+            <CommentListItem
+              key={comment.id}
+              comment={comment}
+              index={index}
+              commentList={commentList}
+              onlyCommentLength={onlyCommentList.length}
+            />
+          );
+        }
       })}
     </ul>
   );

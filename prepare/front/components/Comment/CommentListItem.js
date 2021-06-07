@@ -20,7 +20,12 @@ dayjs.locale('ko');
 
 const { TextArea } = Input;
 
-const CommentListItem = ({ comment, index, commentList }) => {
+const CommentListItem = ({
+  comment,
+  index,
+  commentList,
+  onlyCommentLength,
+}) => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { singlePost } = useSelector((state) => state.post);
@@ -138,7 +143,7 @@ const CommentListItem = ({ comment, index, commentList }) => {
           </div>
         </div>
       )}
-      {commentList.length > 1 && index < commentList.length - 1 && (
+      {onlyCommentLength > 1 && index < onlyCommentLength - 1 && (
         <div css={divideLine}></div>
       )}
     </li>
