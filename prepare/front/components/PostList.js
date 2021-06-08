@@ -1,7 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import Link from 'next/link';
-import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
 
 import UpdateBtn from './UpdateBtn';
 import DeleteBtn from './DeleteBtn';
@@ -12,6 +10,7 @@ import {
   postInfoBox,
   postTitle,
 } from '../pages/user/[id]/styles';
+import * as Func from './fpp';
 
 const PostList = ({ post }) => {
   return (
@@ -20,9 +19,7 @@ const PostList = ({ post }) => {
         <div css={postBox}>
           <div css={postInfoBox}>
             <div css={postTitle}>{post.title}</div>
-            <div css={postDate}>
-              {dayjs(post.createdAt).format('YYYY-MM-DD hh:mm')}
-            </div>
+            <div css={postDate}>{Func.day(post.createdAt, true)}</div>
           </div>
           <div css={buttonGroup}>
             <UpdateBtn post={post} />

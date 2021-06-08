@@ -11,12 +11,12 @@ const commentBox = css`
 
   @media (min-width: 768px) {
     margin-bottom: 40px;
-    padding: 15px 10px 5px;
+    padding: 15px 10px 0;
   }
 
   @media (min-width: 1024px) {
     margin-bottom: 48px;
-    padding: 20px 15px 13px;
+    padding: 20px 15px 8px;
   }
 
   textarea {
@@ -31,6 +31,9 @@ const CommentList = ({ comments }) => {
     <ul css={commentBox}>
       {comments.map((comment, index, commentList) => {
         const onlyCommentList = commentList.filter((v) => v.ReplyId === null);
+        const replyComments = commentList.filter(
+          (v) => v.ReplyId === comment.id
+        );
 
         if (comment.ReplyId === null) {
           return (
@@ -38,7 +41,7 @@ const CommentList = ({ comments }) => {
               key={comment.id}
               comment={comment}
               index={index}
-              commentList={commentList}
+              replyComments={replyComments}
               onlyCommentLength={onlyCommentList.length}
             />
           );

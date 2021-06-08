@@ -3,7 +3,6 @@ import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Tag } from 'antd';
 import Link from 'next/link';
-import dayjs from 'dayjs';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
@@ -27,6 +26,7 @@ import {
   comment,
   commentNumber,
 } from './styles';
+import * as Func from '../../components/fpp';
 import UpdateBtn from '../../components/UpdateBtn';
 import DeleteBtn from '../../components/DeleteBtn';
 import LikeBtn from '../../components/LikeBtn';
@@ -35,29 +35,11 @@ import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import CommentForm from '../../components/Comment/CommentForm';
 import CommentList from '../../components/Comment/CommentList';
 
-dayjs.locale('ko');
-
 const Post = () => {
   const { singlePost } = useSelector((state) => state.post);
   const { me } = useSelector((state) => state.user);
   const writtenByMe = me?.id === singlePost?.User.id;
   const commentLength = singlePost?.Comments ? singlePost.Comments.length : 0;
-
-  let day;
-  const secondPassed =
-    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'seconds');
-  const minutedPassed =
-    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'minutes');
-  const hourPassed =
-    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'hours');
-  const dayPassed =
-    singlePost && dayjs().diff(dayjs(singlePost.createdAt), 'days');
-
-  if (secondPassed < 60) day = '방금 전';
-  else if (minutedPassed < 60) day = minutedPassed + '분 전';
-  else if (hourPassed < 24) day = hourPassed + '시간 전';
-  else if (dayPassed <= 7) day = dayPassed + '일 전';
-  else day = dayjs(singlePost.createdAt).format('YYYY년 MM월 DD일');
 
   const [curIndex, setCurIndex] = useState(0);
 
@@ -97,7 +79,7 @@ const Post = () => {
                 </Link>
               </span>
               <span css={postInfoBullet}>·</span>
-              <span css={postInfoDate}>{day}</span>
+              <span css={postInfoDate}>{Func.day(singlePost.createdAt)}</span>
             </div>
             <LikeBtn post={singlePost} />
           </div>
