@@ -44,6 +44,7 @@ export const postGroup = css`
 export const postBox = css`
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 20px;
   padding: 20px 15px;
   border: 3px solid #3a18ff;
@@ -58,14 +59,14 @@ export const postBox = css`
     margin-bottom: 35px;
     padding: 40px 30px;
   }
-
-  &:hover {
-    background-color: #f8f8f8;
-  }
 `;
 
 export const postInfoBox = css`
   width: 80%;
+
+  &:hover {
+    background-color: #f0f3fa;
+  }
 `;
 
 export const postTitle = css`

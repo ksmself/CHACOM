@@ -113,6 +113,7 @@ const reducer = (state = initialState, action) =>
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.mainPosts = action.data;
+        draft.currentHashtags = [];
         break;
       case LOAD_POSTS_FAILURE:
         draft.loadPostsLoading = false;
@@ -126,7 +127,6 @@ const reducer = (state = initialState, action) =>
       case ADD_POST_SUCCESS:
         draft.addPostLoading = false;
         draft.addPostDone = true;
-        draft.currentHashtags = [];
         draft.mainPosts.unshift(action.data);
         break;
       case ADD_POST_FAILURE:

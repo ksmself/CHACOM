@@ -147,15 +147,15 @@ function removePostAPI(data) {
 
 function* removePost(action) {
   try {
-    // const result = yield call(removePostAPI, action.data);
+    const result = yield call(removePostAPI, action.data);
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: result.data,
     });
-    // yield put({
-    //   type: REMOVE_POST_OF_ME, // REMOVE_POST_OF_ME
-    //   data: result.data,
-    // });
+    yield put({
+      type: REMOVE_POST_OF_ME,
+      data: result.data,
+    });
   } catch (err) {
     console.error(err);
     yield put({

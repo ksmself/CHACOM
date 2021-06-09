@@ -14,20 +14,20 @@ import * as Func from './fpp';
 
 const PostList = ({ post }) => {
   return (
-    <Link href={`/post/${post.id}`}>
-      <a>
-        <div css={postBox}>
-          <div css={postInfoBox}>
+    <div css={postBox}>
+      <Link href={`/post/${post.id}`}>
+        <a css={postInfoBox}>
+          <div>
             <div css={postTitle}>{post.title}</div>
             <div css={postDate}>{Func.day(post.createdAt, true)}</div>
           </div>
-          <div css={buttonGroup}>
-            <UpdateBtn post={post} />
-            <DeleteBtn post={post} />
-          </div>
-        </div>
-      </a>
-    </Link>
+        </a>
+      </Link>
+      <div css={buttonGroup}>
+        <UpdateBtn post={post} />
+        <DeleteBtn post={post} />
+      </div>
+    </div>
   );
 };
 

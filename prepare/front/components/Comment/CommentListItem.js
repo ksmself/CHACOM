@@ -177,8 +177,8 @@ const CommentListItem = ({
                   </div>
                   {writtenByMe && (
                     <div css={buttonGroup}>
-                      <UpdateBtn comment={comment} />
-                      <DeleteBtn comment={comment} />
+                      <UpdateBtn reply={comment} />
+                      <DeleteBtn reply={comment} />
                     </div>
                   )}
                 </div>
