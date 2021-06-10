@@ -186,12 +186,12 @@ function* removeComment(action) {
 }
 
 function removeReplyAPI(data) {
-  return axios.delete(`/comment/${data}`);
+  return axios.delete(`/post/${data.postId}/comment/${data.replyId}`);
 }
 
 function* removeReply(action) {
   try {
-    // const result = yield call(removeReplyAPI, action.data);
+    const result = yield call(removeReplyAPI, action.data);
     yield put({
       type: REMOVE_REPLY_SUCCESS,
       data: result.data,

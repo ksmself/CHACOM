@@ -116,7 +116,20 @@ router.get('/:postId', async (req, res, next) => {
   }
 });
 
+router.post('/convert/pinyin', async (req, res, next) => {
+  // POST /post/convert/pinyin
+  try {
+    const word = req.body.content;
+    const convertedPinyin = await pinyin.prettify(word);
+    res.status(201).json(convertedPinyin);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
+  // POST /post/1/comment
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
@@ -146,7 +159,25 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
+  // PATCH /post/1/like
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('게시물이 존재하지 않습니다.');
+    }
+    await post.addLikers(req.user.id);
+    res.status(200).json({ PostId: post.id, UserId: req.user.id });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.post('/:postId/comment/:commentId', async (req, res, next) => {
+  // POST /post/1/comment/1
   try {
     const post = await Post.findOne({
       where: { id: req.params.postId },
@@ -185,29 +216,13 @@ router.post('/:postId/comment/:commentId', async (req, res, next) => {
   }
 });
 
-router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
-  // PATCH /post/1/like
-  try {
-    const post = await Post.findOne({
-      where: { id: req.params.postId },
-    });
-    if (!post) {
-      return res.status(403).send('게시물이 존재하지 않습니다.');
-    }
-    await post.addLikers(req.user.id);
-    res.status(200).json({ PostId: post.id, UserId: req.user.id });
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
 router.delete('/:postId', isLoggedIn, async (req, res, next) => {
+  // DELETE /post/1
   try {
     await Post.destroy({
       where: {
         id: req.params.postId,
-        UserId: req.user.id,
+        UserId: req.user.id, // 보안을 철저히 하기 위해 나만 지울 수 있도록!
       },
     });
     res.status(200).json({ PostId: parseInt(req.params.postId, 10) });
@@ -234,15 +249,33 @@ router.delete('/:postId/like', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post('/convert/pinyin', async (req, res, next) => {
-  try {
-    const word = req.body.content;
-    const convertedPinyin = await pinyin.prettify(word);
-    res.status(201).json(convertedPinyin);
-  } catch (err) {
-    console.error(err);
-    next(err);
+router.delete(
+  '/:postId/comment/:commentId',
+  isLoggedIn,
+  async (req, res, next) => {
+    // DELETE /post/1/comment/1
+    try {
+      const post = await Post.findOne({
+        where: { id: req.params.postId },
+      });
+      if (!post) {
+        return res.status(403).send('게시물이 존재하지 않습니다.');
+      }
+
+      await Comment.destroy({
+        where: {
+          id: req.params.commentId,
+          UserId: req.user.id,
+        },
+      });
+      res
+        .status(200)
+        .json({ PostId: post.id, id: parseInt(req.params.commentId, 10) });
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
   }
-});
+);
 
 module.exports = router;

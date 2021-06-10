@@ -8,7 +8,7 @@ import { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
 
 import { greyBtn } from './styles';
-import { REMOVE_POST_REQUEST } from '../reducers/post';
+import { REMOVE_POST_REQUEST, REMOVE_REPLY_REQUEST } from '../reducers/post';
 
 const { confirm } = Modal;
 
@@ -43,6 +43,16 @@ const DeleteBtn = ({ post, comment, reply }) => {
             data: post.id,
           });
           if (pathName[0] === '/post') Router.replace('/');
+        }
+
+        if (reply) {
+          dispatch({
+            type: REMOVE_REPLY_REQUEST,
+            data: {
+              postId: reply.PostId,
+              replyId: reply.id,
+            },
+          });
         }
       },
     });

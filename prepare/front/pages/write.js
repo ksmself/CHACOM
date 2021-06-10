@@ -24,7 +24,9 @@ const { TextArea } = Input;
 
 const Write = () => {
   const dispatch = useDispatch();
-  const { currentHashtags, addPostDone } = useSelector((state) => state.post);
+  const { currentHashtags, addPostLoading, addPostDone } = useSelector(
+    (state) => state.post
+  );
 
   const [title, onChangeTitle] = useInput('');
   const [tag, onChangeTag, setTag] = useInput('');
@@ -226,7 +228,13 @@ const Write = () => {
         </div>
         <footer css={footerBox}>
           <ArrowLeftOutlined onClick={() => Router.replace('/')} />
-          <Button type="primary" shape="round" css={roundBtn} onClick={addPost}>
+          <Button
+            type="primary"
+            shape="round"
+            css={roundBtn}
+            loading={addPostLoading}
+            onClick={addPost}
+          >
             만들기
           </Button>
         </footer>
