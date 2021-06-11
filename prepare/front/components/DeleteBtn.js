@@ -8,7 +8,12 @@ import { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
 
 import { greyBtn } from './styles';
-import { REMOVE_POST_REQUEST, REMOVE_REPLY_REQUEST } from '../reducers/post';
+import {
+  CHANGE_COMMENT_REQUEST,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_POST_REQUEST,
+  REMOVE_REPLY_REQUEST,
+} from '../reducers/post';
 
 const { confirm } = Modal;
 
@@ -18,7 +23,14 @@ const Global = createGlobalStyle`
   }
 `;
 
-const DeleteBtn = ({ post, comment, reply }) => {
+const DeleteBtn = ({
+  post,
+  comment,
+  commentHasReply,
+  reply,
+  commentNull,
+  replyLength,
+}) => {
   const dispatch = useDispatch();
   const { removePostLoading } = useSelector((state) => state.post);
 
@@ -45,14 +57,43 @@ const DeleteBtn = ({ post, comment, reply }) => {
           if (pathName[0] === '/post') Router.replace('/');
         }
 
+        if (comment) {
+          if (commentHasReply.length === 0) {
+            dispatch({
+              type: REMOVE_COMMENT_REQUEST,
+              data: {
+                postId: comment.PostId,
+                commentId: comment.id,
+              },
+            });
+          } else {
+            dispatch({
+              type: CHANGE_COMMENT_REQUEST,
+              data: {
+                postId: comment.PostId,
+                commentId: comment.id,
+              },
+            });
+          }
+        }
+
         if (reply) {
           dispatch({
             type: REMOVE_REPLY_REQUEST,
             data: {
               postId: reply.PostId,
-              replyId: reply.id,
+              commentId: reply.id,
             },
           });
+          if (!commentNull && replyLength === 1) {
+            dispatch({
+              type: REMOVE_COMMENT_REQUEST,
+              data: {
+                postId: reply.PostId,
+                commentId: reply.ReplyId,
+              },
+            });
+          }
         }
       },
     });

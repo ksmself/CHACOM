@@ -39,7 +39,8 @@ const Post = () => {
   const { singlePost } = useSelector((state) => state.post);
   const { me } = useSelector((state) => state.user);
   const writtenByMe = me?.id === singlePost?.User.id;
-  const commentLength = singlePost?.Comments ? singlePost.Comments.length : 0;
+  const realComment = singlePost?.Comments?.filter((v) => v.UserId !== null);
+  const commentLength = singlePost?.Comments ? realComment?.length : 0;
 
   const [curIndex, setCurIndex] = useState(0);
 

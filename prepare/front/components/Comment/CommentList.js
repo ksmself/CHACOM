@@ -30,7 +30,7 @@ const CommentList = ({ comments }) => {
   return (
     <ul css={commentBox}>
       {comments.map((comment, index, commentList) => {
-        const onlyCommentList = commentList.filter((v) => v.ReplyId === null);
+        const realCommentList = commentList.filter((v) => v.ReplyId === null);
         const replyComments = commentList.filter(
           (v) => v.ReplyId === comment.id
         );
@@ -40,9 +40,9 @@ const CommentList = ({ comments }) => {
             <CommentListItem
               key={comment.id}
               comment={comment}
-              index={index}
+              idx={index}
               replyComments={replyComments}
-              onlyCommentLength={onlyCommentList.length}
+              realCommentLength={realCommentList.length}
             />
           );
         }

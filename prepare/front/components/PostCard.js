@@ -8,6 +8,7 @@ import * as Func from './fpp';
 
 const PostCard = ({ post }) => {
   const tags = post.Hashtags;
+  const commentList = post.Comments.filter((v) => v.User !== null);
 
   return (
     <div css={card}>
@@ -44,7 +45,7 @@ const PostCard = ({ post }) => {
           </span>
           <span css={cardInfoComment}>
             <MessageFilled />
-            {post.Comments.length}
+            {commentList.length}
           </span>
         </div>
       </div>

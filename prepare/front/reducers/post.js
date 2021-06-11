@@ -25,6 +25,9 @@ export const initialState = {
   removeReplyLoading: false,
   removeReplyDone: false,
   removeReplyError: null,
+  changeCommentLoading: false,
+  changeCommentDone: false,
+  changeCommentError: null,
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -68,6 +71,10 @@ export const REMOVE_COMMENT_FAILURE = 'REMOVE_COMMENT_FAILURE';
 export const REMOVE_REPLY_REQUEST = 'REMOVE_REPLY_REQUEST';
 export const REMOVE_REPLY_SUCCESS = 'REMOVE_REPLY_SUCCESS';
 export const REMOVE_REPLY_FAILURE = 'REMOVE_REPLY_FAILURE';
+
+export const CHANGE_COMMENT_REQUEST = 'CHANGE_COMMENT_REQUEST';
+export const CHANGE_COMMENT_SUCCESS = 'CHANGE_COMMENT_SUCCESS';
+export const CHANGE_COMMENT_FAILURE = 'CHANGE_COMMENT_FAILURE';
 
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
@@ -170,13 +177,11 @@ const reducer = (state = initialState, action) =>
         draft.removePostError = action.error;
         break;
       case REMOVE_COMMENT_REQUEST:
-      case REMOVE_REPLY_REQUEST:
         draft.removeCommentLoading = true;
         draft.removeCommentDone = false;
         draft.removeCommentError = null;
         break;
-      case REMOVE_COMMENT_SUCCESS:
-      case REMOVE_REPLY_SUCCESS: {
+      case REMOVE_COMMENT_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
         post.Comments = post.Comments.filter((v) => v.id !== action.data.id);
         draft.singlePost.Comments = draft.singlePost.Comments.filter(
@@ -187,9 +192,53 @@ const reducer = (state = initialState, action) =>
         break;
       }
       case REMOVE_COMMENT_FAILURE:
-      case REMOVE_REPLY_FAILURE:
         draft.removeCommentLoading = false;
         draft.removeCommentError = action.error;
+        break;
+      case REMOVE_REPLY_REQUEST:
+        draft.removeReplyLoading = true;
+        draft.removeReplyDone = false;
+        draft.removeReplyError = null;
+        break;
+      case REMOVE_REPLY_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        post.Comments = post.Comments.filter((v) => v.id !== action.data.id);
+        draft.singlePost.Comments = draft.singlePost.Comments.filter(
+          (v) => v.id !== action.data.id
+        );
+        draft.removeReplyLoading = false;
+        draft.removeReplyDone = true;
+        break;
+      }
+      case REMOVE_REPLY_FAILURE:
+        draft.removeReplyLoading = false;
+        draft.removeReplyError = action.error;
+        break;
+      case CHANGE_COMMENT_REQUEST:
+        draft.changeCommentLoading = true;
+        draft.changeCommentDone = false;
+        draft.changeCommentError = null;
+        break;
+      case CHANGE_COMMENT_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        const index = post.Comments.findIndex((v) => v.id === action.data.id);
+        post.Comments = [
+          ...post.Comments.slice(0, index),
+          { ...action.data },
+          ...post.Comments.slice(index + 1),
+        ];
+        draft.singlePost.Comments = [
+          ...draft.singlePost.Comments.slice(0, index),
+          { ...action.data },
+          ...draft.singlePost.Comments.slice(index + 1),
+        ];
+        draft.changeCommentLoading = false;
+        draft.changeCommentDone = true;
+        break;
+      }
+      case CHANGE_COMMENT_FAILURE:
+        draft.changeCommentLoading = false;
+        draft.changeCommentError = action.error;
         break;
       case LIKE_POST_REQUEST:
         draft.likePostLoading = true;

@@ -10,6 +10,9 @@ import {
   ADD_REPLY_FAILURE,
   ADD_REPLY_REQUEST,
   ADD_REPLY_SUCCESS,
+  CHANGE_COMMENT_FAILURE,
+  CHANGE_COMMENT_REQUEST,
+  CHANGE_COMMENT_SUCCESS,
   CONVERT_PINYIN_FAILURE,
   CONVERT_PINYIN_REQUEST,
   CONVERT_PINYIN_SUCCESS,
@@ -35,7 +38,7 @@ import {
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
 } from '../reducers/post';
-import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
+import { REMOVE_POST_OF_ME } from '../reducers/user';
 
 function loadPostAPI(data) {
   return axios.get(`/post/${data}`);
@@ -166,12 +169,12 @@ function* removePost(action) {
 }
 
 function removeCommentAPI(data) {
-  return axios.delete(`/comment/${data}`);
+  return axios.delete(`/post/${data.postId}/comment/${data.commentId}`);
 }
 
 function* removeComment(action) {
   try {
-    // const result = yield call(removeCommentAPI, action.data);
+    const result = yield call(removeCommentAPI, action.data);
     yield put({
       type: REMOVE_COMMENT_SUCCESS,
       data: result.data,
@@ -185,13 +188,9 @@ function* removeComment(action) {
   }
 }
 
-function removeReplyAPI(data) {
-  return axios.delete(`/post/${data.postId}/comment/${data.replyId}`);
-}
-
 function* removeReply(action) {
   try {
-    const result = yield call(removeReplyAPI, action.data);
+    const result = yield call(removeCommentAPI, action.data);
     yield put({
       type: REMOVE_REPLY_SUCCESS,
       data: result.data,
@@ -200,6 +199,26 @@ function* removeReply(action) {
     console.error(err);
     yield put({
       type: REMOVE_REPLY_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function changeCommentAPI(data) {
+  return axios.patch(`/post/${data.postId}/comment/${data.commentId}`);
+}
+
+function* changeComment(action) {
+  try {
+    const result = yield call(changeCommentAPI, action.data);
+    yield put({
+      type: CHANGE_COMMENT_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: CHANGE_COMMENT_FAILURE,
       error: err.response.data,
     });
   }
@@ -297,6 +316,10 @@ function* watchRemoveReply() {
   yield takeLatest(REMOVE_REPLY_REQUEST, removeReply);
 }
 
+function* watchChangeComment() {
+  yield takeLatest(CHANGE_COMMENT_REQUEST, changeComment);
+}
+
 function* watchLikePost() {
   yield takeLatest(LIKE_POST_REQUEST, likePost);
 }
@@ -320,6 +343,7 @@ export default function* postSaga() {
     fork(watchLikePost),
     fork(watchRemoveComment),
     fork(watchRemoveReply),
+    fork(watchChangeComment),
     fork(watchUnLikePost),
     fork(watchConvertPinyin),
   ]);

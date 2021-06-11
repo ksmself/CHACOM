@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 import { Button, Input, Modal } from 'antd';
@@ -39,15 +38,18 @@ const { TextArea } = Input;
 
 const CommentListItem = ({
   comment,
-  index,
+  idx,
   replyComments,
-  onlyCommentLength,
+  realCommentLength,
 }) => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { singlePost } = useSelector((state) => state.post);
   const writtenByMe = me?.id === comment.UserId;
   const id = useSelector((state) => state.user.me?.id);
+  const hasDivideLine = singlePost?.Comments?.slice(idx + 1).find(
+    (v) => v.ReplyId === null
+  );
 
   const [plusIcon, setPlusIcon] = useState(true);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -97,7 +99,7 @@ const CommentListItem = ({
         <div>
           <span css={!writtenByMe ? commentInfoWriter : commentInfoWriterIsMe}>
             <Link href={`/user/${comment.UserId}`}>
-              <a>{comment.User.nickname}</a>
+              <a>{comment.UserId ? comment.User.nickname : '알 수 없음'}</a>
             </Link>
           </span>
           <span css={!writtenByMe ? commentInfoBullet : myCommentInfoBullet}>
@@ -108,7 +110,7 @@ const CommentListItem = ({
         {writtenByMe && (
           <div css={buttonGroup}>
             <UpdateBtn comment={comment} />
-            <DeleteBtn comment={comment} />
+            <DeleteBtn comment={comment} commentHasReply={replyComments} />
           </div>
         )}
       </div>
@@ -150,6 +152,9 @@ const CommentListItem = ({
         <div css={replyCommentBox}>
           {replyComments.map((comment, index, commentList) => {
             const writtenByMe = me?.id === comment.UserId;
+            const parentComment = singlePost?.Comments?.find(
+              (v) => v.id === comment.ReplyId
+            );
 
             return (
               <div css={replyCommentItem} key={comment.id}>
@@ -178,7 +183,11 @@ const CommentListItem = ({
                   {writtenByMe && (
                     <div css={buttonGroup}>
                       <UpdateBtn reply={comment} />
-                      <DeleteBtn reply={comment} />
+                      <DeleteBtn
+                        reply={comment}
+                        commentNull={parentComment?.UserId}
+                        replyLength={commentList.length}
+                      />
                     </div>
                   )}
                 </div>
@@ -191,9 +200,7 @@ const CommentListItem = ({
           })}
         </div>
       )}
-      {onlyCommentLength > 1 && index < onlyCommentLength - 1 && (
-        <div css={divideLine}></div>
-      )}
+      {realCommentLength > 1 && hasDivideLine && <div css={divideLine}></div>}
     </li>
   );
 };
