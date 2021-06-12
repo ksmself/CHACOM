@@ -103,6 +103,23 @@ export const commentContent = css`
   }
 `;
 
+export const commentContentItalic = css`
+  padding-left: 5px;
+  margin-bottom: 8px;
+  font-size: 17px;
+  font-style: italic;
+
+  @media (min-width: 768px) {
+    padding-left: 5px;
+    font-size: 19px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-left: 10px;
+    font-size: 22px;
+  }
+`;
+
 export const divideLine = css`
   width: 100%;
   height: 1px;

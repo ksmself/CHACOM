@@ -25,6 +25,7 @@ import {
   replyCommentContent,
   replyCommentItem,
   replyDivideLine,
+  commentContentItalic,
 } from './styles';
 import * as Func from '../fpp';
 import ConvertPopUp from '../ConvertPopUp';
@@ -114,7 +115,9 @@ const CommentListItem = ({
           </div>
         )}
       </div>
-      <div css={commentContent}>{comment.content}</div>
+      <div css={comment.UserId ? commentContent : commentContentItalic}>
+        {comment.content}
+      </div>
       <div css={plusIcon ? replyPlusBtn : replyMinusBtn}>
         <Button
           icon={plusIcon ? <PlusCircleOutlined /> : <MinusCircleOutlined />}
