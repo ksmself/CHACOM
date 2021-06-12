@@ -4,32 +4,47 @@ import axios from 'axios';
 import { END } from 'redux-saga';
 
 import Header from '../../../components/Header';
-import { contentBox, postGroup, title } from './styles';
+import { contentBox, likeTitle, postGroup, title } from './styles';
 import PostList from '../../../components/PostList';
 import wrapper from '../../../store/configureStore';
-import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
+import {
+  LOAD_MY_INFO_REQUEST,
+  LOAD_USER_POST_REQUEST,
+} from '../../../reducers/user';
+import MainContent from '../../../components/MainContent';
 
 const UserPost = () => {
-  const { me } = useSelector((state) => state.user);
-  const posts = me?.Posts;
+  const { me, userPost } = useSelector((state) => state.user);
+  const posts = userPost?.Posts;
+  const myPost = me?.Posts;
+  const userIsMe = me?.id === userPost?.id;
 
   return (
     <>
       <header>
         <Header />
       </header>
-      <div css={contentBox}>
-        <div css={title}>
-          <span>내가 쓴 글</span>
-          <span>{posts?.length}</span>
-        </div>
-        <div css={postGroup}>
-          {posts &&
-            posts.map((post) => {
-              return <PostList key={post.id} post={post} />;
-            })}
-        </div>
+      <div css={likeTitle}>
+        <span>
+          {userIsMe
+            ? '내가 쓴 글'
+            : userPost
+            ? `${userPost?.nickname}님의 글`
+            : '알 수 없는 사용자입니다.'}
+        </span>
+        <span>{userIsMe ? myPost?.length : posts?.length}</span>
       </div>
+      {me?.id === userPost?.id && (
+        <div css={contentBox}>
+          <div css={postGroup}>
+            {myPost &&
+              myPost.map((post) => {
+                return <PostList key={post.id} post={post} />;
+              })}
+          </div>
+        </div>
+      )}
+      {me?.id !== userPost?.id && posts && <MainContent posts={posts} />}
     </>
   );
 };
@@ -41,6 +56,10 @@ export const getServerSideProps = wrapper.getServerSideProps(
     if (context.req && cookie) {
       axios.defaults.headers.Cookie = cookie;
     }
+    context.store.dispatch({
+      type: LOAD_USER_POST_REQUEST,
+      data: context.params.id,
+    });
     context.store.dispatch({
       type: LOAD_MY_INFO_REQUEST,
     });

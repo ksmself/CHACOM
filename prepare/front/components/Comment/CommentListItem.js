@@ -98,7 +98,7 @@ const CommentListItem = ({
       <div css={commentInfo}>
         <div>
           <span css={!writtenByMe ? commentInfoWriter : commentInfoWriterIsMe}>
-            <Link href={`/user/${comment.UserId}`}>
+            <Link href={`/user/${comment.UserId}/post`}>
               <a>{comment.UserId ? comment.User.nickname : '알 수 없음'}</a>
             </Link>
           </span>
@@ -165,7 +165,7 @@ const CommentListItem = ({
                         !writtenByMe ? commentInfoWriter : commentInfoWriterIsMe
                       }
                     >
-                      <Link href={`/user/${comment.UserId}`}>
+                      <Link href={`/user/${comment.UserId}/post`}>
                         <a>{comment.User.nickname}</a>
                       </Link>
                     </span>

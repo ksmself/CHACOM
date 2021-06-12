@@ -30,7 +30,7 @@ const PostCard = ({ post }) => {
       </div>
       <div css={cardDate}>{Func.day(post.createdAt)}</div>
       <div css={cardInfo}>
-        <Link href={`/user/${post.User.id}`}>
+        <Link href={`/user/${post.User.id}/post`}>
           <a>
             <div>
               <span>by</span>

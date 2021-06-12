@@ -65,6 +65,51 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const post = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: ['id', 'nickname'],
+      include: [
+        {
+          model: Post,
+          attributes: ['id', 'title', 'createdAt'],
+          include: [
+            {
+              model: Hashtag,
+            },
+            {
+              model: User,
+              attributes: {
+                exclude: ['password'],
+              },
+            },
+            {
+              model: User,
+              as: 'Likers',
+              attributes: ['id'],
+            },
+            {
+              model: Comment,
+              include: [
+                {
+                  model: User,
+                  attributes: ['id'],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      order: [[Post, 'createdAt', 'DESC']],
+    });
+    res.status(200).json(post);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.post('/duplicate', isNotLoggedIn, async (req, res, next) => {
   try {
     const exUser = await User.findOne({

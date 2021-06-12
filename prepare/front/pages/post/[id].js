@@ -75,7 +75,7 @@ const Post = () => {
           <div css={postInfoBox}>
             <div>
               <span css={postInfoWriter}>
-                <Link href={`/user/${singlePost?.User.id}`}>
+                <Link href={`/user/${singlePost?.User.id}/post`}>
                   <a>{singlePost.User.nickname}</a>
                 </Link>
               </span>

@@ -8,6 +8,9 @@ import {
   LOAD_MY_INFO_FAILURE,
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
+  LOAD_USER_POST_FAILURE,
+  LOAD_USER_POST_REQUEST,
+  LOAD_USER_POST_SUCCESS,
   LOG_IN_FAILURE,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
@@ -117,6 +120,26 @@ function* loadMyInfo() {
   }
 }
 
+function loadUserPostAPI(data) {
+  return axios.get(`/user/${data}`);
+}
+
+function* loadUserPost(action) {
+  try {
+    const result = yield call(loadUserPostAPI, action.data);
+    yield put({
+      type: LOAD_USER_POST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_USER_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
@@ -137,6 +160,10 @@ function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
+function* watchLoadUserPost() {
+  yield takeLatest(LOAD_USER_POST_REQUEST, loadUserPost);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -144,5 +171,6 @@ export default function* userSaga() {
     fork(watchLogOut),
     fork(watchCheckDuplicate),
     fork(watchLoadMyInfo),
+    fork(watchLoadUserPost),
   ]);
 }

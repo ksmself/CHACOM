@@ -39,9 +39,9 @@ const DeleteBtn = ({
 
   const showDeleteConfirm = useCallback(() => {
     confirm({
-      title: '게시물 삭제',
+      title: '댓글 삭제',
       icon: <ExclamationCircleOutlined />,
-      content: '정말로 이 게시물을 삭제하시겠습니까?',
+      content: '정말로 이 댓글을 삭제하시겠습니까?',
       okText: '삭제',
       okType: 'danger',
       okButtonProps: {

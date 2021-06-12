@@ -4,7 +4,6 @@ export const initialState = {
   signUpLoading: false, // 회원가입 시도중
   signUpDone: false,
   signUpError: null,
-  users: [],
   logInLoading: false, // 로그인 시도중
   logInDone: false,
   logInError: null,
@@ -17,8 +16,12 @@ export const initialState = {
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
+  loadUserPostLoading: false,
+  loadUserPostDone: false,
+  loadUserPostError: null,
   isDuplicated: null,
   me: null,
+  userPost: null,
 };
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
@@ -43,6 +46,10 @@ export const LOAD_MY_INFO_REQUEST = 'LOAD_MY_INFO_REQUEST';
 export const LOAD_MY_INFO_SUCCESS = 'LOAD_MY_INFO_SUCCESS';
 export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
 
+export const LOAD_USER_POST_REQUEST = 'LOAD_USER_POST_REQUEST';
+export const LOAD_USER_POST_SUCCESS = 'LOAD_USER_POST_SUCCESS';
+export const LOAD_USER_POST_FAILURE = 'LOAD_USER_POST_FAILURE';
+
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
@@ -57,7 +64,6 @@ const reducer = (state = initialState, action) =>
       case SIGN_UP_SUCCESS:
         draft.signUpLoading = false;
         draft.signUpDone = true;
-        // draft.users.push(action)
         break;
       case SIGN_UP_FAILURE:
         draft.signUpLoading = false;
@@ -121,6 +127,20 @@ const reducer = (state = initialState, action) =>
       case LOAD_MY_INFO_FAILURE:
         draft.loadMyInfoLoading = false;
         draft.loadMyInfoError = action.error;
+        break;
+      case LOAD_USER_POST_REQUEST:
+        draft.loadUserPostLoading = true;
+        draft.loadUserPostDone = false;
+        draft.loadUserPostError = null;
+        break;
+      case LOAD_USER_POST_SUCCESS:
+        draft.loadUserPostLoading = false;
+        draft.loadUserPostDone = true;
+        draft.userPost = action.data;
+        break;
+      case LOAD_USER_POST_FAILURE:
+        draft.loadUserPostLoading = false;
+        draft.loadUserPostError = action.error;
         break;
       case ADD_POST_TO_ME:
         draft.me.Posts.unshift(action.data);

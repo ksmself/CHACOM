@@ -4,41 +4,11 @@ import { css } from '@emotion/react';
 export const contentBox = css`
   display: flex;
   flex-direction: column;
-  padding: 0 30px 100px;
-
-  @media (min-width: 768px) {
-    padding: 0 70px 200px;
-  }
-
-  @media (min-width: 1024px) {
-    padding: 0 200px 300px;
-  }
-`;
-
-export const title = css`
-  margin-top: 20px;
-  margin-bottom: 30px;
-  font-size: 24px;
-  font-weight: 700;
-
-  @media (min-width: 768px) {
-    margin-bottom: 40px;
-    font-size: 28px;
-  }
-
-  @media (min-width: 1024px) {
-    margin-top: 0;
-    margin-bottom: 48px;
-    font-size: 40px;
-  }
-
-  span:first-of-type {
-    margin-right: 15px;
-  }
+  align-items: center;
 `;
 
 export const postGroup = css`
-  width: 100%;
+  width: 80%;
 `;
 
 export const postBox = css`
