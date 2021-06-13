@@ -54,6 +54,7 @@ export const buttonGroup = css`
 export const cancelButton = css`
   margin-right: 7px;
   padding: 5px 11px;
+  font-size: 14px;
   font-weight: 700;
   border: none;
   border-radius: 5px;
@@ -75,6 +76,7 @@ export const cancelButton = css`
 
 export const submitButton = css`
   padding: 5px 11px;
+  font-size: 14px;
   font-weight: 700;
   border: none;
   border-radius: 5px;

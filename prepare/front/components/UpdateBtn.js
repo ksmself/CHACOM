@@ -7,7 +7,9 @@ import { greyBtn } from './styles';
 
 const UpdateBtn = ({ post, comment }) => {
   const onClickUpdate = useCallback(() => {
-    Router.push(`/update/post/${post.id}`);
+    if (post) {
+      Router.push(`/update/post/${post.id}`);
+    }
   }, []);
 
   return (

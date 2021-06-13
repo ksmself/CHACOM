@@ -28,6 +28,9 @@ export const initialState = {
   changeCommentLoading: false,
   changeCommentDone: false,
   changeCommentError: null,
+  updateCommentLoading: false,
+  updateCommentDone: false,
+  updateCommentError: null,
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -72,9 +75,15 @@ export const REMOVE_REPLY_REQUEST = 'REMOVE_REPLY_REQUEST';
 export const REMOVE_REPLY_SUCCESS = 'REMOVE_REPLY_SUCCESS';
 export const REMOVE_REPLY_FAILURE = 'REMOVE_REPLY_FAILURE';
 
+// 답글이 있는 COMMENT, 삭제된 것처럼 CHANGE
 export const CHANGE_COMMENT_REQUEST = 'CHANGE_COMMENT_REQUEST';
 export const CHANGE_COMMENT_SUCCESS = 'CHANGE_COMMENT_SUCCESS';
 export const CHANGE_COMMENT_FAILURE = 'CHANGE_COMMENT_FAILURE';
+
+// COMMENT 내용 UPDATE
+export const UPDATE_COMMENT_REQUEST = 'UPDATE_COMMENT_REQUEST';
+export const UPDATE_COMMENT_SUCCESS = 'UPDATE_COMMENT_SUCCESS';
+export const UPDATE_COMMENT_FAILURE = 'UPDATE_COMMENT_FAILURE';
 
 export const LIKE_POST_REQUEST = 'LIKE_POST_REQUEST';
 export const LIKE_POST_SUCCESS = 'LIKE_POST_SUCCESS';
@@ -239,6 +248,32 @@ const reducer = (state = initialState, action) =>
       case CHANGE_COMMENT_FAILURE:
         draft.changeCommentLoading = false;
         draft.changeCommentError = action.error;
+        break;
+      case UPDATE_COMMENT_REQUEST:
+        draft.updateCommentLoading = true;
+        draft.updateCommentDone = false;
+        draft.updateCommentError = null;
+        break;
+      case UPDATE_COMMENT_SUCCESS: {
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        const index = post.Comments.findIndex((v) => v.id === action.data.id);
+        post.Comments = [
+          ...post.Comments.slice(0, index),
+          { ...action.data },
+          ...post.Comments.slice(index + 1),
+        ];
+        draft.singlePost.Comments = [
+          ...draft.singlePost.Comments.slice(0, index),
+          { ...action.data },
+          ...draft.singlePost.Comments.slice(index + 1),
+        ];
+        draft.updateCommentLoading = false;
+        draft.updateCommentDone = true;
+        break;
+      }
+      case UPDATE_COMMENT_FAILURE:
+        draft.updateCommentLoading = false;
+        draft.updateCommentError = action.error;
         break;
       case LIKE_POST_REQUEST:
         draft.likePostLoading = true;

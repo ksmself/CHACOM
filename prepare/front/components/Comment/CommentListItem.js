@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
@@ -21,21 +22,24 @@ import {
   replyMinusBtn,
   replyCommentBox,
   commentFormBox,
-  replyCommentInfo,
-  replyCommentContent,
-  replyCommentItem,
-  replyDivideLine,
   commentContentItalic,
 } from './styles';
 import * as Func from '../fpp';
 import ConvertPopUp from '../ConvertPopUp';
 import { convertBox } from '../../pages/write';
 import useInput from '../../hooks/useInput';
-import UpdateBtn from '../UpdateBtn';
 import DeleteBtn from '../DeleteBtn';
-import { ADD_REPLY_REQUEST } from '../../reducers/post';
+import { ADD_REPLY_REQUEST, UPDATE_COMMENT_REQUEST } from '../../reducers/post';
+import { greyBtn } from '../styles';
+import ReplyCommentItem from './ReplyCommentItem';
 
 const { TextArea } = Input;
+
+const updateConvertBox = css`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+`;
 
 const CommentListItem = ({
   comment,
@@ -94,6 +98,27 @@ const CommentListItem = ({
     [commentValue, singlePost, me]
   );
 
+  const [update, setUpdate] = useState(false);
+  const onClickUpdate = useCallback(() => {
+    setUpdate(true);
+  }, []);
+
+  const [updateValue, onChangeUpdateValue] = useInput(comment.content);
+  const onClickUpdateCancel = useCallback(() => {
+    setUpdate(false);
+  }, []);
+  const onClickUpdateSubmit = useCallback(() => {
+    dispatch({
+      type: UPDATE_COMMENT_REQUEST,
+      data: {
+        postId: comment.PostId,
+        commentId: comment.id,
+        content: updateValue,
+      },
+    });
+    setUpdate(false);
+  }, [comment, updateValue]);
+
   return (
     <li css={commentItem} key={comment.id}>
       <div css={commentInfo}>
@@ -108,15 +133,40 @@ const CommentListItem = ({
           </span>
           <span css={commentInfoDate}>{Func.day(comment.createdAt)}</span>
         </div>
-        {writtenByMe && (
+        {writtenByMe && !update && (
           <div css={buttonGroup}>
-            <UpdateBtn comment={comment} />
+            <button css={greyBtn} onClick={onClickUpdate}>
+              수정
+            </button>
             <DeleteBtn comment={comment} commentHasReply={replyComments} />
           </div>
         )}
       </div>
       <div css={comment.UserId ? commentContent : commentContentItalic}>
-        {comment.content}
+        {update ? (
+          <div css={commentFormBox}>
+            <TextArea
+              css={commentInput}
+              value={updateValue}
+              onChange={onChangeUpdateValue}
+              placeholder="댓글을 작성하세요"
+              autoSize={{ minRows: 2 }}
+            />
+            <div css={updateConvertBox}>
+              <ConvertPopUp />
+            </div>
+            <div css={buttonGroup}>
+              <button css={cancelButton} onClick={onClickUpdateCancel}>
+                취소
+              </button>
+              <button css={submitButton} onClick={onClickUpdateSubmit}>
+                댓글 수정
+              </button>
+            </div>
+          </div>
+        ) : (
+          comment.content
+        )}
       </div>
       <div css={plusIcon ? replyPlusBtn : replyMinusBtn}>
         <Button
@@ -160,45 +210,14 @@ const CommentListItem = ({
             );
 
             return (
-              <div css={replyCommentItem} key={comment.id}>
-                <div css={replyCommentInfo}>
-                  <div>
-                    <span
-                      css={
-                        !writtenByMe ? commentInfoWriter : commentInfoWriterIsMe
-                      }
-                    >
-                      <Link href={`/user/${comment.UserId}/post`}>
-                        <a>{comment.User.nickname}</a>
-                      </Link>
-                    </span>
-                    <span
-                      css={
-                        !writtenByMe ? commentInfoBullet : myCommentInfoBullet
-                      }
-                    >
-                      ·
-                    </span>
-                    <span css={commentInfoDate}>
-                      {Func.day(comment.createdAt)}
-                    </span>
-                  </div>
-                  {writtenByMe && (
-                    <div css={buttonGroup}>
-                      <UpdateBtn reply={comment} />
-                      <DeleteBtn
-                        reply={comment}
-                        commentNull={parentComment?.UserId}
-                        replyLength={commentList.length}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div css={replyCommentContent}>{comment.content}</div>
-                {commentList.length > 1 && index < commentList.length - 1 && (
-                  <div css={replyDivideLine}></div>
-                )}
-              </div>
+              <ReplyCommentItem
+                key={comment.id}
+                comment={comment}
+                index={index}
+                commentList={commentList}
+                writtenByMe={writtenByMe}
+                parentComment={parentComment}
+              />
             );
           })}
         </div>
