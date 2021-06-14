@@ -190,16 +190,13 @@ const reducer = (state = initialState, action) =>
         draft.removeCommentDone = false;
         draft.removeCommentError = null;
         break;
-      case REMOVE_COMMENT_SUCCESS: {
-        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        post.Comments = post.Comments.filter((v) => v.id !== action.data.id);
+      case REMOVE_COMMENT_SUCCESS:
         draft.singlePost.Comments = draft.singlePost.Comments.filter(
           (v) => v.id !== action.data.id
         );
         draft.removeCommentLoading = false;
         draft.removeCommentDone = true;
         break;
-      }
       case REMOVE_COMMENT_FAILURE:
         draft.removeCommentLoading = false;
         draft.removeCommentError = action.error;
@@ -209,16 +206,13 @@ const reducer = (state = initialState, action) =>
         draft.removeReplyDone = false;
         draft.removeReplyError = null;
         break;
-      case REMOVE_REPLY_SUCCESS: {
-        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        post.Comments = post.Comments.filter((v) => v.id !== action.data.id);
+      case REMOVE_REPLY_SUCCESS:
         draft.singlePost.Comments = draft.singlePost.Comments.filter(
           (v) => v.id !== action.data.id
         );
         draft.removeReplyLoading = false;
         draft.removeReplyDone = true;
         break;
-      }
       case REMOVE_REPLY_FAILURE:
         draft.removeReplyLoading = false;
         draft.removeReplyError = action.error;
@@ -229,13 +223,9 @@ const reducer = (state = initialState, action) =>
         draft.changeCommentError = null;
         break;
       case CHANGE_COMMENT_SUCCESS: {
-        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        const index = post.Comments.findIndex((v) => v.id === action.data.id);
-        post.Comments = [
-          ...post.Comments.slice(0, index),
-          { ...action.data },
-          ...post.Comments.slice(index + 1),
-        ];
+        const index = draft.singlePost.Comments.findIndex(
+          (v) => v.id === action.data.id
+        );
         draft.singlePost.Comments = [
           ...draft.singlePost.Comments.slice(0, index),
           { ...action.data },
@@ -255,11 +245,15 @@ const reducer = (state = initialState, action) =>
         draft.updateCommentError = null;
         break;
       case UPDATE_COMMENT_SUCCESS: {
-        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        const index = post.Comments.findIndex(
-          (v) => v.id === action.data.commentId
+        const index = draft.singlePost.Comments.findIndex(
+          (v) => v.id === action.data.id
         );
-        draft.singlePost.Comments[index].content = action.data.content;
+        const comment = draft.singlePost.Comments[index];
+        draft.singlePost.Comments = [
+          ...draft.singlePost.Comments.slice(0, index),
+          { ...comment, content: action.data.content },
+          ...draft.singlePost.Comments.slice(index + 1),
+        ];
         draft.updateCommentLoading = false;
         draft.updateCommentDone = true;
         break;

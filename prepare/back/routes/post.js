@@ -279,7 +279,7 @@ router.put('/:postId/comment/:commentId', async (req, res, next) => {
     );
     res.status(200).json({
       PostId: post.id,
-      commentId: parseInt(req.params.commentId, 10),
+      id: parseInt(req.params.commentId, 10),
       content: req.body.content,
     });
   } catch (err) {

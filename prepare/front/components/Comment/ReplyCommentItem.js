@@ -56,9 +56,7 @@ const ReplyCommentItem = ({
     setUpdate(true);
   }, []);
 
-  const [commentValue, onChangeCommentValue, setCommentValue] = useInput(
-    comment.content
-  );
+  const [commentValue, onChangeCommentValue] = useInput(comment.content);
   const onClickCancel = useCallback(() => {
     setUpdate(false);
   });
