@@ -256,17 +256,10 @@ const reducer = (state = initialState, action) =>
         break;
       case UPDATE_COMMENT_SUCCESS: {
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        const index = post.Comments.findIndex((v) => v.id === action.data.id);
-        post.Comments = [
-          ...post.Comments.slice(0, index),
-          { ...action.data },
-          ...post.Comments.slice(index + 1),
-        ];
-        draft.singlePost.Comments = [
-          ...draft.singlePost.Comments.slice(0, index),
-          { ...action.data },
-          ...draft.singlePost.Comments.slice(index + 1),
-        ];
+        const index = post.Comments.findIndex(
+          (v) => v.id === action.data.commentId
+        );
+        draft.singlePost.Comments[index].content = action.data.content;
         draft.updateCommentLoading = false;
         draft.updateCommentDone = true;
         break;

@@ -233,10 +233,10 @@ function updateCommentAPI(data) {
 
 function* updateComment(action) {
   try {
-    // const result = yield call(updateCommentAPI, action.data);
+    const result = yield call(updateCommentAPI, action.data);
     yield put({
       type: UPDATE_COMMENT_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

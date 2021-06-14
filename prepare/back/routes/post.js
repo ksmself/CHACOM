@@ -256,6 +256,38 @@ router.patch(
   }
 );
 
+router.put('/:postId/comment/:commentId', async (req, res, next) => {
+  // PUT /post/1/comment/1
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('게시물이 존재하지 않습니다.');
+    }
+
+    await Comment.update(
+      {
+        content: req.body.content,
+      },
+      {
+        where: {
+          id: req.params.commentId,
+          UserId: req.user.id,
+        },
+      }
+    );
+    res.status(200).json({
+      PostId: post.id,
+      commentId: parseInt(req.params.commentId, 10),
+      content: req.body.content,
+    });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.delete('/:postId', isLoggedIn, async (req, res, next) => {
   // DELETE /post/1
   try {
