@@ -4,7 +4,7 @@ import { Tag } from 'antd';
 import Link from 'next/link';
 import { HeartFilled, MessageFilled } from '@ant-design/icons';
 
-import * as Func from './fpp';
+import day from './day';
 
 const PostCard = ({ post }) => {
   const tags = post.Hashtags;
@@ -28,7 +28,7 @@ const PostCard = ({ post }) => {
           );
         })}
       </div>
-      <div css={cardDate}>{Func.day(post.createdAt)}</div>
+      <div css={cardDate}>{day(post.createdAt)}</div>
       <div css={cardInfo}>
         <Link href={`/user/${post.User.id}/post`}>
           <a>

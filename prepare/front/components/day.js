@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 dayjs.locale('ko');
 
-export function day(createdAt, postList) {
+export default function day(createdAt, postList) {
   let day;
 
   if (postList) {

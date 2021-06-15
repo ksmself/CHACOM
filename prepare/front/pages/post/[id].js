@@ -26,7 +26,7 @@ import {
   comment,
   commentNumber,
 } from './styles';
-import * as Func from '../../components/fpp';
+import day from '../../components/day';
 import UpdateBtn from '../../components/UpdateBtn';
 import DeleteBtn from '../../components/DeleteBtn';
 import LikeBtn from '../../components/LikeBtn';
@@ -80,7 +80,7 @@ const Post = () => {
                 </Link>
               </span>
               <span css={postInfoBullet}>·</span>
-              <span css={postInfoDate}>{Func.day(singlePost.createdAt)}</span>
+              <span css={postInfoDate}>{day(singlePost.createdAt)}</span>
             </div>
             <LikeBtn post={singlePost} />
           </div>

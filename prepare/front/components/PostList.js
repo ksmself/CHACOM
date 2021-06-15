@@ -10,7 +10,7 @@ import {
   postInfoBox,
   postTitle,
 } from '../pages/user/[id]/styles';
-import * as Func from './fpp';
+import day from './day';
 
 const PostList = ({ post }) => {
   return (
@@ -19,7 +19,7 @@ const PostList = ({ post }) => {
         <a css={postInfoBox}>
           <div>
             <div css={postTitle}>{post.title}</div>
-            <div css={postDate}>{Func.day(post.createdAt, true)}</div>
+            <div css={postDate}>{day(post.createdAt, true)}</div>
           </div>
         </a>
       </Link>

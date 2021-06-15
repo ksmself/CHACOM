@@ -19,7 +19,7 @@ import {
   replyCommentItem,
   replyDivideLine,
 } from './styles';
-import * as Func from '../fpp';
+import day from '../day';
 import DeleteBtn from '../DeleteBtn';
 import { cancelButton, commentInput, submitButton } from './CommentForm';
 import ConvertPopUp from '../ConvertPopUp';
@@ -84,7 +84,7 @@ const ReplyCommentItem = ({
           <span css={!writtenByMe ? commentInfoBullet : myCommentInfoBullet}>
             ·
           </span>
-          <span css={commentInfoDate}>{Func.day(comment.createdAt)}</span>
+          <span css={commentInfoDate}>{day(comment.createdAt)}</span>
         </div>
         {writtenByMe && !update && (
           <div css={buttonGroup}>

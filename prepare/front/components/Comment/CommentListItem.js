@@ -24,7 +24,7 @@ import {
   commentFormBox,
   commentContentItalic,
 } from './styles';
-import * as Func from '../fpp';
+import day from '../day';
 import ConvertPopUp from '../ConvertPopUp';
 import { convertBox } from '../../pages/write';
 import useInput from '../../hooks/useInput';
@@ -131,7 +131,7 @@ const CommentListItem = ({
           <span css={!writtenByMe ? commentInfoBullet : myCommentInfoBullet}>
             ·
           </span>
-          <span css={commentInfoDate}>{Func.day(comment.createdAt)}</span>
+          <span css={commentInfoDate}>{day(comment.createdAt)}</span>
         </div>
         {writtenByMe && !update && (
           <div css={buttonGroup}>
