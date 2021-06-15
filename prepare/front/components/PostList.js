@@ -9,7 +9,7 @@ import {
   postDate,
   postInfoBox,
   postTitle,
-} from '../pages/user/[id]/styles';
+} from '../pages/user/styles';
 import day from './day';
 
 const PostList = ({ post }) => {

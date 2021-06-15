@@ -4,7 +4,7 @@ import axios from 'axios';
 import { END } from 'redux-saga';
 
 import Header from '../../../components/Header';
-import { contentBox, likeTitle, postGroup, title } from './styles';
+import { contentBox, likeTitle, postGroup } from '../styles';
 import PostList from '../../../components/PostList';
 import wrapper from '../../../store/configureStore';
 import {

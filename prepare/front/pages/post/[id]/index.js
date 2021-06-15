@@ -6,8 +6,8 @@ import Link from 'next/link';
 import { END } from 'redux-saga';
 import axios from 'axios';
 
-import Header from '../../components/Header/index';
-import { LOAD_POSTS_REQUEST, LOAD_POST_REQUEST } from '../../reducers/post';
+import Header from '../../../components/Header/index';
+import { LOAD_POSTS_REQUEST, LOAD_POST_REQUEST } from '../../../reducers/post';
 import {
   post,
   postTitle,
@@ -25,15 +25,15 @@ import {
   meaning,
   comment,
   commentNumber,
-} from './styles';
-import day from '../../components/day';
-import UpdateBtn from '../../components/UpdateBtn';
-import DeleteBtn from '../../components/DeleteBtn';
-import LikeBtn from '../../components/LikeBtn';
-import wrapper from '../../store/configureStore';
-import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
-import CommentForm from '../../components/Comment/CommentForm';
-import CommentList from '../../components/Comment/CommentList';
+} from '../styles';
+import day from '../../../components/day';
+import UpdateBtn from '../../../components/UpdateBtn';
+import DeleteBtn from '../../../components/DeleteBtn';
+import LikeBtn from '../../../components/LikeBtn';
+import wrapper from '../../../store/configureStore';
+import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
+import CommentForm from '../../../components/Comment/CommentForm';
+import CommentList from '../../../components/Comment/CommentList';
 
 const Post = () => {
   const { singlePost } = useSelector((state) => state.post);

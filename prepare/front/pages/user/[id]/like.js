@@ -4,9 +4,8 @@ import axios from 'axios';
 import { END } from 'redux-saga';
 
 import Header from '../../../components/Header';
-import PostList from '../../../components/PostList';
 import wrapper from '../../../store/configureStore';
-import { likeTitle } from './styles';
+import { likeTitle } from '../styles';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
 

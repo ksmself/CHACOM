@@ -1,16 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import Link from 'next/link';
 import Router from 'next/router';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { greyBtn } from './styles';
 
-const UpdateBtn = ({ post, comment }) => {
+const UpdateBtn = ({ post }) => {
   const onClickUpdate = useCallback(() => {
     if (post) {
-      Router.push(`/update/post/${post.id}`);
+      Router.push(`/post/${post.id}/update`);
     }
-  }, []);
+  }, [post]);
 
   return (
     <button css={greyBtn} onClick={onClickUpdate}>
