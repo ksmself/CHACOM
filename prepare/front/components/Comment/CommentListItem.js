@@ -81,19 +81,21 @@ const CommentListItem = ({
 
   const onClickSubmit = useCallback(
     (commentId) => {
-      setCommentValue('');
       if (!id) {
         return Modal.error({ title: '로그인이 필요합니다.' });
       }
-      return dispatch({
-        type: ADD_REPLY_REQUEST,
-        data: {
-          content: commentValue,
-          postId: singlePost.id,
-          commentId: commentId,
-          userId: me?.id,
-        },
-      });
+      if (commentValue.length !== 0) {
+        dispatch({
+          type: ADD_REPLY_REQUEST,
+          data: {
+            content: commentValue,
+            postId: singlePost.id,
+            commentId: commentId,
+            userId: me?.id,
+          },
+        });
+        setCommentValue('');
+      }
     },
     [commentValue, singlePost, me]
   );
@@ -108,15 +110,17 @@ const CommentListItem = ({
     setUpdate(false);
   }, []);
   const onClickUpdateSubmit = useCallback(() => {
-    dispatch({
-      type: UPDATE_COMMENT_REQUEST,
-      data: {
-        postId: comment.PostId,
-        commentId: comment.id,
-        content: updateValue,
-      },
-    });
-    setUpdate(false);
+    if (updateValue.length !== 0) {
+      dispatch({
+        type: UPDATE_COMMENT_REQUEST,
+        data: {
+          postId: comment.PostId,
+          commentId: comment.id,
+          content: updateValue,
+        },
+      });
+      setUpdate(false);
+    }
   }, [comment, updateValue]);
 
   return (

@@ -61,15 +61,17 @@ const ReplyCommentItem = ({
     setUpdate(false);
   });
   const onClickSubmit = useCallback(() => {
-    dispatch({
-      type: UPDATE_COMMENT_REQUEST,
-      data: {
-        postId: comment.PostId,
-        commentId: comment.id,
-        content: commentValue,
-      },
-    });
-    setUpdate(false);
+    if (commentValue.length !== 0) {
+      dispatch({
+        type: UPDATE_COMMENT_REQUEST,
+        data: {
+          postId: comment.PostId,
+          commentId: comment.id,
+          content: commentValue,
+        },
+      });
+      setUpdate(false);
+    }
   }, [comment, commentValue]);
 
   return (

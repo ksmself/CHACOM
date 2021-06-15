@@ -11,6 +11,62 @@ import { ADD_COMMENT_REQUEST } from '../../reducers/post';
 
 const { TextArea } = Input;
 
+const CommentForm = ({ cancelBtn }) => {
+  const dispatch = useDispatch();
+  const { singlePost } = useSelector((state) => state.post);
+  const { me } = useSelector((state) => state.user);
+  const id = useSelector((state) => state.user.me?.id);
+
+  const [comment, onChangeComment, setComment] = useInput('');
+
+  const onClickCancel = useCallback(() => {
+    setComment('');
+    setHideCommentForm(true);
+  }, []);
+
+  const onClickSubmit = useCallback(() => {
+    if (!id) {
+      return Modal.error({ title: '로그인이 필요합니다.' });
+    }
+    if (comment.length !== 0) {
+      dispatch({
+        type: ADD_COMMENT_REQUEST,
+        data: {
+          content: comment,
+          postId: singlePost.id,
+          userId: me.id,
+        },
+      });
+      setComment('');
+    }
+  }, [id, comment]);
+
+  return (
+    <>
+      <TextArea
+        css={commentInput}
+        value={comment}
+        onChange={onChangeComment}
+        placeholder="댓글을 작성하세요"
+        autoSize={{ minRows: 2 }}
+      />
+      <div css={convertBox}>
+        <ConvertPopUp />
+      </div>
+      <div css={buttonGroup}>
+        {cancelBtn && (
+          <button css={cancelButton} onClick={onClickCancel}>
+            취소
+          </button>
+        )}
+        <button css={submitButton} onClick={onClickSubmit}>
+          댓글 작성
+        </button>
+      </div>
+    </>
+  );
+};
+
 export const commentInput = css`
   padding: 9px 7px;
 
@@ -97,59 +153,5 @@ export const submitButton = css`
     font-size: 18px;
   }
 `;
-
-const CommentForm = ({ cancelBtn }) => {
-  const dispatch = useDispatch();
-  const { singlePost } = useSelector((state) => state.post);
-  const { me } = useSelector((state) => state.user);
-  const id = useSelector((state) => state.user.me?.id);
-
-  const [comment, onChangeComment, setComment] = useInput('');
-
-  const onClickCancel = useCallback(() => {
-    setComment('');
-    setHideCommentForm(true);
-  }, []);
-
-  const onClickSubmit = useCallback(() => {
-    setComment('');
-    if (!id) {
-      return Modal.error({ title: '로그인이 필요합니다.' });
-    }
-    return dispatch({
-      type: ADD_COMMENT_REQUEST,
-      data: {
-        content: comment,
-        postId: singlePost.id,
-        userId: me.id,
-      },
-    });
-  }, [comment]);
-
-  return (
-    <>
-      <TextArea
-        css={commentInput}
-        value={comment}
-        onChange={onChangeComment}
-        placeholder="댓글을 작성하세요"
-        autoSize={{ minRows: 2 }}
-      />
-      <div css={convertBox}>
-        <ConvertPopUp />
-      </div>
-      <div css={buttonGroup}>
-        {cancelBtn && (
-          <button css={cancelButton} onClick={onClickCancel}>
-            취소
-          </button>
-        )}
-        <button css={submitButton} onClick={onClickSubmit}>
-          댓글 작성
-        </button>
-      </div>
-    </>
-  );
-};
 
 export default CommentForm;
