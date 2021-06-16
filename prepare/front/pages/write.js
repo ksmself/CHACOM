@@ -63,7 +63,7 @@ const Write = () => {
         setTag('');
       }
     },
-    [tag]
+    [tag, currentHashtags]
   );
 
   const onClickTag = useCallback((v) => {
@@ -243,7 +243,7 @@ const Write = () => {
   );
 };
 
-const writeBox = css`
+export const writeBox = css`
   display: flex;
   flex-direction: column;
   margin: 30px 20px 0;
@@ -257,13 +257,19 @@ const writeBox = css`
   }
 `;
 
-const titleBox = css`
+export const titleBox = css`
   width: 100%;
   padding: 4px 0;
   margin-bottom: 10px;
   font-size: 30px;
   font-weight: 700;
   border: none;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 
   &:focus {
     border: none;
@@ -280,11 +286,11 @@ const titleBox = css`
   }
 `;
 
-const tagBox = css`
+export const tagBox = css`
   margin-bottom: 10px;
 `;
 
-const tags = css`
+export const tags = css`
   align-items: center;
   flex-wrap: nowrap;
 
@@ -328,7 +334,7 @@ const tags = css`
   }
 `;
 
-const tagInfoBox = css`
+export const tagInfoBox = css`
   display: none;
   width: 220px;
   padding: 5px;
@@ -349,7 +355,7 @@ const tagInfoBox = css`
   }
 `;
 
-const line = css`
+export const line = css`
   width: 40px;
   height: 10px;
   margin-bottom: 25px;
@@ -360,13 +366,13 @@ const line = css`
   }
 `;
 
-const expressionBox = css`
+export const expressionBox = css`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const box = css`
+export const box = css`
   position: relative;
   width: 100%;
   padding: 30px 15px;
@@ -427,7 +433,7 @@ const box = css`
   }
 `;
 
-const pinyinBox = css`
+export const pinyinBox = css`
   margin-bottom: 15px;
 
   input {
@@ -461,7 +467,7 @@ export const convertBox = css`
   }
 `;
 
-const plusBtnBox = css`
+export const plusBtnBox = css`
   display: flex;
   justify-content: center;
   margin-bottom: 80px;
@@ -488,7 +494,7 @@ const plusBtnBox = css`
   }
 `;
 
-const footerBox = css`
+export const footerBox = css`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -528,7 +534,7 @@ const footerBox = css`
   }
 `;
 
-const Global = createGlobalStyle`
+export const Global = createGlobalStyle`
   .ant-modal-confirm-body-wrapper
     > .ant-modal-confirm-body
     > .ant-modal-confirm-title {

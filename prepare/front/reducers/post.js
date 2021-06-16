@@ -19,6 +19,9 @@ export const initialState = {
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
+  updatePostLoading: false,
+  updatePostDone: false,
+  updatePostError: null,
   removeCommentLoading: false,
   removeCommentDone: false,
   removeCommentError: null,
@@ -55,6 +58,14 @@ export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 
+export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
+export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
+export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
+
+export const UPDATE_POST_REQUEST = 'UPDATE_POST_REQUEST';
+export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
+export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
+
 export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
 export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
 export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
@@ -62,10 +73,6 @@ export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 export const ADD_REPLY_REQUEST = 'ADD_REPLY_REQUEST';
 export const ADD_REPLY_SUCCESS = 'ADD_REPLY_SUCCESS';
 export const ADD_REPLY_FAILURE = 'ADD_REPLY_FAILURE';
-
-export const REMOVE_POST_REQUEST = 'REMOVE_POST_REQUEST';
-export const REMOVE_POST_SUCCESS = 'REMOVE_POST_SUCCESS';
-export const REMOVE_POST_FAILURE = 'REMOVE_POST_FAILURE';
 
 export const REMOVE_COMMENT_REQUEST = 'REMOVE_COMMENT_REQUEST';
 export const REMOVE_COMMENT_SUCCESS = 'REMOVE_COMMENT_SUCCESS';
@@ -114,6 +121,7 @@ const reducer = (state = initialState, action) =>
         draft.loadPostLoading = false;
         draft.loadPostDone = true;
         draft.singlePost = action.data;
+        draft.currentHashtags = action.data.Hashtags.map((v) => v.name);
         break;
       case LOAD_POST_FAILURE:
         draft.loadPostLoading = false;
@@ -149,6 +157,36 @@ const reducer = (state = initialState, action) =>
         draft.addPostLoading = false;
         draft.addPostError = action.error;
         break;
+      case REMOVE_POST_REQUEST:
+        draft.removePostLoading = true;
+        draft.removePostDone = false;
+        draft.removePostError = null;
+        break;
+      case REMOVE_POST_SUCCESS:
+        draft.removePostLoading = false;
+        draft.removePostDone = true;
+        draft.mainPosts = draft.mainPosts.filter(
+          (v) => v.id !== action.data.PostId
+        );
+        break;
+      case REMOVE_POST_FAILURE:
+        draft.removePostLoading = false;
+        draft.removePostError = action.error;
+        break;
+      case UPDATE_POST_REQUEST:
+        draft.updatePostLoading = true;
+        draft.updatePostDone = false;
+        draft.updatePostError = null;
+        break;
+      case UPDATE_POST_SUCCESS:
+        draft.updatePostLoading = false;
+        draft.updatePostDone = true;
+        draft.singlePost = action.data;
+        break;
+      case UPDATE_POST_FAILURE:
+        draft.updatePostLoading = false;
+        draft.updatePostError = action.error;
+        break;
       case ADD_COMMENT_REQUEST:
       case ADD_REPLY_REQUEST:
         draft.addCommentLoading = true;
@@ -168,22 +206,6 @@ const reducer = (state = initialState, action) =>
       case ADD_REPLY_FAILURE:
         draft.addCommentLoading = false;
         draft.addCommentError = action.error;
-        break;
-      case REMOVE_POST_REQUEST:
-        draft.removePostLoading = true;
-        draft.removePostDone = false;
-        draft.removePostError = null;
-        break;
-      case REMOVE_POST_SUCCESS:
-        draft.removePostLoading = false;
-        draft.removePostDone = true;
-        draft.mainPosts = draft.mainPosts.filter(
-          (v) => v.id !== action.data.PostId
-        );
-        break;
-      case REMOVE_POST_FAILURE:
-        draft.removePostLoading = false;
-        draft.removePostError = action.error;
         break;
       case REMOVE_COMMENT_REQUEST:
         draft.removeCommentLoading = true;
