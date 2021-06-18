@@ -17,6 +17,7 @@ const app = express();
 db.sequelize
   .sync({
     alter: true,
+    force: false,
   })
   .then(() => {
     console.log('db 연결 성공');

@@ -199,6 +199,96 @@ router.post('/:postId/comment/:commentId', async (req, res, next) => {
   }
 });
 
+router.patch('/:postId', isLoggedIn, async (req, res, next) => {
+  // PATCH /post/1
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+    });
+    if (!post) {
+      return res.status(403).send('게시물이 존재하지 않습니다.');
+    }
+
+    await Post.update(
+      {
+        title: req.body.title,
+      },
+      {
+        where: {
+          id: post.id,
+          UserId: req.user.id,
+        },
+      }
+    );
+
+    const exHashtags = await post.getHashtags();
+    await post.removeHashtags(exHashtags.map((v) => v.id));
+
+    const hashtags = req.body.tag;
+    if (hashtags) {
+      const resultHashtag = await Promise.all(
+        hashtags.map((tag) =>
+          Hashtag.findOrCreate({
+            where: { name: tag.toLowerCase() },
+          })
+        )
+      );
+      await post.addHashtags(resultHashtag.map((v) => v[0]));
+    }
+
+    await Expression.destroy({
+      where: { PostId: post.id },
+    });
+    const expressions = req.body.expression;
+    await Promise.all(
+      expressions.map((ex) =>
+        Expression.create({
+          pinyin: ex.pinyin,
+          meaning: ex.meaning,
+          PostId: post.id,
+        })
+      )
+    );
+
+    const fullPost = await Post.findOne({
+      where: { id: post.id },
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'nickname'],
+        },
+        {
+          model: User,
+          as: 'Likers',
+          attributes: ['id'],
+        },
+        {
+          model: Hashtag,
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Expression,
+          attributes: ['id', 'pinyin', 'meaning'],
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname'],
+            },
+          ],
+        },
+      ],
+    });
+
+    res.status(200).json(fullPost);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {
   // PATCH /post/1/like
   try {

@@ -73,9 +73,9 @@ const cardTitle = css`
 `;
 
 const cardTag = css`
-  height: 22px;
+  height: 26px;
   padding: 0 20px;
-  margin-bottom: 15px;
+  margin-bottom: 11px;
   overflow: hidden;
 
   span {
