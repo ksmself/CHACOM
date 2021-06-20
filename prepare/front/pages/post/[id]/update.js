@@ -45,7 +45,11 @@ const Update = () => {
   const { singlePost, currentHashtags, updatePostLoading, updatePostDone } =
     useSelector((state) => state.post);
 
-  const [title, onChangeTitle] = useInput(singlePost.title);
+  const [title, onChangeTitle, setTitle] = useInput(singlePost?.title);
+  useEffect(() => {
+    setTitle(singlePost?.title);
+  }, [singlePost]);
+
   const [tag, onChangeTag, setTag] = useInput('');
 
   const onClickTag = useCallback((v) => {
@@ -90,10 +94,15 @@ const Update = () => {
     document.getElementById('tag-info').style.display = 'none';
   }, []);
 
-  const [expressions, setExpressions] = useState(singlePost.Expressions);
+  const [expressions, setExpressions] = useState(singlePost?.Expressions);
+
+  useEffect(() => {
+    setExpressions(singlePost?.Expressions);
+  }, [singlePost]);
+
   const onChangeText = useCallback(
     (expressionNum) => (e) => {
-      const tempExpressions = expressions.map((expression, index) => {
+      const tempExpressions = expressions?.map((expression, index) => {
         if (expressionNum === index) {
           expression[e.target.name] = e.target.value;
         }
@@ -203,7 +212,7 @@ const Update = () => {
           </div>
           <div css={line}></div>
           <div css={expressionBox}>
-            {expressions.map((v, index) => {
+            {expressions?.map((v, index) => {
               return (
                 <div css={box} key={v.id}>
                   <div css={pinyinBox}>
