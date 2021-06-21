@@ -224,32 +224,33 @@ const Update = () => {
           </div>
           <div css={line}></div>
           <div css={expressionBox}>
-            {expressions?.map((v, index) => {
-              return (
-                <div css={box} key={v.id}>
-                  <div css={pinyinBox}>
+            {expressions.length > 0 &&
+              expressions.map((v, index) => {
+                return (
+                  <div css={box} key={v.id}>
+                    <div css={pinyinBox}>
+                      <input
+                        name="pinyin"
+                        placeholder="한어병음을 입력해주세요"
+                        value={v.pinyin}
+                        onChange={onChangeText(index)}
+                      />
+                      {index !== 0 && (
+                        <CloseOutlined onClick={deleteExpression(index)} />
+                      )}
+                      <div css={convertBox}>
+                        <ConvertPopUp />
+                      </div>
+                    </div>
                     <input
-                      name="pinyin"
-                      placeholder="한어병음을 입력해주세요"
-                      value={v.pinyin}
+                      name="meaning"
+                      placeholder="뜻을 입력해주세요"
+                      value={v.meaning}
                       onChange={onChangeText(index)}
                     />
-                    {index !== 0 && (
-                      <CloseOutlined onClick={deleteExpression(index)} />
-                    )}
-                    <div css={convertBox}>
-                      <ConvertPopUp />
-                    </div>
                   </div>
-                  <input
-                    name="meaning"
-                    placeholder="뜻을 입력해주세요"
-                    value={v.meaning}
-                    onChange={onChangeText(index)}
-                  />
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
           <div css={plusBtnBox}>
             <PlusCircleFilled onClick={addExpression} />

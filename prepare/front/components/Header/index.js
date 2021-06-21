@@ -71,14 +71,6 @@ const Header = () => {
         </Link>
       </li>
       <li>
-        <Link href="/">
-          <a>
-            <CommentOutlined style={{ color: '#3acd95' }} />
-            <span>댓글 단 글</span>
-          </a>
-        </Link>
-      </li>
-      <li>
         <Link href={`/user/${me?.id}/like`}>
           <a>
             <HeartOutlined style={{ color: '#fe7171' }} />

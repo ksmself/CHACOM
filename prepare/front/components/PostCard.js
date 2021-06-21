@@ -8,7 +8,7 @@ import day from './day';
 
 const PostCard = ({ post }) => {
   const tags = post.Hashtags;
-  const commentList = post.Comments.filter((v) => v.User !== null);
+  const commentList = post.Comments?.filter((v) => v.User !== null);
 
   return (
     <div css={card}>
@@ -18,15 +18,16 @@ const PostCard = ({ post }) => {
         </a>
       </Link>
       <div css={cardTag}>
-        {tags.map((tag) => {
-          return (
-            <Tag key={tag.id} color="purple">
-              <Link href={`/hashtag/${tag.name}`}>
-                <a>{tag.name}</a>
-              </Link>
-            </Tag>
-          );
-        })}
+        {tags.length > 0 &&
+          tags.map((tag) => {
+            return (
+              <Tag key={tag.id} color="purple">
+                <Link href={`/hashtag/${tag.name}`}>
+                  <a>{tag.name}</a>
+                </Link>
+              </Tag>
+            );
+          })}
       </div>
       <div css={cardDate}>{day(post.createdAt)}</div>
       <div css={cardInfo}>
