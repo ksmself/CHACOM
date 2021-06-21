@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useCallback, useState, useEffect } from 'react';
 import { END } from 'redux-saga';
 import { useDispatch, useSelector } from 'react-redux';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { Input, Button, Modal } from 'antd';
 import {
   CloseOutlined,
   PlusCircleFilled,
   ArrowLeftOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
 
 import {
@@ -41,6 +42,7 @@ import ConvertPopUp from '../../../components/ConvertPopUp';
 const { TextArea } = Input;
 
 const Update = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { singlePost, currentHashtags, updatePostLoading, updatePostDone } =
     useSelector((state) => state.post);
@@ -126,11 +128,21 @@ const Update = () => {
       const tempExpressions = expressions.filter(
         (v, index) => expressionNum !== index
       );
-      console.log(tempExpressions);
       setExpressions([...tempExpressions]);
     },
     [expressions]
   );
+
+  const onCancelUpdate = useCallback(() => {
+    Modal.confirm({
+      title: '이 페이지에서 나가시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      content: '변경사항이 저장되지 않을 수 있습니다.',
+      onOk() {
+        router.back();
+      },
+    });
+  });
 
   const updatePost = useCallback(() => {
     let isExpressionNull = false;
@@ -244,7 +256,7 @@ const Update = () => {
           </div>
         </div>
         <footer css={footerBox}>
-          <ArrowLeftOutlined onClick={() => Router.replace('/')} />
+          <ArrowLeftOutlined onClick={onCancelUpdate} />
           <Button
             type="primary"
             shape="round"

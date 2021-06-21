@@ -7,8 +7,9 @@ import {
   ArrowLeftOutlined,
   PlusCircleFilled,
   CloseOutlined,
+  ExclamationCircleOutlined,
 } from '@ant-design/icons';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import { createGlobalStyle } from 'styled-components';
 
 import useInput from '../hooks/useInput';
@@ -23,6 +24,7 @@ import ConvertPopUp from '../components/ConvertPopUp';
 const { TextArea } = Input;
 
 const Write = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const { currentHashtags, addPostLoading, addPostDone } = useSelector(
     (state) => state.post
@@ -114,6 +116,17 @@ const Write = () => {
     },
     [expressions]
   );
+
+  const onCancelWrite = useCallback(() => {
+    Modal.confirm({
+      title: '이 페이지에서 나가시겠습니까?',
+      icon: <ExclamationCircleOutlined />,
+      content: '변경사항이 저장되지 않을 수 있습니다.',
+      onOk() {
+        router.back();
+      },
+    });
+  });
 
   const addPost = useCallback(() => {
     let isExpressionNull = false;
@@ -227,7 +240,7 @@ const Write = () => {
           </div>
         </div>
         <footer css={footerBox}>
-          <ArrowLeftOutlined onClick={() => Router.replace('/')} />
+          <ArrowLeftOutlined onClick={onCancelWrite} />
           <Button
             type="primary"
             shape="round"
