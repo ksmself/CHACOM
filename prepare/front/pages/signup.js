@@ -156,12 +156,12 @@ const SignUp = () => {
             },
             {
               min: 8,
-              message: '8자 이상의 문자, 숫자, 기호로 입력해주세요',
+              message: '8자 이상의 비밀번호로 입력해주세요',
             },
           ]}
           hasFeedback
         >
-          <Input.Password placeholder="8자 이상의 문자, 숫자, 기호" />
+          <Input.Password placeholder="8자 이상의 비밀번호" />
         </Form.Item>
 
         <Form.Item
@@ -219,7 +219,7 @@ const headerStyle = css`
   }
 `;
 
-const formStyle = css`
+export const formStyle = css`
   width: 280px;
   margin: 40px auto 0;
 
@@ -320,21 +320,6 @@ const idForm = css`
   button:focus {
     color: #3a18ff;
     border-color: #3a18ff;
-  }
-`;
-
-const submitDiv = css`
-  padding-top: 25px;
-
-  .ant-form-item-control-input-content {
-    display: flex;
-    justify-content: center;
-
-    button {
-      @media (min-width: 768px) {
-        width: 130px;
-      }
-    }
   }
 `;
 

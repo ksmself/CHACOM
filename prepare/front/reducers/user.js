@@ -19,6 +19,9 @@ export const initialState = {
   loadUserPostLoading: false,
   loadUserPostDone: false,
   loadUserPostError: null,
+  updateUserLoading: false,
+  updateUserDone: false,
+  updateUserError: null,
   isDuplicated: null,
   me: null,
   userPost: null,
@@ -49,6 +52,10 @@ export const LOAD_MY_INFO_FAILURE = 'LOAD_MY_INFO_FAILURE';
 export const LOAD_USER_POST_REQUEST = 'LOAD_USER_POST_REQUEST';
 export const LOAD_USER_POST_SUCCESS = 'LOAD_USER_POST_SUCCESS';
 export const LOAD_USER_POST_FAILURE = 'LOAD_USER_POST_FAILURE';
+
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'UPDATE_USER_FAILURE';
 
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
@@ -141,6 +148,19 @@ const reducer = (state = initialState, action) =>
       case LOAD_USER_POST_FAILURE:
         draft.loadUserPostLoading = false;
         draft.loadUserPostError = action.error;
+        break;
+      case UPDATE_USER_REQUEST:
+        draft.updateUserLoading = true;
+        draft.updateUserDone = false;
+        draft.updateUserError = null;
+        break;
+      case UPDATE_USER_SUCCESS:
+        draft.updateUserLoading = false;
+        draft.updateUserDone = true;
+        break;
+      case UPDATE_USER_FAILURE:
+        draft.updateUserLoading = false;
+        draft.updateUserError = action.error;
         break;
       case ADD_POST_TO_ME:
         draft.me.Posts.unshift(action.data);

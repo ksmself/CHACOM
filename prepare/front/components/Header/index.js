@@ -79,7 +79,7 @@ const Header = () => {
         </Link>
       </li>
       <li>
-        <Link href="/">
+        <Link href={`/user/${me?.id}/info`}>
           <a>
             <InfoCircleOutlined style={{ color: '#6a6a6a' }} />
             <span>회원 정보 수정</span>

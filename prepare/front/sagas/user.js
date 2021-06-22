@@ -20,6 +20,9 @@ import {
   SIGN_UP_FAILURE,
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
 } from '../reducers/user';
 
 function checkDuplicateAPI(data) {
@@ -140,6 +143,26 @@ function* loadUserPost(action) {
   }
 }
 
+function updateUserAPI(data) {
+  return axios.patch(`/user/${data}`);
+}
+
+function* updateUser(action) {
+  try {
+    const result = yield call(updateUserAPI, action.data);
+    yield put({
+      type: UPDATE_USER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UPDATE_USER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
@@ -164,6 +187,10 @@ function* watchLoadUserPost() {
   yield takeLatest(LOAD_USER_POST_REQUEST, loadUserPost);
 }
 
+function* watchUpdateUser() {
+  yield takeLatest(UPDATE_USER_REQUEST, updateUser);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchSignUp),
@@ -172,5 +199,6 @@ export default function* userSaga() {
     fork(watchCheckDuplicate),
     fork(watchLoadMyInfo),
     fork(watchLoadUserPost),
+    fork(watchUpdateUser),
   ]);
 }
