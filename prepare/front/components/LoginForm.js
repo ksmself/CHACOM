@@ -71,7 +71,7 @@ const LoginForm = ({ visible, onCreate, onCancel }) => {
       message.error({
         content: logInError,
         style: {
-          marginTop: '20vh',
+          marginTop: '25vh',
         },
         duration: 1,
       });
