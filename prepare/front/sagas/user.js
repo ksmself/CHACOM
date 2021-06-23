@@ -144,15 +144,14 @@ function* loadUserPost(action) {
 }
 
 function updateUserAPI(data) {
-  return axios.patch(`/user/${data}`);
+  return axios.patch(`/user/${data.userId}`, data);
 }
 
 function* updateUser(action) {
   try {
-    const result = yield call(updateUserAPI, action.data);
+    yield call(updateUserAPI, action.data);
     yield put({
       type: UPDATE_USER_SUCCESS,
-      data: result.data,
     });
   } catch (err) {
     console.error(err);

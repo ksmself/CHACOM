@@ -105,16 +105,19 @@ const Info = () => {
   const { me } = useSelector((state) => state.user);
   const [form] = Form.useForm();
 
-  const onFinish = useCallback((values) => {
-    dispatch({
-      type: UPDATE_USER_REQUEST,
-      data: {
-        nickname: me.nickname,
-        curPassword: values.curPassword,
-        newPassword: values.newPassword,
-      },
-    });
-  }, []);
+  const onFinish = useCallback(
+    (values) => {
+      dispatch({
+        type: UPDATE_USER_REQUEST,
+        data: {
+          userId: me.id,
+          curPassword: values.curPassword,
+          newPassword: values.newPassword,
+        },
+      });
+    },
+    [me]
+  );
 
   return (
     <>

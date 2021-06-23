@@ -110,24 +110,6 @@ router.get('/:userId', async (req, res, next) => {
   }
 });
 
-router.post('/duplicate', isNotLoggedIn, async (req, res, next) => {
-  try {
-    const exUser = await User.findOne({
-      where: {
-        nickname: req.body.nickname,
-      },
-    });
-    if (exUser) {
-      res.status(200).json(true);
-    } else {
-      res.status(200).json(false);
-    }
-  } catch (err) {
-    console.error(err);
-    next(err);
-  }
-});
-
 router.post('/', isNotLoggedIn, async (req, res, next) => {
   // POST /user
   try {
@@ -148,6 +130,24 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
   } catch (err) {
     console.error(err);
     next(err); // status 500
+  }
+});
+
+router.post('/duplicate', isNotLoggedIn, async (req, res, next) => {
+  try {
+    const exUser = await User.findOne({
+      where: {
+        nickname: req.body.nickname,
+      },
+    });
+    if (exUser) {
+      res.status(200).json(true);
+    } else {
+      res.status(200).json(false);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 });
 
@@ -218,6 +218,35 @@ router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('logout success!');
+});
+
+router.patch('/:userId', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: parseInt(req.params.userId, 10) },
+    });
+    const curPasswordCorrect = await bcrypt.compare(
+      req.body.curPassword,
+      user.password
+    );
+    if (curPasswordCorrect) {
+      // 비밀번호 업데이트하기
+      const newHashedPassword = await bcrypt.hash(req.body.newPassword, 12);
+      await User.update(
+        {
+          password: newHashedPassword,
+        },
+        {
+          where: { id: user.id },
+        }
+      );
+      return res.status(200).send('비밀번호가 성공적으로 변경되었습니다.');
+    }
+    return res.status(404).send('현재 비밀번호를 다시 확인해주세요!');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
 });
 
 module.exports = router;
