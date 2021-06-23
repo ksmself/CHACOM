@@ -105,7 +105,7 @@ export const submitDiv = css`
 const Info = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { me, updateUserError, updateUserDone, updateUserLoading } =
+  const { me, updateUserError, updateUserDone, updateUserLoading, logOutDone } =
     useSelector((state) => state.user);
   const [form] = Form.useForm();
 
@@ -137,12 +137,19 @@ const Info = () => {
       message.error({
         content: updateUserError,
         style: {
-          marginTop: '20vh',
+          marginTop: '28vh',
+          fontWeight: 700,
         },
         duration: 1,
       });
     }
   }, [updateUserError]);
+
+  useEffect(() => {
+    if (logOutDone) {
+      router.replace('/');
+    }
+  }, [logOutDone, router]);
 
   return (
     <>

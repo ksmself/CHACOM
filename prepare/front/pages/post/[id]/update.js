@@ -224,7 +224,7 @@ const Update = () => {
           </div>
           <div css={line}></div>
           <div css={expressionBox}>
-            {expressions.length > 0 &&
+            {expressions?.length > 0 &&
               expressions.map((v, index) => {
                 return (
                   <div css={box} key={v.id}>
