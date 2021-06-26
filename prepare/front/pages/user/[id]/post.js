@@ -20,7 +20,7 @@ const UserPost = () => {
   const { me, userPost, logOutDone } = useSelector((state) => state.user);
   const posts = userPost?.Posts;
   const myPost = me?.Posts;
-  const userIsMe = me?.id === userPost?.id;
+  const userIsMe = me && userPost && me?.id === userPost?.id;
 
   useEffect(() => {
     if (logOutDone) {
