@@ -1,9 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { END } from 'redux-saga';
-import { useRouter } from 'next/router';
 
 import Header from '../../../components/Header';
 import wrapper from '../../../store/configureStore';
@@ -12,15 +10,8 @@ import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
 
 const LikePost = () => {
-  const router = useRouter();
-  const { me, logOutDone } = useSelector((state) => state.user);
+  const { me } = useSelector((state) => state.user);
   const posts = me?.Liked;
-
-  useEffect(() => {
-    if (logOutDone) {
-      router.replace('/');
-    }
-  }, [logOutDone, router]);
 
   return (
     <>
