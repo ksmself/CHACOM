@@ -91,7 +91,10 @@ const Header = () => {
 
   const pathName = router.pathname.match(/[/]\w+/);
   const postPage =
-    pathName && (pathName[0] === '/post' || pathName[0] === '/user');
+    pathName &&
+    (pathName[0] === '/post' ||
+      pathName[0] === '/user' ||
+      pathName[0] === '/hashtag');
 
   const logInHeader = (
     <div css={postPage ? headerLogo : headerNonLogo}>

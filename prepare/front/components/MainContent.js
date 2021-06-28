@@ -24,7 +24,7 @@ const mainContent = css`
 const MainContent = ({ posts }) => {
   return (
     <div css={mainContent}>
-      {posts.map((post) => {
+      {posts?.map((post) => {
         return <PostCard post={post} key={post.id} />;
       })}
     </div>
