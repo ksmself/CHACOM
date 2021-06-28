@@ -99,7 +99,14 @@ const Update = () => {
   const [expressions, setExpressions] = useState(singlePost?.Expressions);
 
   useEffect(() => {
-    setExpressions(singlePost?.Expressions);
+    if (singlePost?.Expressions) {
+      const copiedExpressions = singlePost?.Expressions.map((v) => {
+        return {
+          ...v,
+        };
+      });
+      setExpressions(copiedExpressions);
+    }
   }, [singlePost]);
 
   const onChangeText = useCallback(
