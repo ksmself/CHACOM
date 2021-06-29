@@ -7,6 +7,7 @@ const dotenv = require('dotenv');
 
 const db = require('./models');
 const passportConfig = require('./passport');
+const hashtagRouter = require('./routes/hashtag');
 const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
@@ -47,6 +48,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/hashtag', hashtagRouter);
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);

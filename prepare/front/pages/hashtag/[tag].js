@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
 import Header from '../../components/Header';
 import MainContent from '../../components/MainContent';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
+import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import { likeTitle } from '../user/styles';
 
@@ -40,6 +40,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
     context.store.dispatch({
       type: LOAD_HASHTAG_POSTS_REQUEST,
       data: context.params.tag,
+    });
+    context.store.dispatch({
+      type: LOAD_MY_INFO_REQUEST,
     });
     context.store.dispatch(END);
     await context.store.sagaTask.toPromise();

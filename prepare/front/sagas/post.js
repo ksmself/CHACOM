@@ -90,7 +90,7 @@ function* loadPosts(action) {
 }
 
 function loadHashtagPostsAPI(data) {
-  return axios.get(`/hashtag/${data}`);
+  return axios.get(`/hashtag/${encodeURIComponent(data)}`);
 }
 
 function* loadHashtagPosts(action) {
