@@ -12,12 +12,15 @@ import {
   LOAD_USER_POST_REQUEST,
 } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
+import ContentNull from '../../../components/ContentNull';
 
 const UserPost = () => {
   const { me, userPost } = useSelector((state) => state.user);
   const posts = userPost?.Posts;
   const myPost = me?.Posts;
-  const userIsMe = me && userPost && me?.id === userPost?.id;
+  const writerIsMe = me && userPost && me?.id === userPost?.id;
+  const userIsMe = me?.id === userPost?.id;
+  const userIsNotMe = me?.id !== userPost?.id;
 
   return (
     <>
@@ -26,15 +29,15 @@ const UserPost = () => {
       </header>
       <div css={likeTitle}>
         <span>
-          {userIsMe
+          {writerIsMe
             ? '내가 쓴 글'
             : userPost
             ? `${userPost?.nickname}님의 글`
             : '알 수 없는 사용자입니다.'}
         </span>
-        <span>{userIsMe ? myPost?.length : posts?.length}</span>
+        <span>{writerIsMe ? myPost?.length : posts?.length}</span>
       </div>
-      {me?.id === userPost?.id && (
+      {userIsMe && (
         <div css={contentBox}>
           <div css={postGroup}>
             {myPost &&
@@ -44,7 +47,9 @@ const UserPost = () => {
           </div>
         </div>
       )}
-      {me?.id !== userPost?.id && posts && <MainContent posts={posts} />}
+      {userIsMe && myPost?.length === 0 && <ContentNull />}
+      {userIsNotMe && posts && <MainContent posts={posts} />}
+      {userIsNotMe && posts?.length === 0 && <ContentNull />}
     </>
   );
 };

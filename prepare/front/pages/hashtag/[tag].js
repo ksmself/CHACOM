@@ -10,10 +10,12 @@ import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import { likeTitle } from '../user/styles';
+import ContentNull from '../../components/ContentNull';
 
 const HashtagPost = () => {
   const router = useRouter();
   const hashtag = router.query;
+  const name = hashtag?.tag;
   const posts = useSelector((state) => state.post.mainPosts);
 
   return (
@@ -22,10 +24,10 @@ const HashtagPost = () => {
         <Header />
       </header>
       <div css={likeTitle}>
-        <span>#{hashtag?.tag}</span>
-        <span>{posts?.length}</span>
+        <span>#{name}</span>
       </div>
       {posts && <MainContent posts={posts} />}
+      {posts?.length === 0 && <ContentNull />}
     </>
   );
 };
