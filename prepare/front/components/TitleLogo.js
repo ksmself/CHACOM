@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Row, Col } from 'antd';
 import Link from 'next/link';
 
-const titleLogo = css`
+export const titleLogo = css`
   margin-bottom: 6px;
   font-size: 36px;
   font-weight: 700;

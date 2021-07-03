@@ -4,6 +4,7 @@ export const initialState = {
   mainPosts: [],
   singlePost: null,
   currentHashtags: [],
+  search: null,
   loadPostLoading: false,
   loadPostDone: false,
   loadPostError: null,
@@ -40,6 +41,9 @@ export const initialState = {
   unlikePostLoading: false,
   unlikePostDone: false,
   unlikePostError: null,
+  searchPostLoading: false,
+  searchPostDone: false,
+  searchPostError: null,
   convertLoading: false,
   convertDone: false,
   convertError: null,
@@ -104,6 +108,12 @@ export const UNLIKE_POST_REQUEST = 'UNLIKE_POST_REQUEST';
 export const UNLIKE_POST_SUCCESS = 'UNLIKE_POST_SUCCESS';
 export const UNLIKE_POST_FAILURE = 'UNLIKE_POST_FAILURE';
 
+export const SEARCH_POST_REQUEST = 'SEARCH_POST_REQUEST';
+export const SEARCH_POST_SUCCESS = 'SEARCH_POST_SUCCESS';
+export const SEARCH_POST_FAILURE = 'SEARCH_POST_FAILURE';
+
+export const CHANGE_SEARCH_REQUEST = 'CHANGE_SEARCH_REQUEST';
+
 export const ADD_HASHTAG_REQUEST = 'ADD_HASHTAG_REQUEST';
 export const REMOVE_HASHTAG_REQUEST = 'REMOVE_HASHTAG_REQUEST';
 
@@ -137,6 +147,7 @@ const reducer = (state = initialState, action) =>
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
         draft.addPostDone = false;
+        draft.search = null;
         break;
       case LOAD_POSTS_SUCCESS:
       case LOAD_HASHTAG_POSTS_SUCCESS:
@@ -144,6 +155,7 @@ const reducer = (state = initialState, action) =>
         draft.loadPostsDone = true;
         draft.mainPosts = action.data;
         draft.currentHashtags = [];
+        draft.search = '';
         break;
       case LOAD_POSTS_FAILURE:
       case LOAD_HASHTAG_POSTS_FAILURE:
@@ -320,6 +332,23 @@ const reducer = (state = initialState, action) =>
       case UNLIKE_POST_FAILURE:
         draft.unlikePostLoading = false;
         draft.unlikePostError = action.error;
+        break;
+      case SEARCH_POST_REQUEST:
+        draft.searchPostLoading = true;
+        draft.searchPostDone = false;
+        draft.searchPostError = null;
+        break;
+      case SEARCH_POST_SUCCESS:
+        draft.searchPostLoading = false;
+        draft.searchPostDone = true;
+        draft.search = action.data;
+        break;
+      case SEARCH_POST_FAILURE:
+        draft.searchPostLoading = false;
+        draft.searchPostError = action.error;
+        break;
+      case CHANGE_SEARCH_REQUEST:
+        draft.search = action.data;
         break;
       case ADD_HASHTAG_REQUEST:
         draft.currentHashtags.push(action.data);

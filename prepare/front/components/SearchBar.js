@@ -1,9 +1,63 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { Row, Col } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import { SearchOutlined } from '@ant-design/icons';
+import { useCallback, useEffect, useState } from 'react';
 
 import ConvertPopUp from './ConvertPopUp';
+import { SEARCH_POST_REQUEST } from '../reducers/post';
+
+const SearchBar = () => {
+  const dispatch = useDispatch();
+  const { search } = useSelector((state) => state.post);
+  const [searchKeyWord, setSearchKeyWord] = useState(search || '');
+
+  const onChangeSearchKeyWord = useCallback(
+    (e) => {
+      setSearchKeyWord(e.target.value);
+    },
+    [searchKeyWord]
+  );
+
+  useEffect(() => {
+    setSearchKeyWord(search || '');
+  }, [search]);
+
+  const onClickSearch = useCallback(() => {
+    dispatch({
+      type: SEARCH_POST_REQUEST,
+      data: searchKeyWord,
+    });
+  }, [searchKeyWord]);
+
+  const onKeyPressEnter = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        // e.preventDefault();
+        console.log(searchKeyWord);
+      }
+    },
+    [searchKeyWord]
+  );
+
+  return (
+    <Row justify="center">
+      <Col css={searchBox}>
+        <div css={searchBar}>
+          <input
+            value={searchKeyWord}
+            onChange={onChangeSearchKeyWord}
+            onKeyPress={onKeyPressEnter}
+            placeholder="검색어를 입력해주세요"
+          />
+          <SearchOutlined onClick={onClickSearch} />
+        </div>
+        <ConvertPopUp />
+      </Col>
+    </Row>
+  );
+};
 
 const searchBox = css`
   position: relative;
@@ -105,19 +159,5 @@ const searchBar = css`
     }
   }
 `;
-
-const SearchBar = () => {
-  return (
-    <Row justify="center">
-      <Col css={searchBox}>
-        <div css={searchBar}>
-          <input placeholder="검색어를 입력해주세요." />
-          <SearchOutlined />
-        </div>
-        <ConvertPopUp />
-      </Col>
-    </Row>
-  );
-};
 
 export default SearchBar;

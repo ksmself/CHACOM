@@ -37,6 +37,9 @@ import {
   REMOVE_REPLY_FAILURE,
   REMOVE_REPLY_REQUEST,
   REMOVE_REPLY_SUCCESS,
+  SEARCH_POST_FAILURE,
+  SEARCH_POST_REQUEST,
+  SEARCH_POST_SUCCESS,
   UNLIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
@@ -333,6 +336,26 @@ function* unlikePost(action) {
   }
 }
 
+function searchPostAPI(data) {
+  // return axios.delete(`/post/${data}/like`);
+}
+
+function* searchPost(action) {
+  try {
+    // const result = yield call(searchPostAPI, action.data);
+    yield put({
+      type: SEARCH_POST_SUCCESS,
+      data: action.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SEARCH_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function convertPinyinAPI(data) {
   return axios.post('/post/convert/pinyin', data);
 }
@@ -409,6 +432,10 @@ function* watchUnLikePost() {
   yield takeLatest(UNLIKE_POST_REQUEST, unlikePost);
 }
 
+function* watchSearchPost() {
+  yield takeLatest(SEARCH_POST_REQUEST, searchPost);
+}
+
 function* watchConvertPinyin() {
   yield takeLatest(CONVERT_PINYIN_REQUEST, convertPinyin);
 }
@@ -429,6 +456,7 @@ export default function* postSaga() {
     fork(watchChangeComment),
     fork(watchUpdateComment),
     fork(watchUnLikePost),
+    fork(watchSearchPost),
     fork(watchConvertPinyin),
   ]);
 }
