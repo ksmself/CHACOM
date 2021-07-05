@@ -6,22 +6,37 @@ import { SearchOutlined } from '@ant-design/icons';
 import { useCallback, useEffect, useState } from 'react';
 
 import ConvertPopUp from './ConvertPopUp';
-import { SEARCH_POST_REQUEST } from '../reducers/post';
+import { CHANGE_SEARCH_REQUEST, SEARCH_POST_REQUEST } from '../reducers/post';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
   const { search } = useSelector((state) => state.post);
   const [searchKeyWord, setSearchKeyWord] = useState(search || '');
 
+  const [timer, setTimer] = useState(0);
   const onChangeSearchKeyWord = useCallback(
     (e) => {
       setSearchKeyWord(e.target.value);
+      if (timer) {
+        clearTimeout(timer);
+      }
+      const newTimer = setTimeout(async () => {
+        try {
+          await dispatch({
+            type: CHANGE_SEARCH_REQUEST,
+            data: searchKeyWord,
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }, 200);
+      setTimer(newTimer);
     },
     [searchKeyWord]
   );
 
   useEffect(() => {
-    setSearchKeyWord(search || '');
+    setSearchKeyWord(search ? searchKeyWord : '');
   }, [search]);
 
   const onClickSearch = useCallback(() => {
