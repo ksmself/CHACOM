@@ -43,7 +43,6 @@ const Write = () => {
   const onKeyPressTag = useCallback(
     (e) => {
       if (e.key === 'Enter' || e.key === ',') {
-        e.preventDefault();
         // 빈칸으로 입력하지 않았을때만 리스트에 추가
         if (tag.trim() !== '') {
           // 이미 있는 해시태그가 아닐때만 리스트에 추가

@@ -49,7 +49,6 @@ const SearchBar = () => {
   const onKeyPressEnter = useCallback(
     (e) => {
       if (e.key === 'Enter') {
-        // e.preventDefault();
         console.log(searchKeyWord);
       }
     },
