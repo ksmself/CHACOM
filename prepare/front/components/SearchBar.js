@@ -29,7 +29,7 @@ const SearchBar = () => {
         } catch (err) {
           console.error(err);
         }
-      }, 200);
+      }, 1000);
       setTimer(newTimer);
     },
     [searchKeyWord]
@@ -40,16 +40,23 @@ const SearchBar = () => {
   }, [search]);
 
   const onClickSearch = useCallback(() => {
-    dispatch({
-      type: SEARCH_POST_REQUEST,
-      data: searchKeyWord,
-    });
+    if (searchKeyWord !== '') {
+      dispatch({
+        type: SEARCH_POST_REQUEST,
+        data: searchKeyWord,
+      });
+    }
   }, [searchKeyWord]);
 
   const onKeyPressEnter = useCallback(
     (e) => {
       if (e.key === 'Enter') {
-        console.log(searchKeyWord);
+        if (searchKeyWord !== '') {
+          dispatch({
+            type: SEARCH_POST_REQUEST,
+            data: searchKeyWord,
+          });
+        }
       }
     },
     [searchKeyWord]

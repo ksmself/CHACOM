@@ -72,13 +72,13 @@ function* loadPost(action) {
   }
 }
 
-function loadPostsAPI(data) {
-  return axios.get('/posts', data);
+function loadPostsAPI() {
+  return axios.get('/posts');
 }
 
-function* loadPosts(action) {
+function* loadPosts() {
   try {
-    const result = yield call(loadPostsAPI, action.data);
+    const result = yield call(loadPostsAPI);
     yield put({
       type: LOAD_POSTS_SUCCESS,
       data: result.data,
@@ -337,15 +337,15 @@ function* unlikePost(action) {
 }
 
 function searchPostAPI(data) {
-  // return axios.delete(`/post/${data}/like`);
+  return axios.get(`posts/${encodeURIComponent(data)}`);
 }
 
 function* searchPost(action) {
   try {
-    // const result = yield call(searchPostAPI, action.data);
+    const result = yield call(searchPostAPI, action.data);
     yield put({
       type: SEARCH_POST_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

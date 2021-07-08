@@ -341,7 +341,7 @@ const reducer = (state = initialState, action) =>
       case SEARCH_POST_SUCCESS:
         draft.searchPostLoading = false;
         draft.searchPostDone = true;
-        draft.search = action.data;
+        draft.mainPosts = action.data;
         break;
       case SEARCH_POST_FAILURE:
         draft.searchPostLoading = false;

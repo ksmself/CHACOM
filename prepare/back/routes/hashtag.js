@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { Post, User, Hashtag, Comment } = require('../models');
+const { User, Hashtag, Comment } = require('../models');
 
 router.get('/:hashtag', async (req, res, next) => {
   try {
