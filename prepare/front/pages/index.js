@@ -8,6 +8,7 @@ import Header from '../components/Header/index';
 import TitleLogo from '../components/TitleLogo';
 import SearchBar from '../components/SearchBar';
 import MainContent from '../components/MainContent';
+import ContentNull from '../components/ContentNull';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
@@ -34,6 +35,7 @@ const Home = () => {
       <TitleLogo />
       <SearchBar />
       {mainPosts && <MainContent posts={mainPosts} />}
+      {mainPosts?.length === 0 && <ContentNull />}
     </div>
   );
 };
