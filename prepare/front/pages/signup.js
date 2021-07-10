@@ -14,6 +14,7 @@ import {
   SIGN_UP_END,
   SIGN_UP_REQUEST,
 } from '../reducers/user';
+import { submitDiv } from './user/[id]/info';
 
 // localhost:3000/signup
 const SignUp = () => {
@@ -31,11 +32,11 @@ const SignUp = () => {
     dispatch({
       type: CHECK_DUPLICATE_REQUEST,
       data: {
-        nickname: form.getFieldValue('nickname'),
+        nickname: id,
       },
     });
     setCheckClicked(true);
-  }, [form.getFieldValue('nickname')]);
+  }, [id]);
 
   const duplicatedId = useCallback(() => {
     form.setFieldsValue({
@@ -78,9 +79,9 @@ const SignUp = () => {
 
   useEffect(() => {
     const target = document.getElementById('submit-btn');
-    if (checkClicked) target.disabled = false;
+    if (checkClicked && !isDuplicated) target.disabled = false;
     else target.disabled = true;
-  }, [checkClicked]);
+  }, [checkClicked, isDuplicated]);
 
   useEffect(() => {
     if (checkDuplicateDone && checkClicked) {
@@ -91,20 +92,20 @@ const SignUp = () => {
   useEffect(() => {
     if (signUpDone) {
       Router.replace('/');
-      const user = form.getFieldValue('nickname');
+      const user = id;
       message.success({
         content: `${user}님 회원가입이 완료되었습니다.`,
         style: {
           marginTop: '40vh',
           fontWeight: 700,
         },
-        duration: 2,
+        duration: 5,
       });
       dispatch({
         type: SIGN_UP_END,
       });
     }
-  }, [signUpDone, form.getFieldValue('nickname')]);
+  }, [signUpDone, id]);
 
   return (
     <div css={headerStyle}>
