@@ -11,15 +11,19 @@ import {
 } from '@ant-design/icons';
 import Router, { useRouter } from 'next/router';
 import { createGlobalStyle } from 'styled-components';
+import axios from 'axios';
+import { END } from 'redux-saga';
 
 import useInput from '../hooks/useInput';
 import {
   ADD_HASHTAG_REQUEST,
   REMOVE_HASHTAG_REQUEST,
   ADD_POST_REQUEST,
+  SET_HASHTAG_REQUEST,
 } from '../reducers/post';
 import { roundBtn } from '../components/styles';
 import ConvertPopUp from '../components/ConvertPopUp';
+import wrapper from '../store/configureStore';
 
 const { TextArea } = Input;
 
@@ -553,5 +557,20 @@ export const Global = createGlobalStyle`
     font-weight: 700;
   }
 `;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  async (context) => {
+    const cookie = context.req ? context.req.headers.cookie : '';
+    axios.defaults.headers.Cookie = '';
+    if (context.req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    context.store.dispatch({
+      type: SET_HASHTAG_REQUEST,
+    });
+    context.store.dispatch(END);
+    await context.store.sagaTask.toPromise();
+  }
+);
 
 export default Write;

@@ -116,6 +116,7 @@ export const CHANGE_SEARCH_REQUEST = 'CHANGE_SEARCH_REQUEST';
 
 export const ADD_HASHTAG_REQUEST = 'ADD_HASHTAG_REQUEST';
 export const REMOVE_HASHTAG_REQUEST = 'REMOVE_HASHTAG_REQUEST';
+export const SET_HASHTAG_REQUEST = 'SET_HASHTAG_REQUEST';
 
 export const CONVERT_PINYIN_REQUEST = 'CONVERT_PINYIN_REQUEST';
 export const CONVERT_PINYIN_SUCCESS = 'CONVERT_PINYIN_SUCCESS';
@@ -357,6 +358,9 @@ const reducer = (state = initialState, action) =>
         draft.currentHashtags = draft.currentHashtags.filter(
           (v) => v !== action.data
         );
+        break;
+      case SET_HASHTAG_REQUEST:
+        draft.currentHashtags = [];
         break;
       case CONVERT_PINYIN_REQUEST:
         draft.convertLoading = true;
