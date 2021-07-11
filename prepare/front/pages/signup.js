@@ -190,6 +190,9 @@ const SignUp = () => {
         >
           <Input.Password placeholder="비밀번호를 한 번 더 입력해주세요" />
         </Form.Item>
+        {!checkClicked && (
+          <div css={guideText}>아이디 중복확인 ➡️ 회원가입 버튼 활성화</div>
+        )}
         <Form.Item css={submitDiv}>
           <Button
             type="primary"
@@ -321,6 +324,20 @@ const idForm = css`
   button:focus {
     color: #3a18ff;
     border-color: #3a18ff;
+  }
+`;
+
+const guideText = css`
+  display: flex;
+  justify-content: center;
+  font-size: 12px;
+
+  @media (min-width: 768px) {
+    font-size: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 18px;
   }
 `;
 

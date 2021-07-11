@@ -13,6 +13,7 @@ import {
 } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
 import ContentNull from '../../../components/ContentNull';
+import { homePage } from '../..';
 
 const UserPost = () => {
   const { me, userPost } = useSelector((state) => state.user);
@@ -23,7 +24,7 @@ const UserPost = () => {
   const userIsNotMe = me?.id !== userPost?.id;
 
   return (
-    <>
+    <div css={homePage}>
       <header>
         <Header />
       </header>
@@ -50,7 +51,7 @@ const UserPost = () => {
       {userIsMe && myPost?.length === 0 && <ContentNull />}
       {userIsNotMe && posts && <MainContent posts={posts} />}
       {userIsNotMe && posts?.length === 0 && <ContentNull />}
-    </>
+    </div>
   );
 };
 

@@ -10,34 +10,24 @@ import { CHANGE_SEARCH_REQUEST, SEARCH_POST_REQUEST } from '../reducers/post';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
-  const { search } = useSelector((state) => state.post);
+  const { search, mainPosts, searchPostLoading, searchPostDone } = useSelector(
+    (state) => state.post
+  );
   const [searchKeyWord, setSearchKeyWord] = useState(search || '');
 
-  const [timer, setTimer] = useState(0);
-  const onChangeSearchKeyWord = useCallback(
-    (e) => {
-      setSearchKeyWord(e.target.value);
-      if (timer) {
-        clearTimeout(timer);
-      }
-      const newTimer = setTimeout(async () => {
-        try {
-          await dispatch({
-            type: CHANGE_SEARCH_REQUEST,
-            data: searchKeyWord,
-          });
-        } catch (err) {
-          console.error(err);
-        }
-      }, 1000);
-      setTimer(newTimer);
-    },
-    [searchKeyWord]
-  );
+  const onChangeSearchKeyWord = useCallback((e) => {
+    setSearchKeyWord(e.target.value);
+  }, []);
 
   useEffect(() => {
     setSearchKeyWord(search ? searchKeyWord : '');
   }, [search]);
+
+  useEffect(() => {
+    if (!searchPostLoading && mainPosts && !searchPostDone) {
+      setSearchKeyWord('');
+    }
+  }, [mainPosts, searchPostLoading, searchPostDone]);
 
   const onClickSearch = useCallback(() => {
     if (searchKeyWord !== '') {

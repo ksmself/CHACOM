@@ -11,6 +11,7 @@ import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import { likeTitle } from '../user/styles';
 import ContentNull from '../../components/ContentNull';
+import { homePage } from '..';
 
 const HashtagPost = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const HashtagPost = () => {
   const posts = useSelector((state) => state.post.mainPosts);
 
   return (
-    <>
+    <div css={homePage}>
       <header>
         <Header />
       </header>
@@ -28,7 +29,7 @@ const HashtagPost = () => {
       </div>
       {posts && <MainContent posts={posts} />}
       {posts?.length === 0 && <ContentNull />}
-    </>
+    </div>
   );
 };
 

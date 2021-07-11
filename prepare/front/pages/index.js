@@ -13,7 +13,7 @@ import { LOAD_POSTS_REQUEST } from '../reducers/post';
 import wrapper from '../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
 
-const homePage = css`
+export const homePage = css`
   padding-bottom: 30px;
 
   @media (min-width: 768px) {

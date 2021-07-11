@@ -9,13 +9,14 @@ import { likeTitle } from '../styles';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
 import ContentNull from '../../../components/ContentNull';
+import { homePage } from '../..';
 
 const LikePost = () => {
   const { me } = useSelector((state) => state.user);
   const posts = me?.Liked;
 
   return (
-    <>
+    <div css={homePage}>
       <header>
         <Header />
       </header>
@@ -24,8 +25,8 @@ const LikePost = () => {
         <span>{posts?.length}</span>
       </div>
       {posts && <MainContent posts={posts} />}
-      {posts.length === 0 && <ContentNull />}
-    </>
+      {posts?.length === 0 && <ContentNull />}
+    </div>
   );
 };
 
