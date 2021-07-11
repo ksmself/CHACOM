@@ -2,7 +2,17 @@
 
 ## Table of contents
 * [Description](#Description)
-* [Screenshot](#Screenshot)
+* ScreenShots
+  * [MainToPost](#MainToPost)
+  * [PostsBySearch](#PostsBySearch)
+  * [PostsByHashtag](#PostsByHashtag)
+  * [SignUp](#SignUp)
+  * [SignIn](#SignIn)
+  * [Write-Update-Delete-Post](#Write-Update-Delete-Post)
+  * [MyPost](#MyPost)
+  * [LikePost](#LikePost)
+  * [UpdatePassword](#UpdatePassword)
+  * [UserPost](#UserPost)
 * [Technology](#Technology)
 
 ### Description
@@ -13,24 +23,53 @@
   + You can post pinyin using Pinyin-Converter. 
   + You can comment to post. 
   + You can press like button on post. 
-  + You can find expressions by Hashtag. 
+  + You can find posts by Hashtag. 
+  + You can find posts by searching Keyword. 
+  + You can see your posts and posts that you liked. 
 
-### Screenshot
+# Screenshots
+## MainToPost
+![main-post](https://user-images.githubusercontent.com/53217988/125189425-fafd8580-e272-11eb-92b2-0280cae26e10.gif)
 
-![Main](https://user-images.githubusercontent.com/53217988/120989385-75417280-c7ba-11eb-8940-27f58f5e45e8.PNG)
 
-![Sign Up](https://user-images.githubusercontent.com/53217988/120989928-06b0e480-c7bb-11eb-8cd5-636a1f255ebe.PNG)
+## PostsBySearch
+![search](https://user-images.githubusercontent.com/53217988/125190766-c50fcf80-e279-11eb-808d-63a140d9ce84.gif)
 
-![Sign In](https://user-images.githubusercontent.com/53217988/120990594-ab332680-c7bb-11eb-9b6d-4c1abe22655e.PNG)
 
-![Pinyin Converter](https://user-images.githubusercontent.com/53217988/120990339-67d8b800-c7bb-11eb-9937-80857d4bab4b.PNG)
+## PostsByHashtag
+![hashtag](https://user-images.githubusercontent.com/53217988/125190843-32236500-e27a-11eb-9630-bc4e157e8cd8.gif)
 
-![Post](https://user-images.githubusercontent.com/53217988/120990861-fd744780-c7bb-11eb-8a70-ddf090f290be.PNG)
 
-![Comment](https://user-images.githubusercontent.com/53217988/120990910-0e24bd80-c7bc-11eb-9309-973b185204c5.PNG)
+## SignUp
+![signup](https://user-images.githubusercontent.com/53217988/125190172-b2e06200-e276-11eb-9c1b-72886f91aa2e.gif)
+
+
+## SignIn
+![signin](https://user-images.githubusercontent.com/53217988/125190271-3d28c600-e277-11eb-87cd-3fa75261a9e6.gif)
+
+
+## Write-Update-Delete-Post
+![write-update-delete-post](https://user-images.githubusercontent.com/53217988/125190669-3602b780-e279-11eb-82c3-72165eef34c5.gif)
+
+
+## MyPost
+![mypost](https://user-images.githubusercontent.com/53217988/125190907-9514fc00-e27a-11eb-9e42-091beb2f4fff.gif)
+
+
+## LikePost
+![likepost](https://user-images.githubusercontent.com/53217988/125190954-df967880-e27a-11eb-9fd1-610e74addda9.gif)
+
+
+## UpdatePassword
+![updatepw](https://user-images.githubusercontent.com/53217988/125190417-fdaea980-e277-11eb-86cd-7e9b3c53cef8.gif)
+
+
+## UserPost
+![userpost](https://user-images.githubusercontent.com/53217988/125190996-1cfb0600-e27b-11eb-9e9d-5155e0a30d94.gif)
+
 
 ### Technology
 
-+ **Front-end**: React, Redux, Redux-Saga, Next.js, Styled-Components, Emotion
++ **Front-end**: React, Next.js, Redux, Redux-Saga, Styled-Components, Emotion
 + **Back-end**: Node.js, MySQL, Express 
 + **API**: prettify-pinyin(https://github.com/johnheroy/prettify-pinyin.git)
