@@ -1,4 +1,5 @@
 .next
 node_modules
+back/node_modules
 # dotenv environment variables file
 .env
