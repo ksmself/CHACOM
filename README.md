@@ -4,11 +4,13 @@
 * [Description](#Description)
 * ScreenShots
   * [MainToPost](#MainToPost)
+  * [Responsive](#Responsive)
   * [PostsBySearch](#PostsBySearch)
   * [PostsByHashtag](#PostsByHashtag)
   * [SignUp](#SignUp)
   * [SignIn](#SignIn)
   * [Write-Update-Delete-Post](#Write-Update-Delete-Post)
+  * [Comment](#Comment)
   * [MyPost](#MyPost)
   * [LikePost](#LikePost)
   * [UpdatePassword](#UpdatePassword)
@@ -32,6 +34,10 @@
 ![main-post](https://user-images.githubusercontent.com/53217988/125189425-fafd8580-e272-11eb-92b2-0280cae26e10.gif)
 
 
+## Responsive
+![responsive](https://user-images.githubusercontent.com/53217988/125753379-f1140b37-fe3d-42fb-b848-ef9bd664f09e.gif)
+
+
 ## PostsBySearch
 ![search](https://user-images.githubusercontent.com/53217988/125190766-c50fcf80-e279-11eb-808d-63a140d9ce84.gif)
 
@@ -50,6 +56,10 @@
 
 ## Write-Update-Delete-Post
 ![write-update-delete-post](https://user-images.githubusercontent.com/53217988/125190669-3602b780-e279-11eb-82c3-72165eef34c5.gif)
+
+
+## Comment
+![comment](https://user-images.githubusercontent.com/53217988/125753249-37dbf366-1bb9-4de6-a6b7-f6027657a0d8.gif)
 
 
 ## MyPost
