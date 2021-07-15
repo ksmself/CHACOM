@@ -34,6 +34,7 @@ import wrapper from '../../../store/configureStore';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import CommentForm from '../../../components/Comment/CommentForm';
 import CommentList from '../../../components/Comment/CommentList';
+import { greyContent } from '../../../components/ContentNull';
 
 const Post = () => {
   const { singlePost } = useSelector((state) => state.post);
@@ -116,11 +117,16 @@ const Post = () => {
           </div>
         </div>
       )}
-      <div css={comment}>
-        <div css={commentNumber}>{commentLength}개의 댓글</div>
-        {commentLength ? <CommentList comments={singlePost.Comments} /> : null}
-        <CommentForm cancelBtn={false} />
-      </div>
+      {singlePost && (
+        <div css={comment}>
+          <div css={commentNumber}>{commentLength}개의 댓글</div>
+          {commentLength ? (
+            <CommentList comments={singlePost.Comments} />
+          ) : null}
+          <CommentForm cancelBtn={false} />
+        </div>
+      )}
+      {!singlePost && <div css={greyContent}>존재하지 않는 게시물입니다.</div>}
     </>
   );
 };

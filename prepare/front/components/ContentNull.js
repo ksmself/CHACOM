@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 
-const greyContent = css`
+export const greyContent = css`
   width: 80%;
   margin: 0 auto;
   padding: 50px 10px;
