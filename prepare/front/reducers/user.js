@@ -1,4 +1,4 @@
-import produce from 'immer';
+import produce from '../util/produce';
 
 export const initialState = {
   signUpLoading: false, // 회원가입 시도중
