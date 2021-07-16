@@ -15,7 +15,7 @@ import {
 } from '../../../reducers/user';
 import wrapper from '../../../store/configureStore';
 import { formStyle } from '../../signup';
-import { contentBox } from '../styles';
+import { userContentBox } from '../../../components/styles';
 
 const infoTitle = css`
   display: flex;
@@ -157,7 +157,7 @@ const Info = () => {
         <Header />
       </header>
       <div css={infoTitle}>회원 정보 수정</div>
-      <div css={contentBox}>
+      <div css={userContentBox}>
         <Form form={form} css={formStyle} onFinish={onFinish}>
           <Form.Item
             name="curPassword"

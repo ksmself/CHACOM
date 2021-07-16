@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Input } from 'antd';
 
-import { buttonGroup } from '../../pages/post/styles';
+import { buttonGroup } from '../../components/styles';
 import { greyBtn } from '../styles';
 import {
   commentFormBox,

@@ -9,9 +9,9 @@ import MainContent from '../../components/MainContent';
 import { LOAD_HASHTAG_POSTS_REQUEST } from '../../reducers/post';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
-import { likeTitle } from '../user/styles';
+import { likeTitle } from '../../components/styles';
 import ContentNull from '../../components/ContentNull';
-import { homePage } from '..';
+import { homePage } from '../index';
 
 const HashtagPost = () => {
   const router = useRouter();

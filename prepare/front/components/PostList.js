@@ -4,26 +4,26 @@ import Link from 'next/link';
 import UpdateBtn from './UpdateBtn';
 import DeleteBtn from './DeleteBtn';
 import {
-  buttonGroup,
-  postBox,
-  postDate,
-  postInfoBox,
-  postTitle,
-} from '../pages/user/styles';
+  userButtonGroup,
+  userPostBox,
+  userPostDate,
+  userPostInfoBox,
+  userPostTitle,
+} from '../components/styles';
 import day from './day';
 
 const PostList = ({ post }) => {
   return (
-    <div css={postBox}>
+    <div css={userPostBox}>
       <Link href={`/post/${post.id}`}>
-        <a css={postInfoBox}>
+        <a css={userPostInfoBox}>
           <div>
-            <div css={postTitle}>{post.title}</div>
-            <div css={postDate}>{day(post.createdAt, true)}</div>
+            <div css={userPostTitle}>{post.title}</div>
+            <div css={userPostDate}>{day(post.createdAt, true)}</div>
           </div>
         </a>
       </Link>
-      <div css={buttonGroup}>
+      <div css={userButtonGroup}>
         <UpdateBtn post={post} />
         <DeleteBtn post={post} />
       </div>

@@ -5,11 +5,11 @@ import { END } from 'redux-saga';
 
 import Header from '../../../components/Header';
 import wrapper from '../../../store/configureStore';
-import { likeTitle } from '../styles';
+import { likeTitle } from '../../../components/styles';
 import { LOAD_MY_INFO_REQUEST } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
 import ContentNull from '../../../components/ContentNull';
-import { homePage } from '../..';
+import { homePage } from '../../index';
 
 const LikePost = () => {
   const { me } = useSelector((state) => state.user);

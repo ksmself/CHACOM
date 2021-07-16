@@ -7,7 +7,7 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 
 import Header from '../../../components/Header/index';
-import { LOAD_POSTS_REQUEST, LOAD_POST_REQUEST } from '../../../reducers/post';
+import { LOAD_POST_REQUEST } from '../../../reducers/post';
 import {
   post,
   postTitle,
@@ -25,7 +25,7 @@ import {
   meaning,
   comment,
   commentNumber,
-} from '../styles';
+} from '../../../components/styles';
 import day from '../../../components/day';
 import UpdateBtn from '../../../components/UpdateBtn';
 import DeleteBtn from '../../../components/DeleteBtn';

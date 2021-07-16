@@ -7,7 +7,7 @@ import { Button, Input, Modal } from 'antd';
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 
 import { commentInput, cancelButton, submitButton } from './CommentForm';
-import { buttonGroup } from '../../pages/post/styles';
+import { buttonGroup } from '../../components/styles';
 import {
   commentItem,
   commentInfo,

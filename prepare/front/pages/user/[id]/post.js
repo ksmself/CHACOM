@@ -4,7 +4,11 @@ import axios from 'axios';
 import { END } from 'redux-saga';
 
 import Header from '../../../components/Header';
-import { contentBox, likeTitle, postGroup } from '../styles';
+import {
+  userContentBox,
+  likeTitle,
+  userPostGroup,
+} from '../../../components/styles';
 import PostList from '../../../components/PostList';
 import wrapper from '../../../store/configureStore';
 import {
@@ -13,7 +17,7 @@ import {
 } from '../../../reducers/user';
 import MainContent from '../../../components/MainContent';
 import ContentNull from '../../../components/ContentNull';
-import { homePage } from '../..';
+import { homePage } from '../../index';
 
 const UserPost = () => {
   const { me, userPost } = useSelector((state) => state.user);
@@ -39,8 +43,8 @@ const UserPost = () => {
         <span>{writerIsMe ? myPost?.length : posts?.length}</span>
       </div>
       {userIsMe && (
-        <div css={contentBox}>
-          <div css={postGroup}>
+        <div css={userContentBox}>
+          <div css={userPostGroup}>
             {myPost &&
               myPost.map((post) => {
                 return <PostList key={post.id} post={post} />;
