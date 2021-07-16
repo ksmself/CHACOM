@@ -5,15 +5,17 @@
   "main": "index.js",
   "scripts": {
     "dev": "next -p 3060",
-    "build": "next build"
+    "build": "cross-env ANALYZE=true NODE_ENV=production next build"
   },
   "author": "dolphin",
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "4.6.2",
     "@emotion/react": "11.1.5",
+    "@next/bundle-analyzer": "11.0.1",
     "antd": "4.15.0",
     "axios": "0.21.1",
+    "cross-env": "7.0.3",
     "dayjs": "1.10.4",
     "immer": "9.0.1",
     "next": "10.1.3",
