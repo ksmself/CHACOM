@@ -53,7 +53,7 @@ const ConvertPopUp = () => {
 
   const [pinyin, setPinyin] = useState('');
   useEffect(() => {
-    setPinyin(pinyinRef.current.innerText);
+    setPinyin(pinyinRef?.current?.innerText);
   }, [pinyinRef]);
 
   const onClickCopy = useCallback(() => {
