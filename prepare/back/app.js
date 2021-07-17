@@ -4,6 +4,9 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
+const hpp = require('hpp');
+const helmet = require('helmet');
 
 const db = require('./models');
 const passportConfig = require('./passport');
@@ -27,10 +30,17 @@ db.sequelize
 
 passportConfig();
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'));
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan('dev'));
+}
 app.use(
   cors({
     // origin: https://cha.com, 으로 설정해두면 이 사이트에서 온 요청만 허용하겠다
-    origin: 'http://localhost:3060',
+    origin: ['http://localhost:3060', 'cha.com'],
     credentials: true, // 쿠키 전달을 위해
   })
 );
