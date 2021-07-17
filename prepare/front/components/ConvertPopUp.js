@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, message } from 'antd';
 import {
@@ -51,14 +51,18 @@ const ConvertPopUp = () => {
     }
   }, [input]);
 
+  const [pinyin, setPinyin] = useState('');
+  useEffect(() => {
+    setPinyin(pinyinRef.current.innerText);
+  }, [pinyinRef]);
+
   const onClickCopy = useCallback(() => {
-    const pinyin = pinyinRef.current.innerText;
     navigator.clipboard.writeText(pinyin);
     message.success({
       content: '클립보드에 복사되었습니다!',
       duration: 1,
     });
-  }, []);
+  }, [pinyin]);
 
   return (
     <>
