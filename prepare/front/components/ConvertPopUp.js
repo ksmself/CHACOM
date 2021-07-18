@@ -53,8 +53,10 @@ const ConvertPopUp = () => {
 
   const [pinyin, setPinyin] = useState('');
   useEffect(() => {
-    setPinyin(pinyinRef?.current?.innerText);
-  }, [pinyinRef]);
+    if (convertDone) {
+      setPinyin(convertedPinyin);
+    }
+  }, [convertDone, convertedPinyin]);
 
   const onClickCopy = useCallback(() => {
     navigator.clipboard.writeText(pinyin);
