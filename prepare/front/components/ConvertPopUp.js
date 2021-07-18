@@ -122,13 +122,13 @@ const ConvertPopUp = () => {
               {convertLoading && !convertDone && <LoadingOutlined />}
               {!convertLoading && convertDone && convertedPinyin}
             </div>
-            {/* {convertDone && (
+            {convertDone && (
               <Button
                 css={copyBtn}
                 icon={<CopyOutlined />}
                 onClick={onClickCopy}
               />
-            )} */}
+            )}
           </div>
         </Modal>
       </>
