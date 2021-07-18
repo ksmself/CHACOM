@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button, message } from 'antd';
 import {
@@ -18,7 +18,6 @@ import {
 import useInput from '../hooks/useInput';
 
 const ConvertPopUp = () => {
-  const pinyinRef = useRef(null);
   const dispatch = useDispatch();
   const { convertLoading, convertDone, convertedPinyin } = useSelector(
     (state) => state.post
@@ -58,8 +57,23 @@ const ConvertPopUp = () => {
     }
   }, [convertDone, convertedPinyin]);
 
-  const onClickCopy = useCallback(() => {
-    navigator.clipboard.writeText(pinyin);
+  const onClickCopy = useCallback(async () => {
+    if (!document.queryCommandSupported('copy')) {
+      return alert('복사하기가 지원되지 않는 브라우저입니다.');
+    }
+
+    const textarea = document.createElement('textarea');
+    textarea.value = pinyin;
+    textarea.style.top = 0;
+    textarea.style.left = 0;
+    textarea.style.display = 'fixed';
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
     message.success({
       content: '클립보드에 복사되었습니다!',
       duration: 1,
@@ -103,7 +117,7 @@ const ConvertPopUp = () => {
               icon={<SwapOutlined />}
               onClick={onClickConvert}
             />
-            <div className="convert-text" css={converted} ref={pinyinRef}>
+            <div className="convert-text" css={converted}>
               {!convertLoading && !convertDone && null}
               {convertLoading && !convertDone && <LoadingOutlined />}
               {!convertLoading && convertDone && convertedPinyin}
