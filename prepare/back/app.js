@@ -40,8 +40,13 @@ if (process.env.NODE_ENV === 'production') {
 app.use(
   cors({
     // origin: https://cha.com, 으로 설정해두면 이 사이트에서 온 요청만 허용하겠다
-    origin: ['http://localhost:3060', 'cha.com', 'http://3.34.135.246'],
+    origin: ['http://localhost:3060', 'chacom.site'],
     credentials: true, // 쿠키 전달을 위해
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      domain: process.env.NODE_ENV === 'production' && '.chacom.site',
+    },
   })
 );
 
