@@ -58,6 +58,11 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      domain: process.env.NODE_ENV === 'production' && '.chacom.site',
+    },
   })
 );
 app.use(passport.initialize());
