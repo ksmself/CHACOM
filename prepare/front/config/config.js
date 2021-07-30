@@ -1,5 +1,5 @@
 // build
-export const backUrl = 'http://api.chacom.site';
+export const backUrl = 'https://api.chacom.site';
 
 // dev
 // export const backUrl = 'http://localhost:3065';
