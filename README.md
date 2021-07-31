@@ -22,5 +22,5 @@
 ### Technology
 
 + **Front-end**: React, Next.js, Redux, Redux-Saga, Styled-Components, Emotion
-+ **Back-end**: Node.js, MySQL, Express 
++ **Back-end**: Node.js, MySQL, Express, AWS(EC2)
 + **API**: prettify-pinyin(https://github.com/johnheroy/prettify-pinyin.git)
