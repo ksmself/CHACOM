@@ -7,11 +7,14 @@ import reducer from '../reducers/index';
 import rootSaga from '../sagas/index';
 
 // action이 dispatch되는 것을 loggingg하는 미들웨어
-const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
-  // action 실행 전에 콘솔 한 번 찍어주는 미들웨어
-  console.log(action);
-  return next(action);
-};
+const loggerMiddleware =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action) => {
+    // action 실행 전에 콘솔 한 번 찍어주는 미들웨어
+    console.log(action);
+    return next(action);
+  };
 
 const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
@@ -22,7 +25,7 @@ const configureStore = () => {
     process.env.NODE_ENV === 'production'
       ? // 배포용
         // middlewares는 배열이니까 spread해서 넣는다
-        compose(applyMiddleware(...middlewares))
+        compose(applyMiddleware(sagaMiddleware))
       : // 개발용일 때는 devtools 연결
         composeWithDevTools(applyMiddleware(...middlewares));
 
