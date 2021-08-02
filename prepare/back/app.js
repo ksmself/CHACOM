@@ -30,6 +30,7 @@ db.sequelize
 
 passportConfig();
 
+app.set('trust proxy', 1);
 if (process.env.NODE_ENV === 'production') {
   app.enable('trust proxy');
   app.use(morgan('combined'));
@@ -37,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet());
   app.use(
     cors({
-      origin: 'http://chacom.site',
+      origin: 'https://chacom.site',
       credentials: true, // 쿠키 전달을 위해
     })
   );
@@ -59,10 +60,10 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
-    proxy: process.env.NODE_ENV === 'production',
+    proxy: true,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true,
       domain: process.env.NODE_ENV === 'production' && '.chacom.site',
     },
   })
