@@ -1,6 +1,7 @@
 .next
 node_modules
 back/node_modules
+chacom
 # dotenv environment variables file
 .env
 chacom.pem
