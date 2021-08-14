@@ -1,6 +1,6 @@
 # CHACOM
 
-✅ URL: https://chacom.site/
+
 
 ## Table of contents
 * [Description](#Description)
