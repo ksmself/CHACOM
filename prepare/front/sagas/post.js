@@ -93,7 +93,10 @@ function* loadPosts(action) {
 }
 
 function loadHashtagPostsAPI(data) {
-  return axios.get(`/hashtag/${encodeURIComponent(data)}`);
+  const tag = data.tag ? data.tag : data;
+  return axios.get(
+    `/hashtag/${encodeURIComponent(tag)}?lastId=${data.lastId || 0}`
+  );
 }
 
 function* loadHashtagPosts(action) {

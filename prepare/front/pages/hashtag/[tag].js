@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import axios from 'axios';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
 
 import Header from '../../components/Header';
@@ -14,10 +15,37 @@ import ContentNull from '../../components/ContentNull';
 import { homePage } from '../index';
 
 const HashtagPost = () => {
+  const dispatch = useDispatch();
   const router = useRouter();
   const hashtag = router.query;
   const name = hashtag?.tag;
-  const posts = useSelector((state) => state.post.mainPosts);
+  const { hasMorePost, loadPostsLoading, mainPosts } = useSelector(
+    (state) => state.post
+  );
+
+  useEffect(() => {
+    function onScroll() {
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 300
+      ) {
+        if (hasMorePost && !loadPostsLoading) {
+          const lastId = mainPosts[mainPosts.length - 1]?.id;
+          dispatch({
+            type: LOAD_HASHTAG_POSTS_REQUEST,
+            data: {
+              tag: name,
+              lastId: lastId,
+            },
+          });
+        }
+      }
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [hasMorePost, loadPostsLoading, mainPosts]);
 
   return (
     <div css={homePage}>
@@ -27,8 +55,8 @@ const HashtagPost = () => {
       <div css={likeTitle}>
         <span>#{name}</span>
       </div>
-      {posts && <MainContent posts={posts} />}
-      {posts?.length === 0 && <ContentNull />}
+      {mainPosts && <MainContent posts={mainPosts} />}
+      {mainPosts?.length === 0 && <ContentNull />}
     </div>
   );
 };
