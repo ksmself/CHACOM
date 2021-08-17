@@ -62,7 +62,7 @@ app.use(
     proxy: true,
     cookie: {
       httpOnly: true,
-      secure: true,
+      // secure: true,
       domain: process.env.NODE_ENV === 'production' && '.chacom.site',
     },
   })

@@ -5,6 +5,7 @@ export const initialState = {
   singlePost: null,
   currentHashtags: [],
   search: null,
+  hasMorePost: true,
   loadPostLoading: false,
   loadPostDone: false,
   loadPostError: null,
@@ -154,9 +155,10 @@ const reducer = (state = initialState, action) =>
       case LOAD_HASHTAG_POSTS_SUCCESS:
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
-        draft.mainPosts = action.data;
+        draft.mainPosts = draft.mainPosts.concat(action.data);
         draft.currentHashtags = [];
         draft.search = '';
+        draft.hasMorePost = action.data.length === 12;
         break;
       case LOAD_POSTS_FAILURE:
       case LOAD_HASHTAG_POSTS_FAILURE:

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { END } from 'redux-saga';
 
@@ -27,7 +28,31 @@ export const homePage = css`
 
 // localhost:3000, 즉, 메인 페이지
 const Home = () => {
-  const { mainPosts } = useSelector((state) => state.post);
+  const dispatch = useDispatch();
+  const { mainPosts, hasMorePost, loadPostsLoading } = useSelector(
+    (state) => state.post
+  );
+
+  useEffect(() => {
+    function onScroll() {
+      if (
+        window.scrollY + document.documentElement.clientHeight >
+        document.documentElement.scrollHeight - 300
+      ) {
+        if (hasMorePost && !loadPostsLoading) {
+          const lastId = mainPosts[mainPosts.length - 1]?.id;
+          dispatch({
+            type: LOAD_POSTS_REQUEST,
+            data: lastId,
+          });
+        }
+      }
+    }
+    window.addEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, [hasMorePost, loadPostsLoading, mainPosts]);
 
   return (
     <div css={homePage}>
