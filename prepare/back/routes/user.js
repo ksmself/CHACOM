@@ -10,6 +10,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
+      console.log(req.user); 
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
         attributes: {
