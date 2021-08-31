@@ -10,7 +10,6 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     if (req.user) {
-      console.log(req.user); 
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
         attributes: {
@@ -58,7 +57,6 @@ router.get('/', async (req, res, next) => {
       });
       res.status(200).json(fullUserWithoutPassword);
     } else {
-      console.log('User not defined');
       res.status(200).json(null);
     }
   } catch (err) {
