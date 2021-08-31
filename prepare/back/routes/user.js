@@ -58,6 +58,7 @@ router.get('/', async (req, res, next) => {
       });
       res.status(200).json(fullUserWithoutPassword);
     } else {
+      console.log('User not defined');
       res.status(200).json(null);
     }
   } catch (err) {
